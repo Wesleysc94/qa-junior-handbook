@@ -1,0 +1,11 @@
+{
+  "title": "Fundamentos",
+  "pages": [
+    "o-que-e-qa",
+    "piramide-de-testes",
+    "tipos-de-teste",
+    "severidade-vs-prioridade",
+    "ciclo-de-vida-bug",
+    "metodologias-ageis"
+  ]
+}

@@ -1,0 +1,82 @@
+---
+title: "Swag Lab — Page Object na prática"
+description: "Como organizar Login, Inventory, Cart, Checkout e Complete em Page Objects e consumir nos testes sem virar espaguete."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={19} />
+</div>
+
+## O problema que o POM resolve
+
+Sem Page Object, o teste vira isso: `page.locator('.inventory_item').nth(3)` espalhado em cinco arquivos. Quando a UI muda uma classe, você gasta o dia inteiro caçando cópia. Com **Page Object Model**, você centraliza **locators** e **ações** (ex.: `addToCartByName`) numa classe ou módulo — o spec só descreve **comportamento**.
+
+No SauceDemo, os fluxos são curtos, mas a repetição aparece rápido: todo teste que compra algo passa por **login** e **inventário**. Sem POM você duplica; com POM você reutiliza e reduz custo de manutenção — métrica que entrevistador técnico entende na hora.
+
+## LoginPage — porta de entrada
+
+Responsabilidades típicas: preencher usuário e senha, clicar em login, **opcionalmente** expor asserção de erro de credencial. Locators preferíveis: `getByRole('textbox', { name: ... })` ou label, não XPath frágil.
+
+**Erro comum:** colocar **assertion pesada** dentro da Page (“esperar que URL seja X e que fulano apareça”). O ideal é a Page expor **estado acionável** (`isErrorVisible()`), e o **teste** decidir o `expect`. Misturar demais deixa Page difícil de reutilizar em fluxos negativos.
+
+```ts
+// Ilustração — adapte aos seus seletores reais
+// loginPage.login('standard_user', 'secret_sauce');
+```
+
+## InventoryPage — catálogo e seleção
+
+Aqui mora a maior parte dos locators de produto: cards, botões “Add to cart”, ordenação, menu. Métodos como `addFirstAvailableToCart()` ou `addByProductName('Sauce Labs Backpack')` encapsulam política de seleção.
+
+**Por que nomear por produto quando possível?** Porque falha de teste com “nth(2)” não diz nada no relatório; “não achei Sauce Labs Bike Light” diz.
+
+## CartPage — estado intermediário
+
+Carrinho é **estado**: você valida quantidade, remoção, continuar comprando. Page Object deve expor ações curtas: `open()`, `removeItem()`, `checkout()`. Se o carrinho usa badge numérico no header, decida se o locator fica na `InventoryPage` ou numa `HeaderComponent` compartilhada — **composição** vence herança gigante.
+
+## CheckoutPage — formulário e validação
+
+Checkout em SauceDemo costuma ser um ou dois passos (informações + overview). Separe **preencher campos** de **submeter**, para reutilizar em teste negativo (“deixar ZIP vazio”). Assertions de erro de campo são ótimos candidatos a **soft assert** se você quiser listar tudo de uma vez — mas não abuse: para fluxo crítico, falha rápida pode ser melhor.
+
+## CompletePage — ponto de confirmação
+
+A página de “Thank you” é âncora de sucesso: `expect(page.getByText('Thank you'))` ou equivalente. Centralizar `orderCompleteMessage()` evita duplicar texto mágico em dez arquivos.
+
+## Como os testes consomem as Pages
+
+Padrão legível: `test('compra feliz', async ({ page }) => { const login = new LoginPage(page); ... })` ou fixtures customizadas que já entregam `loggedInPage`. O segundo reduz ruído quando metade da suíte começa logada — mas esconder demais o login pode confundir leitor do teste; equilíbrio é documentar no README.
+
+## Como evoluiria se o produto crescesse
+
+Com mais telas: extrair **componentes** (Header, Footer), introduzir **facades** para fluxos (“comprar produto X com frete Y”), e avaliar **API mocking** para isolar E2E de indisponibilidade externa. Para SauceDemo isso é overkill — mas na entrevista mostra visão de **escala**.
+
+<Quiz
+  id="swaglab-pom-assertions-q1"
+  question="Onde devem ficar, em geral, as asserções pesadas de um fluxo E2E quando você usa Page Object Model?"
+  options={[
+    "Todas dentro das classes de Page, para o spec ficar minúsculo",
+    "No arquivo de teste (ou camada de spec), usando métodos da Page só para estado e ações",
+    "Apenas no playwright.config.ts",
+    "Somente em comentários"
+  ]}
+  correctIndex={1}
+  explanation="Page Objects encapsulam locators e ações; o teste combina essas peças e faz asserts de negócio. Misturar tudo na Page deixa reuso difícil e confunde responsabilidade."
+/>
+
+<KeyTakeaways
+  items={[
+    "POM existe para reduzir duplicação de locator e ação — não para esconder lógica de negócio sem critério.",
+    "Prefira métodos nomeados por intenção (addByProductName) a índices mágicos (nth(3)).",
+    "Separe preencher de submeter em formulários para reaproveitar em cenários negativos.",
+    "Planeje composição (Header/Cart) antes de criar uma Page de 800 linhas — Single Responsibility continua valendo.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-swaglab-pom-pratica">Concluí este capítulo</ChecklistItem>

@@ -1,0 +1,75 @@
+---
+title: "Toolshop — decisões de arquitetura"
+description: "Por que três camadas no mesmo produto, Python na API e TypeScript no E2E, manual antes da automação e No Go como ato técnico."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={16} />
+</div>
+
+## Decisão 1 — testar o mesmo produto em três camadas
+
+A pergunta honesta é: **não dá para só automatizar e acabar?** Dá — se você quer só um vídeo gravado. Para portfólio de QA, a demonstração pede **profundidade**: manual para raciocínio e comunicação; API para contrato e velocidade de feedback; E2E para jornada e regressão visual-comportamental.
+
+Quando você repete o mesmo produto-alvo, você também treina uma habilidade rara em júnior: **saber onde cada bug nasce**. Um sintoma na UI pode ser estado inconsistente vindo da API; um 500 pode ser validação ruim; um “botão não responde” pode ser race condition só visível no browser. Três camadas obrigam você a contar essa história com precisão — e é isso que diferencia “apertei botões” de “entendi o sistema”.
+
+Trade-off: **tempo**. Triplicar escopo sem triplicar semana de trabalho exige recorte cruel: você não cobre “tudo”, cobre **o que importa para o risco** (checkout, auth, carrinho crítico).
+
+## Decisão 2 — Python para API e TypeScript para E2E
+
+Não é capricho de linguagem — é **mercado e DX**. Python domina automação de API e dados em muitas squads brasileiras; pytest é leitura universal em vaga júnior/pleno. Já o ecossistema front/E2E em 2026 pende forte para **Node + Playwright**: tipagem, tooling, exemplos oficiais.
+
+Manter stacks diferentes documenta algo que entrevistador valoriza: **você não é refém de uma única stack**. O custo é context switch e duas formas de configurar CI — mas você ganha duas histórias de empregabilidade em uma.
+
+Erro comum: misturar tudo em uma linguagem só para “parecer consistente” e acabar com E2E fraco ou API forçada em JS sem domínio. Consistência de **resultado** (bugs achados, relatórios claros) importa mais que consistência cosmética de linguagem.
+
+## Decisão 3 — rodada manual antes de cravar automação
+
+Ordem sugerida: **explorar → documentar → só então automatizar o que estabilizou**. Automatizar fluxo que você não entende é escrever dívida técnica com nome de teste. A manual primeiro também gera **dados de teste** e **massa** que a API e o E2E vão reutilizar (usuários, carrinho, estados limpos).
+
+Exceção honesta: se o objetivo do sprint de estudo era só aprender Playwright, você pode inverter — mas no discurso de entrevista, deixe claro que foi **decisão de aprendizado**, não “melhor prática ignorada”.
+
+## Decisão 4 — No Go documentado como coragem técnica
+
+**No Go** não é “projeto ruim”. É “**com as evidências que tenho hoje, eu não assino release para produção**”. Em portfólio, isso precisa vir com **lista do que falta**: correção, reteste, ou aceite explícito de risco por negócio.
+
+O mercado brasileiro às vezes romantiza “time ágil que entrega sempre”. QA maduro sabe que **não entregar** pode ser o sucesso — quando evita incidente, multa regulatória ou churn de cliente. O recrutador pode pressionar: “mas você não deveria ser ‘positivo’?” Resposta: “Sou parceiro do time; **bloqueio com dado** não é negativismo, é dever de ofício.”
+
+## Trade-offs assumidos e o que ficou de fora
+
+Ficou de fora, em geral: **teste de carga**, **segurança ofensiva**, **multi-browser massivo** em CI, **acessibilidade sistemática** com auditoria completa. Não é porque não importa — é porque portfólio precisa de fronteira. O que você faz no README é listar esses buracos como **próximos passos**; isso mostra maturidade de roadmap.
+
+## O que eu faria diferente hoje
+
+Com o mesmo tempo: (1) amarrar os três repositórios a **um único pipeline** que publique relatório agregado (mesmo que simples); (2) padronizar **IDs de caso de teste** entre manual e automação para rastreio; (3) guardar **métrica mínima** (tempo de suíte, taxa de falha por build) para conversar com dados na entrevista.
+
+<Quiz
+  id="toolshop-decisoes-ordem-q1"
+  question="No recorte Toolshop, qual ordem melhor sustenta a narrativa 'entender antes de automatizar'?"
+  options={[
+    "E2E primeiro, manual depois para documentar o que já passou",
+    "Exploração manual e casos de teste antes de fechar automação de API e E2E",
+    "Só API, porque manual é retrô",
+    "Apenas testes aleatórios até algo falhar"
+  ]}
+  correctIndex={1}
+  explanation="Automatizar sem entender o fluxo reproduz flakiness e cenários frágeis. Manual e documentação primeiro reduzem retrabalho e melhoram o desenho dos dados de teste nas outras camadas."
+/>
+
+<KeyTakeaways
+  items={[
+    "Três camadas no mesmo produto é escolha pedagógica e de risco — não vanity metric de quantidade de testes.",
+    "Python (API) + TS (Playwright) refletem mercado e DX; o que importa é justificar trade-offs de CI e contexto.",
+    "No Go com evidência é sinal de maturidade; 'tudo verde' sem ressalvas muitas vezes é história incompleta.",
+    "Liste o que não cobriu — carga, a11y, segurança — como próximos passos; fronteira honesta impressiona mais que promessa vaga.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-toolshop-decisoes">Concluí este capítulo</ChecklistItem>

@@ -1,0 +1,71 @@
+---
+title: "Swag Lab — bugs documentados com teste verde"
+description: "Estratégia problem_user: quando o teste passa mas o bug fica rastreado — trade-offs de CI ruidoso versus rastreabilidade."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={14} />
+</div>
+
+## O dilema: CI vermelho o tempo todo versus silêncio
+
+O SauceDemo expõe usuários especiais. O **problem_user** é famoso por gerar comportamento inconsistente — exatamente o tipo de coisa que você quer **capturar como bug**, mas que pode fazer **E2E falhar sempre** se o assert for ingênuo (“espero lista perfeita ordenada”). Suite vermelha contínua gera **alarm fatigue**: o time ignora o pipeline.
+
+A estratégia descrita no portfólio é: **rodar o cenário**, **documentar o comportamento incorreto** (log, comentário estruturado, issue linkada) e **não deixar o teste falhar** até haver correção acordada — ou seja, o teste vira **registro reproduzível** de bug conhecido, não bloqueador de merge. Isso é controverso e precisa de **contexto**: não use para bug de segurança ou dado sensível — use quando o risco é aceito e a prioridade é manter CI utilizável.
+
+## Como isso aparece no código (conceitualmente)
+
+Um `problem-user.spec.ts` pode: fazer login com `problem_user`, executar passos, **coletar evidência** (screenshot/trace) e usar `expect.soft` ou até `test.info().annotations` para registrar achado sem falhar o job — dependendo da política que você documentar no README. O ponto não é “passar de propósito”, é **separar sinal de ruído**: o relatório ainda mostra a anomalia para quem lê.
+
+**Erro comum:** sumir com o bug porque o teste passou. Se passa, precisa haver **outro artefato** (issue, seção “Known issues”, comentário com ID de bug). Sem isso, você só maquiou.
+
+## Quando essa estratégia faz sentido
+
+- Bug **já priorizado no backlog** e time combinou que release segue.
+- Comportamento **determinístico o suficiente** para não flakyar o runner.
+- Documentação clara para **onboarding**: “este teste não falha, mas prova o defeito X”.
+
+## Quando não usar
+
+- Falha de **segurança**, **perda de dinheiro**, **compliance** — aí o vermelho é o sinal correto.
+- Bug **intermitente** — você vai esconder flakiness atrás de verde mentiroso.
+- Time sem maturidade — sem cultura de issue, vira “verde = está OK”, que é mentira.
+
+## Trade-offs honestos
+
+Você troca **ruído de CI** por **risco de falsa sensação de saúde**. Por isso o handbook insiste: **política explícita** no README e, se possível, **tag** ou **label** no relatório HTML apontando “known defect”.
+
+## Como falar disso na entrevista sem parecer maquiador
+
+Frase útil: “Eu separo **falha de produto** de **sinal de pipeline**. Para defeitos já conhecidos e aceitos pelo negócio, mantenho reprodução automatizada sem bloquear merge — mas registro em issue e no relatório. Se o risco aumenta, volto a falhar o job.” Isso mostra **governança**, não gambiarra.
+
+<Quiz
+  id="swaglab-bug-known-q1"
+  question="Qual é o maior risco de manter testes verdes para um bug conhecido (problem_user) sem documentação adicional?"
+  options={[
+    "O Playwright parar de funcionar",
+    "O time interpretar verde como 'sem defeitos' e perder rastreabilidade do problema",
+    "O GitHub Actions cobrar menos",
+    "O pytest passar a rodar mais devagar"
+  ]}
+  correctIndex={1}
+  explanation="Se o pipeline está verde, alguém vai assumir saúde — a menos que known issues, issues linkadas e política explícita digam o contrário."
+/>
+
+<KeyTakeaways
+  items={[
+    "Teste verde com bug conhecido exige contrapartida: issue, known issues ou anotação visível no relatório.",
+    "Alarm fatigue é real; a estratégia troca ruído de CI por risco de falsa sensação de saúde — governe com política escrita.",
+    "Nunca aplique a tática a risco crítico ou comportamento intermitente sem outra camada de monitoramento.",
+    "Na entrevista, explique governança: quando falha o job, quando só documenta, e quem decide.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-swaglab-bug-documentado">Concluí este capítulo</ChecklistItem>

@@ -1,0 +1,12 @@
+{
+  "title": "Entrevista",
+  "pages": [
+    "perguntas-comportamentais",
+    "perguntas-tecnicas-manual",
+    "perguntas-tecnicas-api",
+    "perguntas-tecnicas-e2e",
+    "perguntas-cicd",
+    "simulados",
+    "negociacao-salario"
+  ]
+}

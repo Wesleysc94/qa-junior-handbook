@@ -1,0 +1,74 @@
+---
+title: "Swag Lab — CI/CD na prática"
+description: "Dois workflows, filtros por path, secrets Reqres, artefatos de relatório e o que evoluir depois."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={15} />
+</div>
+
+## Por que dois workflows separados
+
+Em monorepos, é comum **api-tests.yml** e **e2e-tests.yml** (nomes ilustrativos) com gatilhos `paths:` diferentes. Motivo: mudança só em documentação não precisa baixar browser; mudança só em teste de API não precisa instalar Playwright completo se você segmentar — **economiza minutos** e reduz fila no GitHub Actions.
+
+Trade-off: mais YAML para manter. Mitigação: comentários no topo de cada workflow (“dispara quando muda pasta X”) e template reutilizável se o time crescer.
+
+## Anatomia mínima que o recrutador espera ver
+
+- **on:** `push` e `pull_request` (às vezes `workflow_dispatch` para rerun manual).
+- **permissions:** restritos ao necessário (`contents: read` é padrão seguro em muitos casos).
+- **jobs:** um para API (Python: setup-python, cache pip/poetry) e outro para E2E (setup-node, `npx playwright install --with-deps` no Linux).
+- **steps:** checkout, instalar deps, rodar testes, **upload de artefato** em falha.
+
+## REQRES_API_KEY e variáveis de ambiente
+
+Mesmo APIs públicas às vezes exigem **chave** em exemplos avançados ou em forks privados. O padrão é: valor em **GitHub Secret**, leitura no workflow via `${{ secrets.REQRES_API_KEY }}`, e **nunca** logar o valor. No pytest, `os.environ["REQRES_API_KEY"]` ou arquivo `.env` só local (listado no `.gitignore`).
+
+Erro comum de júnior: commitar `.env` com chave — repositório público vira vazamento em minutos. Se isso acontecer em estudo, **rote a chave** e apague histórico com ferramenta adequada; na entrevista, conte o que aprendeu.
+
+## Artefatos que salvam debug
+
+Quando E2E falha no CI, você não tem seu monitor: precisa de **trace**, **screenshot**, **vídeo** ou relatório HTML. `actions/upload-artifact@v4` com `if: failure()` ou `if: always()` garante que o recrutador (ou você daqui a três meses) baixa a pasta e reproduz.
+
+Configure Playwright para gerar trace **on-first-retry** ou **on-failure** conforme política — equilíbrio entre tamanho de artefato e riqueza de debug.
+
+## O que evoluir no pipeline
+
+- **Matriz de browsers** (`chromium`, `firefox`, `webkit`) em job paralelo — aumenta confiança e custo de minutos.
+- **Sharding** para suíte grande: `npx playwright test --shard=1/3` etc.
+- **Reuso com `workflow_call`** se repetir etapas entre projetos.
+
+## Como narrar isso em entrevista
+
+Não liste só ferramentas: diga **gatilho → ambiente isolado → comando → artefato → quem olha o resultado**. Isso mostra que você entende CI como **feedback loop**, não como checklist mágico.
+
+<Quiz
+  id="swaglab-cicd-secrets-q1"
+  question="Onde a REQRES_API_KEY deve ser armazenada em um repositório público no GitHub Actions?"
+  options={[
+    "Em um arquivo .env commitado na raiz",
+    "Em GitHub Secrets e referenciada no workflow sem jamais imprimir o valor nos logs",
+    "Diretamente no código-fonte dos testes como string literal",
+    "No README em texto plano para facilitar"
+  ]}
+  correctIndex={1}
+  explanation="Secrets ficam no provedor (GitHub Secrets), injetadas em runtime. Nunca versionar chaves; rotação imediata se vazar."
+/>
+
+<KeyTakeaways
+  items={[
+    "Workflows separados por paths reduzem custo de CI e deixam falhas mais fáceis de mapear para o time.",
+    "Secrets no GitHub + variáveis de ambiente nos testes — nunca commit de .env com credencial.",
+    "Artefatos em falha são parte do contrato de qualidade: sem eles, debug remoto vira adivinhação.",
+    "Próximo passo credível: matriz de browsers ou sharding quando a suíte crescer.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-swaglab-cicd-pratica">Concluí este capítulo</ChecklistItem>

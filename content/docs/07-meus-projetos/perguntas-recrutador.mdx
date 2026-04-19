@@ -1,0 +1,112 @@
+---
+title: "Perguntas que o recrutador faz sobre seus projetos"
+description: "30 perguntas com respostas modelo — Toolshop, Swag Lab, Playwright, API e CI — para treinar pitch e profundidade."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { InterviewQuestion } from '@/components/learning/InterviewQuestion';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={35} />
+</div>
+
+Use este capítulo como **roteiro de estudo**, não como texto para decorar palavra por palavra. Treine em voz alta; ajuste números e nomes de branch ao seu repositório real.
+
+## Escolha de ferramentas e arquitetura
+
+<InterviewQuestion question="Por que Playwright e não Cypress?" difficulty="media" category="Prática">
+  Escolhi Playwright pela **integração multi-browser** nativa (Chromium, Firefox, WebKit), **trace viewer** forte para CI e adoção crescente em vagas 2026. Cypress é excelente em DX, mas eu queria stack alinhada a pipelines com **sharding** e runners Linux — e evitar limitações que já conheço de domínio único em alguns cenários. Em empresa, a escolha seria conjunta com o time; aqui foi decisão de portfólio com foco em mercado e manutenção.
+</InterviewQuestion>
+
+**Por que o mesmo produto em três camadas no Toolshop?** Para mostrar que entendo **feedback em profundidade**: manual para exploração e narrativa de bug; API para contrato e negativo rápido; E2E para jornada. Não é repetir trabalho — é pegar classes diferentes de defeito.
+
+**Por que repositórios separados em vez de monorepo?** Comunicação clara por entregável (cada link do GitHub é um capítulo). Trade-off: mais overhead. Em produção eu avaliaria monorepo se o time precisar de release unificado.
+
+**Python na API e TypeScript no E2E não é excesso?** Reflete **mercado**: pytest para API é língua comum; TS com Playwright é padrão de front. Mostro que aprendo **duas stacks** com propósito, não por acumular buzzword.
+
+## Qualidade, severidade e decisão
+
+**Como você decide severidade de um bug?** Pelo **impacto no usuário e no negócio**, não pela sua frustração. Bloqueio de compra em checkout é crítico para receita; typo no rodapé é baixa. Eu cruzo com **prioridade** (urgência) porque times discutem prioridade com PO — severidade informa técnico.
+
+**O que significa o No Go no Toolshop?** Significa: **com o conjunto de evidências atual**, eu não recomendaria liberar como produção sem mitigar riscos X e Y. Não é “projeto ruim” — é **postura de QA** com documentação.
+
+**Por que testes que passam sabendo que há bug (problem_user)?** É **política de CI**: defeito conhecido e aceito pelo negócio não pode pintar o pipeline de vermelho o tempo todo (alarm fatigue), mas precisa estar em **issue/known issues**. Se o risco aumenta, mudo a política e falho o job de novo.
+
+## Automação e manutenção
+
+**O que é flaky test e como você trata?** É teste que falha sem mudança de código — geralmente espera ruim, dado compartilhado ou ambiente. Tratamento: **trace**, reprodução local, isolamento de estado, `expect` com auto-wait, evitar `sleep`. Se continua instável, marco como quarentena e abro bug de estabilidade.
+
+**Por que Page Object?** Para **centralizar locators e ações** e reduzir custo quando a UI muda. O spec fala de comportamento; a Page encapsula como alcançar esse comportamento.
+
+**Por que não usar sleep?** Porque mascara problema real de sincronismo e deixa CI lento. Playwright tem **auto-wait**; quando não basta, `waitForResponse` ou condições explícitas do fluxo.
+
+## API e dados
+
+**O que você valida num teste de API?** Status, **corpo** (campos críticos ou schema), headers quando importam (auth, rate limit), e tempo só se houver SLO. Negativo: payload inválido, auth ausente, recurso inexistente.
+
+**401 vs 403?** **401** — não autenticou. **403** — autenticou mas **não pode** (permissão). Erro comum: dizer “não autorizado” para os dois.
+
+## CI/CD
+
+**Como funciona seu pipeline?** Gatilho em `push`/PR, jobs separados ou por path para API e E2E, instalação de deps com cache, execução de testes, **upload de artefato** em falha. Secrets vêm do GitHub, nunca commitados.
+
+**O que você melhoraria?** Matriz de browsers, paralelização com shards, e talvez unificar jobs com `workflow_call` se o YAML duplicar demais.
+
+## Comportamento e postura
+
+**Conte uma vez que você discordou de um dev.** Use **STAR**: situação (bug com impacto mal entendido), tarefa (precisava de consenso em release), ação (mostrei evidência + usuário afetado + proposta de reteste), resultado (decisão documentada). Sem acusação — **fatos primeiro**.
+
+---
+
+### Perguntas rápidas (respostas em formato telefone)
+
+1. **Qual o objetivo do portfólio?** Demonstrar raciocínio de QA ponta a ponta, não só ferramenta.  
+2. **O que você faria com mais uma semana?** Acessibilidade sistemática ou teste de carga mínimo — dependendo do risco do produto-alvo.  
+3. **Como prioriza testes com prazo curto?** **Risk-based**: o que mais dói se falhar? Smoke do crítico primeiro.  
+4. **Como documenta bug?** Título claro, passos, esperado vs atual, evidência, ambiente.  
+5. **O que é smoke?** Checagem rápida de que **o sistema sobrevive** e o caminho principal não está quebrado.  
+6. **O que é regressão?** Garantir que **o que já funcionava** continua após mudança.  
+7. **Por que httpx com pytest?** Cliente moderno, assertions legíveis, ótima história em API.  
+8. **Como lida com dados sensíveis?** Secrets no CI, nunca log; `.env` fora do git.  
+9. **O que aprendeu com falha de pipeline?** Importância de artefato (trace/screenshot) e de não ignorar vermelho crônico.  
+10. **Diferença QA e QC?** QA olha **processo** para prevenir; QC olha **produto** para detectar — no dia a dia os papéis se misturam, mas a distinção importa em entrevista.  
+11. **Onde entra o QA no refinement?** Cenários, riscos, critérios de aceite testáveis.  
+12. **O que é DoD?** Lista objetiva de “pronto”; deve incluir testes acordados.  
+13. **Por que não só automação?** Automatizar sem entender vira **dívida**; manual e exploração ainda acham classes de bug.  
+14. **Como prova impacto do seu trabalho?** Bugs priorizados, incidentes evitados, tempo de feedback de CI — o que tiver dado.  
+15. **O que é idempotência?** Repetir a mesma operação não amplifica efeito indesejado — GET idempotente, POST em geral não.
+
+---
+
+### Mais 15 (treine respostas de 30–60 segundos)
+
+16. **Como escolhe seletores?** Hierarquia Playwright: role, label, texto, test id — CSS/XPath por último.  
+17. **O que é contract testing?** Validar que consumidor e provedor concordam no contrato — aqui você pode citar “schema + testes de API” como aproximação.  
+18. **Como lida com ambiente instável?** Isolar dependência, dados de teste, retries com política clara — não esconder flakiness.  
+19. **O que traz de diferente em relação a outros juniores?** Narrativa com **três camadas** + **CI** + **decisões documentadas**.  
+20. **Por que SauceDemo?** Fluxo completo curto e conhecido — foco em **engenharia de teste**, não em aprender produto obscuro.  
+21. **O que você mediria em produto real?** Defect escape rate, MTTR, tempo de pipeline, cobertura de risco — nem sempre métricas vanity de “número de casos”.  
+22. **Como se atualiza?** Documentação oficial (Playwright), newsletters, comunidade BR, prática em projetos.  
+23. **O que é shift-left?** Antecipar qualidade — QA envolvido cedo, testes antes do fim do sprint.  
+24. **Como diz não a um release?** Com **dados**: risco, severidade, impacto, alternativas (rollback, feature flag).  
+25. **O que é teste exploratório?** Simultâneo aprendizado + teste, sem script rígido — útil achar **novos** bugs.  
+26. **Como evita duplicar bugs?** Busca no Jira, palavras-chave, conversa rápida com dev antes de abrir.  
+27. **O que pede ao dev para melhorar testabilidade?** `data-testid` estável, logs claros, feature flag, ambiente de staging confiável.  
+28. **Diferença entre erro e falha?** Erro pode ser estado interno; falha é desvio **observável** do esperado.  
+29. **O que leva em entrevista comportamental?** 3 histórias STAR (conflito, prazo, aprendizado) baseadas nos **projetos reais**.  
+30. **Por que devemos te contratar?** Porque eu já mostro **como penso** (arquitetura, risco, pipeline) — e consigo aprender o produto de vocês com a mesma disciplina.
+
+<KeyTakeaways
+  items={[
+    "Não decore: treine histórias curtas (30s, 60s, 2 min) com números reais do seu repo.",
+    "Toda resposta técnica pode terminar com trade-off — mostra maturidade.",
+    "Política de bug conhecido + CI verde exige narrativa ética — ensaie sem parecer maquiador.",
+    "Ligue sempre ferramenta → risco → feedback → decisão — é o fio condutor do portfólio.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-perguntas-recrutador">Concluí este capítulo</ChecklistItem>

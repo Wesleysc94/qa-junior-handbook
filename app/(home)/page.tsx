@@ -1,16 +1,17 @@
-import Link from 'next/link';
+import { FeaturedProjects } from '@/components/home/FeaturedProjects';
+import { Hero } from '@/components/home/Hero';
+import { ModulesGrid } from '@/components/home/ModulesGrid';
+import { SiteFooter } from '@/components/home/SiteFooter';
+import { Stats } from '@/components/home/Stats';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col justify-center text-center flex-1">
-      <h1 className="text-2xl font-bold mb-4">Hello World</h1>
-      <p>
-        You can open{' '}
-        <Link href="/docs" className="font-medium underline">
-          /docs
-        </Link>{' '}
-        and see the documentation.
-      </p>
-    </div>
+    <>
+      <Hero />
+      <Stats />
+      <ModulesGrid />
+      <FeaturedProjects />
+      <SiteFooter />
+    </>
   );
 }

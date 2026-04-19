@@ -1,0 +1,12 @@
+{
+  "title": "Automação E2E",
+  "pages": [
+    "comparativo-ferramentas",
+    "setup-playwright",
+    "page-object-model",
+    "locators",
+    "assertions",
+    "esperas",
+    "hooks-fixtures"
+  ]
+}

@@ -1,0 +1,73 @@
+---
+title: "Swag Lab — visão geral"
+description: "Monorepo com Playwright, pytest e API: SauceDemo + Reqres, números da suíte e por que esse combo ensina o mercado real."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={17} />
+</div>
+
+## O que é o SauceDemo (e por que todo mundo conhece)
+
+O **SauceDemo** é a loja fictícia clássica de estudo em QA: login, catálogo, carrinho e checkout com fluxo curto o suficiente para caber em tutorial — mas rico o suficiente para ensinar **POM**, **assertions** e **estratégia de dados**. Usuários como `standard_user` versus `problem_user` não são detalhe de lore: são **personas de teste** que mudam comportamento e te forçam a decidir se o teste **deve falhar** ou **deve documentar bug conhecido**.
+
+Quando você diz na entrevista “usei SauceDemo”, o entrevistador já associa: Playwright/Cypress, login, inventário, preços. Sua missão é ir além do básico: mostrar **como você organizou o código**, **como tratou instabilidade** e **como integrou API**.
+
+## Reqres.in como laboratório de API
+
+**Reqres** é API REST pública, simples, pensada para mock de CRUD e autenticação “de mentirinha”. Para portfólio, ela é valiosa porque você pratica **contrato** sem depender de backend instável de terceiros com SLA duvidoso. Dá para exercitar GET/POST/PUT/PATCH/DELETE, status codes, headers e payloads com pytest + httpx de forma previsível.
+
+O ponto de atenção: Reqres não substitui o mundo real de **OAuth complexo**, **webhooks** ou **idempotência de pagamento** — mas prova que você sabe montar cliente HTTP, fixtures e assertions. No README, deixe explícito: “API de estudo; padrões aplicáveis a APIs internas.”
+
+## Arquitetura do monorepo (visão prática)
+
+Pastas típicas no desenho **swaglab-quality-suite**: `e2e/` (Playwright + TS), `api/` (pytest + httpx), `manual/` (casos ou exploração), `docs/` (como rodar, decisões), `.github/workflows/` (pipelines separados ou unificados). Monorepo ganha quando você quer **um clone, um PR, um estado** — ótimo para mostrar maturidade de CI.
+
+Números de referência do escopo descrito no master prompt do handbook: **23 testes E2E**, **14 de API**, **6 bug reports** documentados e **CI/CD** rodando verificações. Não são magic numbers — são ordem de grandeza para você calibrar expectativa: portfólio com dezenas de testes bem nomeados e relatório vence “centenas de asserts copiados de tutorial”.
+
+## Stack e o que ela demonstra
+
+- **Playwright + TypeScript:** tipagem, fixtures, trace viewer, projetos multi-browser quando você quiser escalar.
+- **pytest + httpx:** testes de API legíveis, markers (`-m smoke`), relatório HTML quando configurado.
+- **GitHub Actions:** o empregador médio que usa GitHub quer ver **YAML legível**, **cache** e **artefato de falha**.
+
+Erro comum: **README bonito e pipeline quebrado**. Antes de divulgar, rode fork limpo ou `act` local se usar; pipeline vermelho mata credibilidade mais rápido que bug no SauceDemo.
+
+## Por que esse combo reflete o Brasil 2026
+
+Vagas pedem “Playwright ou Cypress”, “Postman”, “API”, “CI”. Poucas pedem “ferramenta X exclusivamente”. O Swag Lab posiciona você na interseção: **automa web + API + pipeline** — exatamente a triade que aparece em vagas júnior para produto digital com time pequeno.
+
+## Resultados que você deve saber explicar
+
+Não decore números — entenda **o que cada número prova**. “23 E2E” só impressiona se você explicar **cobertura de fluxo** (login → compra → confirmação), **estabilidade** (retries, esperas corretas) e **custo de manutenção** (POM reduziu duplicação). “14 API” vale ouro se você citar **cenários negativos** e **validação de schema** além do 200 OK.
+
+<Quiz
+  id="swaglab-overview-reqres-q1"
+  question="Qual é o principal benefício de usar Reqres.in em um portfólio de testes de API?"
+  options={[
+    "Substituir 100% dos testes de integração em produção",
+    "Ter um backend previsível para exercitar HTTP, status codes e fixtures sem depender de SLA externo frágil",
+    "Eliminar a necessidade de pytest",
+    "Garantir que sua API seja igual à de bancos reais"
+  ]}
+  correctIndex={1}
+  explanation="Reqres é ambiente de estudo: previsível e estável para aprender contratos e automação. Você deixa claro no README que padrões se transferem para APIs reais — mas o alvo é didático."
+/>
+
+<KeyTakeaways
+  items={[
+    "SauceDemo + Reqres cobrem jornada web e contrato API — combinação que conversa com a maioria das vagas júnior.",
+    "Monorepo mostra que você pensa em um único produto de qualidade, não em três demos isoladas.",
+    "Números (E2E, API, bugs, CI) só sustentam narrativa se você explicar cobertura, risco e manutenção.",
+    "Pipeline quebrado no ar corrói credibilidade; trate README e Actions como parte do teste de release.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-swaglab-overview">Concluí este capítulo</ChecklistItem>

@@ -1,0 +1,12 @@
+{
+  "title": "Meus projetos",
+  "pages": [
+    "toolshop-overview",
+    "toolshop-decisões",
+    "swaglab-overview",
+    "swaglab-pom-pratica",
+    "swaglab-cicd-pratica",
+    "swaglab-bug-documentado",
+    "perguntas-recrutador"
+  ]
+}

@@ -1,11 +1,14 @@
-export const appName = 'My App';
+export const appName = 'QA Junior Handbook';
+
 export const docsRoute = '/docs';
+
 export const docsImageRoute = '/og/docs';
+
 export const docsContentRoute = '/llms.mdx/docs';
 
-// fill this with your actual GitHub info, for example:
+/** Ajuste para o seu usuário e repositório no GitHub */
 export const gitConfig = {
-  user: 'fuma-nama',
-  repo: 'fumadocs',
+  user: 'Wesleysc94',
+  repo: 'qa-junior-handbook',
   branch: 'main',
-};
+} as const;

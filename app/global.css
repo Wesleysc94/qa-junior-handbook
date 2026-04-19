@@ -2,11 +2,63 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* Tipografia e layout base (design system do handbook) */
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
 html {
   scrollbar-gutter: stable;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Paleta QA Handbook — alinhada a modo escuro (padrão) e claro */
+@theme {
+  --color-handbook-accent: hsl(188 95% 53%);
+  --color-handbook-success: hsl(142 71% 50%);
+  --color-handbook-warning: hsl(38 92% 55%);
+  --color-handbook-danger: hsl(0 72% 65%);
+}
+
+.dark {
+  --color-fd-background: hsl(224 71% 4%);
+  --color-fd-foreground: hsl(213 31% 91%);
+  --color-fd-muted: hsl(223 47% 11%);
+  --color-fd-muted-foreground: hsla(213 20% 70% / 0.9);
+  --color-fd-card: hsl(222 40% 8%);
+  --color-fd-card-foreground: hsl(213 31% 96%);
+  --color-fd-border: hsl(216 34% 17%);
+  --color-fd-primary: hsl(213 31% 91%);
+  --color-fd-primary-foreground: hsl(224 71% 6%);
+  --color-fd-secondary: hsl(223 47% 12%);
+  --color-fd-secondary-foreground: hsl(213 31% 91%);
+  --color-fd-accent: hsla(188 95% 53% / 0.18);
+  --color-fd-accent-foreground: hsl(188 95% 92%);
+}
+
+html.light {
+  --color-fd-background: hsl(0 0% 100%);
+  --color-fd-foreground: hsl(222 47% 11%);
+  --color-fd-muted: hsl(210 40% 96%);
+  --color-fd-muted-foreground: hsl(222 20% 40%);
+  --color-fd-card: hsl(0 0% 99%);
+  --color-fd-card-foreground: hsl(222 47% 11%);
+  --color-fd-border: hsl(214 32% 91%);
+  --color-fd-primary: hsl(222 47% 11%);
+  --color-fd-primary-foreground: hsl(0 0% 98%);
+  --color-fd-secondary: hsl(210 40% 96%);
+  --color-fd-secondary-foreground: hsl(222 47% 11%);
+  --color-fd-accent: hsla(188 95% 43% / 0.15);
+  --color-fd-accent-foreground: hsl(222 47% 15%);
 }

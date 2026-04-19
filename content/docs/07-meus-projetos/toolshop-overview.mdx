@@ -1,0 +1,91 @@
+---
+title: "Toolshop — visão geral"
+description: "Practice Software Testing em três camadas: manual, API e E2E — arquitetura do portfólio e o que os resultados significam."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={18} />
+</div>
+
+## O produto sob teste
+
+O **Practice Software Testing** (ambiente conhecido na comunidade como “Toolshop” ou loja de ferramentas de demonstração) é uma aplicação web pensada para exercitar fluxos típicos de e-commerce: catálogo, carrinho, checkout e área logada. Não é um produto da sua empresa — é um **alvo de prática**: estável o suficiente para repetir cenários, mas com espaço para achar inconsistência entre camada manual, API e interface.
+
+Por que isso importa no portfólio? Porque recrutador júnior ouve muito “testei no Postman” ou “fiz cenário feliz no Cypress”. Quando você mostra o **mesmo produto** coberto em três formas diferentes de feedback (exploração humana, contrato HTTP, fluxo de ponta a ponta), você prova que entende **pirâmide e risco**: cada camada pega um tipo de falha que a outra não prioriza.
+
+## Arquitetura em quatro repositórios
+
+O portfólio **toolshop-quality-portfolio** funciona como **hub**: README central, links para os outros repositórios, visão da estratégia e dos resultados (incluindo recomendação **No Go** quando o risco em produção seria inaceitável). Os outros três repositórios separam **preocupações**:
+
+1. **toolshop-manual-quality** — casos de teste, evidências e narrativa de exploração. Aqui entra o que um QA manual faz de melhor: contexto, critério de aceite discutido com o “falso PO” (você mesmo), e bugs com passos reproduzíveis.
+2. **toolshop-api-quality-suite** — testes automatizados de API, em Python, usando a stack moderna **pytest + HTTPX** (cliente assíncrono/síncrono com API clara para assertions). É onde você documenta **contrato**: status code, schema do JSON, tempos aceitáveis e cenários negativos.
+3. **toolshop-web-e2e-playwright** — automação web em **TypeScript + Playwright**, com **Page Object Model** (ou camada equivalente de abstração) para não repetir seletor em dez arquivos.
+
+**Por que não um monorepo só?** Porque, em portfólio de transição de carreira, separar repositórios tem valor pedagógico: cada link do GitHub mostra um “capítulo” isolado. Em empresa real, monorepo costuma ganhar — mas aqui a separação comunica clareza de entregáveis. Trade-off assumido: mais overhead de versionamento; ganho em leitura por recrutador que só quer ver API.
+
+## O que cada camada pegou na prática
+
+Na **manual**, você força o olhar humano em fluxos “chatos”: borda de carrinho, mensagens de erro, consistência visual entre telas. É onde nascem bons **bug reports** com impacto de negócio descrito em linguagem que PO entende.
+
+Na **API**, você remove a UI do caminho e testa **regras**: autenticação, validação de payload, idempotência onde aplicável, e erros 4xx/5xx esperados. Um bug clássico é “front mostra sucesso mas API devolve 500” — só a camada API ou E2E com interceptação pega isso com facilidade.
+
+No **E2E**, você valida **jornada**: login real (ou bypass controlado), navegação, estado do carrinho no browser. Aqui entra custo de manutenção: seletor frágil vira dor. Por isso o POM e **locators estáveis** (role, label, test id) não são frescura — são estratégia de carreira.
+
+## Resultados que valem mais que “tudo verde”
+
+No conjunto dos trabalhos sobre o Toolshop, a narrativa honesta do portfólio inclui **defeitos críticos** encontrados (por exemplo, falhas que impediriam compra ou exposição indevisa de dado em cenário real) e uma recomendação **No Go** para release em ambiente produtivo **se** aquele conjunto de riscos não fosse mitigado. Isso não é pessimismo — é **postura de QA**: você documenta risco com evidência.
+
+Erro comum de iniciante: achar que portfólio precisa mostrar só suite verde. Na prática, entrevistador técnico pergunta: “e quando deu ruim, o que você fez?” Se você só tem verde, não tem história. Se você tem **No Go** bem explicado, você tem narrativa de **pensamento crítico**.
+
+## Como explicar isso em 60 segundos na entrevista
+
+Roteiro possível: “Escolhi o Practice Software Testing como produto-alvo único. Separei manual, API e E2E em repositórios distintos para mostrar profundidade em cada camada. Na manual, foquei em cenários de negócio e bugs com evidência. Na API, pytest e httpx para contrato e negativo. No E2E, Playwright com POM para reduzir fragilidade. O resultado agregado mostrou falhas de severidade alta o suficiente para eu recomendar não liberar como se fosse produção — e documentei o porquê.”
+
+## Erros comuns ao montar um portfólio parecido
+
+**Só mostrar print sem narrativa.** Evidência é meio, não fim. Para cada bug grave, o recrutador quer: impacto no usuário, passos mínimos, ambiente, e o que você faria se fosse PO (prioridade).
+
+**Confundir “muitos casos” com “boa cobertura.”** Dez casos genéricos perdem para cinco casos com pré-condição clara, dado de teste explícito e resultado esperado mensurável.
+
+**Esconder falhas de automação.** Se um teste E2E falha intermitente, documente: o que você fez para isolar (trace, vídeo, retry policy), mesmo que a conclusão seja “precisa de test id do time” — isso é maturidade.
+
+**Não amarrar as três camadas na conversa.** Se alguém perguntar “por que API antes do E2E?”, tenha resposta: custo, velocidade, estabilidade — não “porque o tutorial mandou”.
+
+## O que colocar no README do repositório hub
+
+Pense no hub como **one-pager executivo**: (1) qual é o produto-alvo; (2) mapa dos repositórios com um link cada; (3) como rodar cada suíte em três comandos ou menos; (4) principais achados e recomendação (Go/No Go) com data; (5) limitações honestas (“não cobri carga”, “não há pipeline neste recorte”, etc.). Isso poupa o recrutador de caçar contexto nos outros READMEs — e mostra que você entende documentação como entregável de QA, não só de dev.
+
+## Leitura cruzada com o restante do handbook
+
+Este capítulo conversa com **pirâmide de testes** (módulo Fundamentos), **bug report** e **plano de testes** (QA manual), **pytest + httpx** (API) e **Playwright + POM** (E2E). Quando você for revisar para entrevista, não decore texto: treine explicar **trade-offs** em voz alta.
+
+<Quiz
+  id="toolshop-overview-camadas-q1"
+  question="No portfólio Toolshop, qual é a principal razão pedagógica de separar manual, API e E2E em repositórios diferentes?"
+  options={[
+    "Porque monorepo é proibido em 2026",
+    "Para deixar explícitos entregáveis distintos e facilitar quem só quer auditar uma camada",
+    "Porque Python e TypeScript não podem coexistir no mesmo repo",
+    "Para reduzir o número de testes necessários"
+  ]}
+  correctIndex={1}
+  explanation="A separação é uma escolha de comunicação e organização do portfólio: cada repositório conta uma história (manual vs contrato vs jornada). Em empresa, monorepo costuma ser comum — o que importa é justificar o trade-off com clareza."
+/>
+
+<KeyTakeaways
+  items={[
+    "Um mesmo produto-alvo em três camadas mostra que você pensa em pirâmide, risco e feedback — não só em ferramenta.",
+    "Hub + três repositórios separa preocupações para o recrutador que entra pelo link errado: cada pasta é um discurso coerente.",
+    "Resultado com severidade alta e recomendação No Go, bem documentada, vale mais que suite verde sem narrativa.",
+    "Sempre tenha um roteiro de 60 segundos que liga produto → estratégia → ferramenta → achado → decisão.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-toolshop-overview">Concluí este capítulo</ChecklistItem>

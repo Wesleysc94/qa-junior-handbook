@@ -1,0 +1,15 @@
+{
+  "title": "QA Junior Handbook",
+  "pages": [
+    "index",
+    "01-fundamentos",
+    "02-qa-manual",
+    "03-testes-api",
+    "04-automacao-e2e",
+    "05-cicd",
+    "06-soft-skills",
+    "07-meus-projetos",
+    "08-entrevista",
+    "09-glossario"
+  ]
+}

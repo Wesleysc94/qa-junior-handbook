@@ -1,0 +1,10 @@
+{
+  "title": "QA manual",
+  "pages": [
+    "casos-de-teste",
+    "checklists",
+    "bug-reports",
+    "analise-de-risco",
+    "plano-de-testes"
+  ]
+}

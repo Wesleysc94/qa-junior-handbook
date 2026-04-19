@@ -1,0 +1,10 @@
+{
+  "title": "CI/CD",
+  "pages": [
+    "conceitos",
+    "github-actions-basico",
+    "pipeline-qa",
+    "secrets",
+    "artefatos"
+  ]
+}
