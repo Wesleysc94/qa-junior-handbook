@@ -1,5 +1,7 @@
 # Próximos passos — QA Junior Handbook
 
+**Repositório GitHub:** [github.com/Wesleysc94/qa-junior-handbook](https://github.com/Wesleysc94/qa-junior-handbook)
+
 Este documento é o **roteiro único** para concluir o projeto conforme a especificação original: conteúdo denso em PT-BR, gamificação funcional, zero backend, deploy na Vercel. Use o bloco **Prompt para agente** no final como contexto colável no Cursor / Claude Code.
 
 ---
