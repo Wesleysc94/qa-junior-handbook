@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
-    "start": "next start",
-    "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
-    "postinstall": "fumadocs-mdx",
-    "lint": "eslint",
-    "generate:docs": "node scripts/generate-placeholder-docs.mjs"
+    "dev": "next dev --port 3100 --hostname 127.0.0.1",
+    "start": "next start --port 3100 --hostname 127.0.0.1",
+    "types:check": "next typegen && node scripts/generate-fumadocs-source.mjs && tsc --noEmit",
+    "postinstall": "node scripts/generate-fumadocs-source.mjs",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.mjs",
+    "audit:content": "node scripts/audit-content.mjs",
+    "test:e2e": "playwright test",
+    "generate:docs": "node scripts/generate-docs.mjs",
+    "generate:placeholders": "node scripts/generate-placeholder-docs.mjs",
+    "generate:source": "node scripts/generate-fumadocs-source.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -29,12 +33,13 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.2",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.2.0",
+    "eslint": "^9.39.1",
     "eslint-config-next": "16.2.3",
     "postcss": "^8.5.9",
     "tailwindcss": "^4.2.2",

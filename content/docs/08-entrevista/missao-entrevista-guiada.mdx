@@ -1,0 +1,221 @@
+---
+title: "Missão guiada — entrevista guiada"
+description: "Escolha respostas mais fortes para perguntas de entrevista sem depender de texto livre."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={17} />
+</div>
+
+<CaseStudyHero
+  title="Perguntas que testam clareza, prioridade e maturidade"
+  scenario="Você recebeu quatro prompts típicos de entrevista para QA júnior. A missão é decidir quais respostas têm mais força prática e quais caem em generalidade."
+  goal="Treinar respostas mais maduras sem precisar escrever livremente. O foco é estrutura, não decorador de frases."
+  touchHint="Pense em respostas que conectem contexto, ação, impacto e aprendizado. Em geral, elas soam mais fortes e mais verdadeiras."
+/>
+
+## Por que esta missão fecha a trilha
+
+Entrevista costuma ser o lugar em que todo o estudo precisa se reorganizar rápido. Não basta conhecer o assunto; é preciso explicar bem. Muita gente chega aqui com boa leitura técnica, mas respostas ainda vagas. Esta missão foi criada para reduzir esse atrito. Em vez de pedir um simulado aberto, ela apresenta perguntas recorrentes e faz você escolher o formato de resposta mais maduro. Isso funciona muito bem no celular porque transforma preparação de entrevista em treino objetivo, curto e repetível.
+
+Outra vantagem é diminuir a ansiedade de “preciso montar a resposta perfeita”. Você não precisa. Precisa reconhecer o padrão que fortalece uma resposta: contexto, decisão, evidência e aprendizado. Quando esse padrão fica claro, improvisar fica menos assustador. O objetivo desta missão não é robotizar sua fala. É ajudar você a perceber o que torna uma resposta convincente de verdade, especialmente quando a pergunta mistura soft skill e leitura técnica.
+
+## O tipo de prompt que costuma aparecer
+
+As perguntas reunidas aqui cobrem quatro áreas: comunicação de bug, priorização de risco, escolha de automação inicial e conversa sobre salário. Elas foram escolhidas porque representam bem o pacote de uma vaga júnior moderna. A empresa quer entender se você sabe trabalhar com time, pensar em risco, fazer escolhas razoáveis e falar de forma honesta sobre expectativa. Não é necessário responder como se já fosse sênior. Pelo contrário: respostas fortes em vaga júnior costumam ser simples, específicas e coerentes com sua experiência real.
+
+Esse ponto é importante para estudo pessoal. Você não precisa inventar uma persona super experiente. Precisa aprender a usar bem o que já construiu: capítulos do handbook, projetos do portfólio e missões como esta. O treino abaixo foi pensado exatamente para isso: transformar o que você estudou em resposta aplicável.
+
+<EvidenceCard
+  title="Prompts curtos de entrevista"
+  kind="Roteiro de perguntas"
+  caption="Leia como se estivesse em uma entrevista ao vivo e precisasse escolher a direção de resposta mais forte."
+  assetHref="/case-studies/08-entrevista/roteiro-respostas.txt"
+>
+
+```text
+1. Como você explicaria um bug importante para dev e PO ao mesmo tempo?
+2. Conte um caso em que precisou priorizar risco sem travar o time.
+3. Como decidiria o primeiro teste a automatizar em um projeto novo?
+4. Como responderia sobre faixa salarial sem parecer inseguro?
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/08-entrevista/missao-entrevista-guiada" totalSteps={4} />
+
+## O padrão que mais fortalece sua fala
+
+Se existe uma ideia central nesta missão, é esta: resposta forte não é resposta longa. É resposta estruturada. Em pergunta de entrevista, estrutura vence brilho. Quando você organiza sua fala em contexto, ação, evidência e aprendizado, o recrutador entende mais rápido o seu papel. Isso é especialmente importante para QA júnior porque evita duas armadilhas comuns. A primeira é falar de forma genérica demais. A segunda é tentar parecer experiente além da conta. Estrutura resolve as duas: deixa a resposta concreta e honesta.
+
+Também é útil lembrar que entrevista não mede só conhecimento. Mede legibilidade do seu raciocínio. A empresa quer prever como você pensa quando o problema aparece. Por isso, respostas que mostram decisão e critério costumam ser mais fortes do que respostas cheias de adjetivos. Esta missão inteira foi desenhada para reforçar esse ponto.
+
+<DecisionStep
+  missionId="/docs/08-entrevista/missao-entrevista-guiada"
+  missionTitle="Missão guiada — entrevista guiada"
+  chapterUrl="/docs/08-entrevista/missao-entrevista-guiada"
+  stepId="bug-para-dev-e-po"
+  title="Etapa 1"
+  prompt="Qual resposta parece mais forte para explicar um bug importante para dev e PO ao mesmo tempo?"
+  totalSteps={4}
+  options={[
+    {
+      label: '“Tem um bug crítico e precisamos corrigir logo.”',
+      rationale: 'É curta, mas genérica demais. Não mostra contexto, impacto nem por que a situação é importante.',
+    },
+    {
+      label: '“Eu explicaria o cenário, mostraria a evidência, diria o impacto no fluxo e alinharia próximo passo sem personalizar o problema.”',
+      rationale: 'Essa resposta mostra estrutura e maturidade de comunicação, que é exatamente o que a pergunta tenta medir.',
+      correct: true,
+    },
+    {
+      label: '“Primeiro eu decidiria sozinho a prioridade e depois avisaria o time.”',
+      rationale: 'A resposta passa pouca colaboração e pouca transparência no processo.',
+    },
+  ]}
+/>
+
+## Priorizar risco sem travar o time
+
+Perguntas sobre priorização normalmente não querem ouvir fórmula pronta. Elas querem entender se você sabe equilibrar profundidade e pragmatismo. Uma resposta boa costuma mostrar que você observou o risco principal, separou o que bloqueia do que pode entrar como débito conhecido e comunicou isso sem paralisar tudo. É aí que as missões anteriores ajudam. Quando você já treinou release, API, E2E e soft skills em cenários curtos, fica mais fácil puxar um exemplo que mostre esse tipo de equilíbrio.
+
+Esse é um ponto em que muita gente escorrega por excesso de idealismo. Responder “eu bloquearia tudo até ficar perfeito” geralmente soa imaturo. Por outro lado, dizer “eu sempre deixaria subir para não atrasar” também é fraco. O que impressiona de verdade é mostrar critério. E critério costuma aparecer quando você fala em impacto, evidência e escolha de próximo passo.
+
+<DecisionStep
+  missionId="/docs/08-entrevista/missao-entrevista-guiada"
+  missionTitle="Missão guiada — entrevista guiada"
+  chapterUrl="/docs/08-entrevista/missao-entrevista-guiada"
+  stepId="priorizacao-risco"
+  title="Etapa 2"
+  prompt="Qual direção de resposta fica mais madura quando o tema é priorização de risco?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Mostrar um caso em que você separou o que realmente mudava a confiança do release e explicou a decisão com evidência.',
+      rationale: 'Essa resposta mostra critério prático, e não só opinião abstrata sobre qualidade.',
+      correct: true,
+    },
+    {
+      label: 'Dizer que prefere não tomar decisões de prioridade porque isso é papel do PO.',
+      rationale: 'PO decide negócio, mas QA precisa contribuir com leitura de risco e impacto.',
+    },
+    {
+      label: 'Responder que sempre trava tudo por segurança máxima.',
+      rationale: 'Soa rígido demais e pouco aderente à realidade de trade-offs.',
+    },
+  ]}
+/>
+
+## Primeira automação com propósito
+
+Pergunta sobre o primeiro teste a automatizar costuma revelar como você pensa em custo e retorno. Resposta forte não fala “automatizaria tudo” nem “depende” sem desenvolver. Ela explica que começaria pelo cenário mais sensível e estável, na camada que oferece melhor feedback. Esse tipo de fala mostra que você entende automação como decisão estratégica, não como coleção de scripts. E isso conversa diretamente com o que vimos no módulo de API e no módulo E2E.
+
+Em estudo pessoal, esse é um ótimo lugar para reaproveitar o portfólio. Você pode mencionar que escolheria começar por API em certos riscos de validação, ou por E2E em fluxos críticos muito visíveis ao usuário, sempre explicando por quê. O que dá força à resposta é a lógica, não o nome da ferramenta. Essa distinção é muito boa para fixar agora.
+
+<DecisionStep
+  missionId="/docs/08-entrevista/missao-entrevista-guiada"
+  missionTitle="Missão guiada — entrevista guiada"
+  chapterUrl="/docs/08-entrevista/missao-entrevista-guiada"
+  stepId="primeira-automacao"
+  title="Etapa 3"
+  prompt="Qual resposta fica mais forte quando perguntam o primeiro teste a automatizar?"
+  totalSteps={4}
+  options={[
+    {
+      label: '“Escolheria o cenário com maior risco e melhor custo de feedback, na camada que revela esse risco com mais clareza.”',
+      rationale: 'Essa formulação mostra pensamento de pirâmide, priorização e pragmatismo.',
+      correct: true,
+    },
+    {
+      label: '“Começaria pelo teste mais bonito de demonstrar em entrevista.”',
+      rationale: 'Bonito de mostrar não é, necessariamente, o melhor para proteger o produto.',
+    },
+    {
+      label: '“Automação não tem ordem; eu só faria o que aparecesse primeiro.”',
+      rationale: 'Isso soa pouco criterioso e pouco estratégico.',
+    },
+  ]}
+/>
+
+## Falar de salário sem perder firmeza
+
+Pergunta de salário assusta porque parece pedir precisão antes da hora. A resposta madura não é fugir totalmente, nem cravar um número sem contexto. Em geral, funciona melhor reconhecer a faixa que você está pesquisando, dizer que considera escopo, benefícios e crescimento, e mostrar abertura para alinhamento sem apagar sua expectativa. Isso transmite firmeza tranquila. A empresa não precisa sentir que você está inseguro; precisa sentir que você pensou sobre o tema com realismo.
+
+Esse ponto também combina muito com estudo pessoal. Você pode preparar uma frase-base e adaptá-la depois. O importante é não entrar na conversa como se salário fosse assunto proibido, nem como se fosse disputa. Respostas equilibradas costumam soar mais profissionais e mais alinhadas com a realidade do mercado.
+
+<DecisionStep
+  missionId="/docs/08-entrevista/missao-entrevista-guiada"
+  missionTitle="Missão guiada — entrevista guiada"
+  chapterUrl="/docs/08-entrevista/missao-entrevista-guiada"
+  stepId="faixa-salarial"
+  title="Etapa 4"
+  prompt="Qual direção parece mais madura para responder sobre faixa salarial?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Dizer qualquer valor baixo para aumentar a chance de avançar.',
+      rationale: 'Isso pode transmitir insegurança e desalinhamento consigo mesmo.',
+    },
+    {
+      label: 'Apresentar uma faixa pesquisada, contextualizar que considera escopo e mostrar abertura para alinhar sem abandonar sua referência.',
+      rationale: 'Essa resposta equilibra firmeza, realismo e abertura profissional.',
+      correct: true,
+    },
+    {
+      label: 'Recusar qualquer conversa sobre salário até a proposta final.',
+      rationale: 'Pode soar rígido e pouco colaborativo dependendo do contexto do processo.',
+    },
+  ]}
+/>
+
+## Fechamento da trilha
+
+Se você olhar para trás, vai perceber que esta missão amarra vários blocos do handbook. Comunicação de bug veio do módulo de soft skills. Priorização de risco veio dos fundamentos e de release. Escolha da primeira automação veio de API e E2E. Faixa salarial veio do módulo de entrevista. Esse fechamento é importante porque mostra que entrevista não é um mundo separado. É o momento em que você traduz o que estudou em linguagem legível para outra pessoa.
+
+Essa é uma das melhores razões para a trilha mobile-first existir. Como as missões são curtas, você consegue revisar antes de uma conversa real sem se sobrecarregar. Dois ou três ciclos já deixam muito mais fácil organizar raciocínio, lembrar exemplos e responder com menos nervosismo. O objetivo não é decorar resposta pronta. É ganhar confiança baseada em estrutura.
+
+<MissionSummary
+  missionId="/docs/08-entrevista/missao-entrevista-guiada"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo o formato das respostas. Termine a missão e observe como contexto, ação, impacto e aprendizado deixam a fala mais forte."
+  partialText="A estrutura base já apareceu. Vale revisar a missão pensando em exemplos reais do seu portfólio para cada tipo de pergunta."
+  completeText="Você fechou a trilha com boa leitura de entrevista: respostas estruturadas, honestas e conectadas a risco, evidência e contexto real."
+/>
+
+<Quiz
+  id="missao-entrevista-guiada-q1"
+  question="Qual frase melhor resume a missão final?"
+  options={[
+    "Entrevista forte depende de resposta longa e cheia de detalhes.",
+    "Entrevista forte depende de estrutura clara, exemplo coerente e raciocínio legível.",
+    "O melhor é decorar respostas fixas para não improvisar.",
+    "Perguntas de salário devem ser sempre evitadas.",
+  ]}
+  correctIndex={1}
+  explanation="A missão reforçou que o mais importante é estruturar a fala com contexto, ação, impacto e aprendizado, usando exemplos coerentes com sua experiência."
+/>
+
+<KeyTakeaways
+  items={[
+    "Resposta forte é resposta estruturada, não necessariamente longa.",
+    "Critério de priorização e automação vale mais do que nome de ferramenta ou jargão.",
+    "Portfólio e missões anteriores servem como matéria-prima para entrevista.",
+    "Faixa salarial pode ser tratada com firmeza tranquila e pesquisa prévia.",
+  ]}
+/>
+
+<ChecklistItem id="08-entrevista-missao-entrevista-guiada">
+  Concluí a missão guiada de entrevista
+</ChecklistItem>

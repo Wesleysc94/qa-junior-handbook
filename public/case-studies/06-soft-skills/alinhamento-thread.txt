@@ -1,0 +1,6 @@
+PO: Pessoal, o checkout precisa entrar hoje porque a campanha começa amanhã cedo.
+Dev: Corrigi o bug do botão, mas não consegui reproduzir o problema de CEP inválido.
+QA: Vi o cenário em Safari mobile. O frete segue com CEP inconsistente e a API aceita payload errado.
+PO: Isso bloqueia o release todo?
+Dev: Se for só visual, acho que dá para subir.
+QA: Ainda não é só visual. O dado inválido segue para shipping.

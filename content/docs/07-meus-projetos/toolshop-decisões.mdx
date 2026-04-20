@@ -1,6 +1,6 @@
 ---
-title: "Toolshop — decisões de arquitetura"
-description: "Por que três camadas no mesmo produto, Python na API e TypeScript no E2E, manual antes da automação e No Go como ato técnico."
+title: "Toolshop — decisões"
+description: "Trade-offs e No Go."
 ---
 
 import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
@@ -11,64 +11,107 @@ import { Quiz } from '@/components/learning/Quiz';
 
 <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
   <DifficultyBadge level="intermediario" />
-  <EstimatedTime minutes={16} />
+  <EstimatedTime minutes={20} />
 </div>
 
-## Decisão 1 — testar o mesmo produto em três camadas
+## Por que Python + TS
 
-A pergunta honesta é: **não dá para só automatizar e acabar?** Dá — se você quer só um vídeo gravado. Para portfólio de QA, a demonstração pede **profundidade**: manual para raciocínio e comunicação; API para contrato e velocidade de feedback; E2E para jornada e regressão visual-comportamental.
+As decisões do Toolshop mostram que portfólio forte não é coleção de buzzwords; é sequência de trade-offs documentados. Separar repositórios, usar Python para API e TypeScript para E2E, e registrar recomendação No Go são escolhas que comunicam raciocínio de QA. Em QA júnior, o ganho real aparece quando você consegue reconhecer esse assunto no backlog, na conversa de refinement, na escolha do cenário de teste e no momento de comunicar risco para o time. Em vez de decorar uma definição isolada, a meta é entender o efeito prático que ela tem sobre cobertura, prioridade, confiança do release e qualidade da comunicação.
 
-Quando você repete o mesmo produto-alvo, você também treina uma habilidade rara em júnior: **saber onde cada bug nasce**. Um sintoma na UI pode ser estado inconsistente vindo da API; um 500 pode ser validação ruim; um “botão não responde” pode ser race condition só visível no browser. Três camadas obrigam você a contar essa história com precisão — e é isso que diferencia “apertei botões” de “entendi o sistema”.
+Boa decisão técnica costuma deixar rastro: README explicando recorte, issue descrevendo known issue, workflow coerente com custo e relatório final ligando evidência a recomendação. Sem esse rastro, a decisão parece palpite. Esse é o tipo de leitura que diferencia uma pessoa que só executa passo a passo de alguém que começa a pensar como profissional de qualidade. Quando o conceito fica claro, você passa a observar o produto de forma mais estruturada e deixa de depender apenas de feeling.
 
-Trade-off: **tempo**. Triplicar escopo sem triplicar semana de trabalho exige recorte cruel: você não cobre “tudo”, cobre **o que importa para o risco** (checkout, auth, carrinho crítico).
+## Por que isso importa no mercado brasileiro
 
-## Decisão 2 — Python para API e TypeScript para E2E
+No mercado brasileiro, muitos candidatos mostram automação verde, mas poucos explicam por que escolheram determinada stack, qual risco encontraram e como decidiram comunicar a recomendação final. Esse é justamente o diferencial deste módulo. Em muitas empresas brasileiras, o time de QA ainda é enxuto e precisa trabalhar com tempo curto, pressão de entrega e processos em amadurecimento. Nessa realidade, dominar toolshop — decisões não é luxo acadêmico; é uma forma concreta de reduzir retrabalho, dar feedback mais rápido e escolher melhor onde vale investir energia.
 
-Não é capricho de linguagem — é **mercado e DX**. Python domina automação de API e dados em muitas squads brasileiras; pytest é leitura universal em vaga júnior/pleno. Já o ecossistema front/E2E em 2026 pende forte para **Node + Playwright**: tipagem, tooling, exemplos oficiais.
+Outro ponto importante é a comunicação. Em squads pequenos, QA conversa o tempo todo com dev, PO, suporte, liderança e, às vezes, até com cliente interno. Quem domina este assunto consegue explicar impacto de negócio sem dramatizar, justificar prioridade sem achismo e negociar escopo com base em evidência. Isso pesa muito em avaliação de maturidade, inclusive para vagas júnior.
 
-Manter stacks diferentes documenta algo que entrevistador valoriza: **você não é refém de uma única stack**. O custo é context switch e duas formas de configurar CI — mas você ganha duas histórias de empregabilidade em uma.
+Também por isso vale revisar o tema pensando em linguagem. Conceito técnico bem entendido melhora ticket, comentário em PR, relatório de execução, conversa de triagem e até a forma como você pede ajuda quando ainda não tem certeza sobre uma hipótese. Em QA, clareza operacional quase sempre anda junto com clareza de comunicação.
 
-Erro comum: misturar tudo em uma linguagem só para “parecer consistente” e acabar com E2E fraco ou API forçada em JS sem domínio. Consistência de **resultado** (bugs achados, relatórios claros) importa mais que consistência cosmética de linguagem.
+## Exemplo concreto de fluxo
 
-## Decisão 3 — rodada manual antes de cravar automação
+A escolha de [toolshop-api-quality-suite](https://github.com/Wesleysc94/toolshop-api-quality-suite) com pytest/httpx conversa com a realidade de times backend Python. Já [toolshop-web-e2e-playwright](https://github.com/Wesleysc94/toolshop-web-e2e-playwright) mostra aderência ao ecossistema web moderno. A combinação comunica versatilidade com propósito. Repare que o valor do exemplo não está só no defeito encontrado ou no teste que passou. O valor está no encadeamento: hipótese, execução, evidência, decisão e acompanhamento. Esse encadeamento é o que transforma uma atividade pontual em prática profissional de QA.
 
-Ordem sugerida: **explorar → documentar → só então automatizar o que estabilizou**. Automatizar fluxo que você não entende é escrever dívida técnica com nome de teste. A manual primeiro também gera **dados de teste** e **massa** que a API e o E2E vão reutilizar (usuários, carrinho, estados limpos).
+Quando você recria um cenário assim no portfólio, o recrutador enxerga duas coisas. Primeiro, que você sabe usar o conceito fora do slide. Segundo, que você entende como documentar raciocínio para que outra pessoa consiga continuar o trabalho sem depender da sua memória. Em ambiente real, isso poupa tempo, reduz mal-entendido e dá mais previsibilidade ao ciclo de qualidade.
 
-Exceção honesta: se o objetivo do sprint de estudo era só aprender Playwright, você pode inverter — mas no discurso de entrevista, deixe claro que foi **decisão de aprendizado**, não “melhor prática ignorada”.
+Esse cuidado com narrativa de evidência é especialmente útil para quem está em transição de carreira. Ele transforma projeto de estudo em demonstração concreta de repertório profissional, porque mostra não só o que você testou, mas como pensou, priorizou, registrou e aprendeu com o resultado.
 
-## Decisão 4 — No Go documentado como coragem técnica
+## Sinais que você deve observar no dia a dia
 
-**No Go** não é “projeto ruim”. É “**com as evidências que tenho hoje, eu não assino release para produção**”. Em portfólio, isso precisa vir com **lista do que falta**: correção, reteste, ou aceite explícito de risco por negócio.
+Boa decisão técnica costuma deixar rastro: README explicando recorte, issue descrevendo known issue, workflow coerente com custo e relatório final ligando evidência a recomendação. Sem esse rastro, a decisão parece palpite. Bons QAs aprendem a perceber esses sinais cedo, antes que o problema vire retrabalho caro ou defeito em produção. Isso vale tanto para fluxo manual quanto para API, automação, CI/CD e comportamento do time.
 
-O mercado brasileiro às vezes romantiza “time ágil que entrega sempre”. QA maduro sabe que **não entregar** pode ser o sucesso — quando evita incidente, multa regulatória ou churn de cliente. O recrutador pode pressionar: “mas você não deveria ser ‘positivo’?” Resposta: “Sou parceiro do time; **bloqueio com dado** não é negativismo, é dever de ofício.”
+Na prática, observar sinais significa olhar para o que mudou no requisito, onde a evidência ainda está fraca, que parte do fluxo concentra mais risco, que automação está frágil ou que conversa ainda ficou ambígua. Quanto mais cedo você conecta esses indícios ao conceito estudado, mais natural fica aplicar o assunto fora do handbook.
 
-## Trade-offs assumidos e o que ficou de fora
+## Exemplo prático de artefato ou código
 
-Ficou de fora, em geral: **teste de carga**, **segurança ofensiva**, **multi-browser massivo** em CI, **acessibilidade sistemática** com auditoria completa. Não é porque não importa — é porque portfólio precisa de fronteira. O que você faz no README é listar esses buracos como **próximos passos**; isso mostra maturidade de roadmap.
+Esse formato de ADR curto já ajuda a mostrar que a escolha da stack foi intencional e auditável. Um ponto importante aqui é perceber que o valor do snippet não está em copiar linha por linha, e sim em enxergar a intenção por trás da estrutura: evidência objetiva, leitura rápida e manutenção possível no dia seguinte.
 
-## O que eu faria diferente hoje
+```md
+## Decisão
+Usar Python + pytest/httpx para API e TypeScript + Playwright para E2E.
 
-Com o mesmo tempo: (1) amarrar os três repositórios a **um único pipeline** que publique relatório agregado (mesmo que simples); (2) padronizar **IDs de caso de teste** entre manual e automação para rastreio; (3) guardar **métrica mínima** (tempo de suíte, taxa de falha por build) para conversar com dados na entrevista.
+## Motivo
+Alinhar o portfólio com stacks muito presentes em vagas de QA e separar contrato de jornada.
+
+## Trade-off
+Mais de um repositório para manter, porém leitura mais clara por camada.
+```
+
+Quando a decisão vem acompanhada de trade-off explícito, ela ganha muito mais credibilidade. Em um contexto profissional, você quase sempre vai adaptar o exemplo ao naming do time, ao CI existente e ao nível de risco do fluxo. Ainda assim, ter um modelo concreto encurta a curva de aprendizado e evita que o capítulo fique preso só na teoria.
+
+## Erros comuns de iniciante
+
+Erro comum: justificar stack só com “gosto mais dessa”. Outro problema é esconder bug crítico para deixar portfólio todo verde e perder a oportunidade de mostrar pensamento crítico. O primeiro erro clássico é tratar o assunto como receita pronta e tentar aplicar a mesma solução em qualquer sistema. Produto, time, risco e maturidade de processo mudam; por isso, a mesma prática precisa ser adaptada ao contexto.
+
+Outro erro frequente é confundir atividade com resultado. Escrever caso de teste, montar collection, abrir bug ou subir pipeline não garante qualidade por si só. O que garante valor é saber por que aquilo existe, que risco cobre, que decisão habilita e como será mantido depois. Quando você liga ação a propósito, a qualidade do trabalho sobe muito.
+
+## Como praticar no portfólio
+
+Escreva uma mini ADR para uma escolha do seu projeto e outra para um No Go. O exercício ajuda muito a transformar intuição em argumento técnico. O segredo é não tentar parecer “sênior de mentirinha”. Em vez de inventar um processo perfeito, documente o que você faria, por que escolheu esse recorte e quais limitações ainda existem. Honestidade bem escrita transmite mais maturidade do que prometer cobertura total sem evidência.
+
+Uma boa rotina é fechar cada estudo com três entregáveis: um artefato reutilizável, uma decisão justificada e uma reflexão sobre erro comum. Esse trio fortalece memória técnica, melhora sua fala em entrevista e cria um histórico público de evolução. Com o tempo, os capítulos do handbook deixam de ser só revisão e viram matéria-prima do seu portfólio.
+
+## Como explicar isso em entrevista
+
+Em entrevista, não fuja do No Go. Pelo contrário: use a história para mostrar critérios, evidência, impacto e responsabilidade técnica. Em entrevista, a melhor resposta quase nunca é a mais longa; é a mais conectada com cenário real. Explique em voz alta como você perceberia o problema, que decisão tomaria primeiro e que evidência mostraria para sustentar a sua recomendação.
+
+Se quiser parecer mais seguro sem soar decorado, use uma estrutura simples: contexto, risco, ação, evidência e próximo passo. Essa organização funciona para pergunta técnica e comportamental, porque mostra pensamento crítico. Recrutador percebe quando você entende o assunto no nível da operação e não apenas no nível da definição.
+
+## Como isso conversa com o restante do handbook
+
+Este tema não vive isolado. Em projeto real, ele conversa com o restante do handbook o tempo todo: com análise de risco quando você precisa decidir profundidade de cobertura, com bug report quando a evidência precisa ser bem comunicada, com automação quando o mesmo raciocínio precisa virar regressão sustentável e com entrevista quando você transforma prática em narrativa técnica clara.
+
+Vale a pena revisar o capítulo pensando justamente nessas conexões. Pergunte a si mesmo: em qual projeto do meu portfólio este conceito já apareceu? Em que tipo de bug, decisão de pipeline, escolha de locator, discussão de critério de aceite ou recomendação de release ele ficou mais visível? Essa ponte entre assunto e experiência é o que realmente consolida aprendizado duradouro e evita que o conteúdo fique preso só na memória de curto prazo.
+
+## Checklist mental para levar para o trabalho
+
+Antes de fechar este capítulo, vale revisar um checklist mental rápido. Você sabe definir o conceito com suas palavras? Consegue citar um caso real ou plausível de mercado brasileiro? Sabe apontar um erro comum de iniciante e explicar por que ele custa caro para o time? Se a resposta ainda estiver vacilando, releia as seções pensando no seu projeto atual ou no seu portfólio.
+
+O objetivo final não é decorar o texto deste material. O objetivo é ganhar um raciocínio portátil: algo que você consiga reaplicar em backlog novo, stack diferente e contexto de negócio diferente. Quando isso acontece, o estudo deixa de ser passivo e passa a produzir confiança de execução.
+
+Se você quiser extrair ainda mais valor deste capítulo, feche a leitura anotando uma frase com o conceito principal, um exemplo do seu portfólio e uma dúvida que ainda precisa investigar. Essa rotina simples acelera revisão espaçada e transforma estudo em plano de ação.
+
+Uma forma especialmente útil de consolidar o conteúdo é explicá-lo para outra pessoa como se você estivesse em pairing, onboarding ou revisão de bug. Quando você verbaliza a definição, o contexto brasileiro, o exemplo prático e o erro comum, fica muito mais fácil perceber onde ainda existe lacuna de entendimento. Esse tipo de prática também melhora a sua comunicação profissional, porque aproxima estudo técnico da forma como o assunto aparece em daily, triagem, retrospectiva e entrevista.
 
 <Quiz
-  id="toolshop-decisoes-ordem-q1"
-  question="No recorte Toolshop, qual ordem melhor sustenta a narrativa 'entender antes de automatizar'?"
+  id="toolshop-decisoes-q1"
+  question="Qual é uma forma madura de apresentar as decisões do Toolshop?"
   options={[
-    "E2E primeiro, manual depois para documentar o que já passou",
-    "Exploração manual e casos de teste antes de fechar automação de API e E2E",
-    "Só API, porque manual é retrô",
-    "Apenas testes aleatórios até algo falhar"
+    "Esconder trade-offs para parecer mais seguro",
+    "Explicar escolha, motivo, custo e impacto da decisão com evidência",
+    "Dizer apenas que a stack estava em alta no mercado",
+    "Evitar comentar o No Go para não parecer negativo",
   ]}
   correctIndex={1}
-  explanation="Automatizar sem entender o fluxo reproduz flakiness e cenários frágeis. Manual e documentação primeiro reduzem retrabalho e melhoram o desenho dos dados de teste nas outras camadas."
+  explanation="Decisão madura é documentada com motivação, trade-off e impacto. Isso vale tanto para stack quanto para recomendação de release."
 />
 
 <KeyTakeaways
   items={[
-    "Três camadas no mesmo produto é escolha pedagógica e de risco — não vanity metric de quantidade de testes.",
-    "Python (API) + TS (Playwright) refletem mercado e DX; o que importa é justificar trade-offs de CI e contexto.",
-    "No Go com evidência é sinal de maturidade; 'tudo verde' sem ressalvas muitas vezes é história incompleta.",
-    "Liste o que não cobriu — carga, a11y, segurança — como próximos passos; fronteira honesta impressiona mais que promessa vaga.",
+    "Decisões do Toolshop comunicam raciocínio técnico, não só preferência.",
+    "ADR curta ou seção de README ajuda a tornar trade-off auditável.",
+    "No Go bem explicado vale muito em portfólio.",
+    "Esconder limite reduz, e não aumenta, maturidade percebida.",
   ]}
 />
 

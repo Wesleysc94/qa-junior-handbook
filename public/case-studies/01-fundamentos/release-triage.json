@@ -1,0 +1,24 @@
+{
+  "release": "2026.04.19-checkout",
+  "context": "Release de sexta-feira com três bugs conhecidos no checkout e uma janela curta para deploy.",
+  "issues": [
+    {
+      "id": "BUG-481",
+      "title": "Cupom aplica desconto duplicado em compras acima de R$ 500",
+      "severity": "alta",
+      "priority": "alta"
+    },
+    {
+      "id": "BUG-482",
+      "title": "Texto de placeholder do CEP fica desalinhado no Safari iOS",
+      "severity": "baixa",
+      "priority": "media"
+    },
+    {
+      "id": "BUG-483",
+      "title": "Pagamento por Pix falha quando o total tem centavos",
+      "severity": "critica",
+      "priority": "alta"
+    }
+  ]
+}

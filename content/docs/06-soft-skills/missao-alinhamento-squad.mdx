@@ -1,0 +1,222 @@
+---
+title: "Missão guiada — alinhamento no squad"
+description: "Decida como responder com clareza, sem culpa e com foco em risco em uma conversa curta de release."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="iniciante" />
+  <EstimatedTime minutes={15} />
+</div>
+
+<CaseStudyHero
+  title="Conversa tensa sobre release em cima da hora"
+  scenario="PO quer publicar, dev acha que o problema pode ser visual e você já viu que a inconsistência segue para a API. A missão é escolher a comunicação mais madura."
+  goal="Treinar clareza, foco em risco e postura colaborativa sem cair em culpa, dramatização ou respostas genéricas."
+  touchHint="A melhor resposta aqui não é a mais dura nem a mais longa. É a que organiza contexto, impacto e próximo passo."
+/>
+
+## Por que treinar comunicação dessa forma
+
+Soft skill em QA não é floreio. É a habilidade de colocar o problema no centro sem transformar a conversa em disputa pessoal. Em squads enxutos, isso pesa muito porque as decisões quase sempre acontecem sob pressão: release perto, campanha chegando, bug ainda em discussão, reproduções parciais, muita gente falando ao mesmo tempo. Se você estudar comunicação apenas como frase pronta de entrevista, perde o melhor da disciplina. O que ajuda de verdade é treinar leitura de contexto e escolha de resposta quando existe tensão real e pouca margem para ruído.
+
+Essa missão foi desenhada exatamente para isso. Em vez de pedir um texto livre, ela coloca uma thread curta na sua frente e pede decisões por toque. O objetivo não é parecer perfeito. É aprender a responder sem culpar, sem minimizar o risco e sem soar vago. Esse tipo de treino individual é valioso porque cabe em poucos minutos e melhora tanto sua vida em daily quanto sua fala em entrevista. Comunicação madura nasce de repetição de bons padrões, não de inspiração do momento.
+
+## O recorte da conversa
+
+Temos um PO pressionando pela campanha, um dev que ainda não viu a reprodução completa e um QA que já percebeu que o defeito não é apenas visual. Esse contexto é muito comum. Ninguém está necessariamente errado ou mal-intencionado; cada pessoa está olhando um pedaço diferente do problema. O risco aparece quando a conversa vira disputa de opinião. Se o QA responde só com “está errado”, pode soar duro e improdutivo. Se responde “talvez dê para subir”, pode diluir um risco funcional real. A postura madura fica no meio: objetiva, evidenciada e colaborativa.
+
+Em estudo pessoal, esse tipo de cena ajuda a construir repertório emocional. Você aprende a reconhecer quando precisa desacelerar a discussão e recolocar o problema em termos observáveis. Em vez de entrar no jogo de quem está certo, você organiza a informação: o que foi visto, onde está o impacto e o que falta validar. Esse é um superpoder silencioso de QA. Não chama tanto atenção quanto automação, mas muda muito a qualidade das decisões do time.
+
+<EvidenceCard
+  title="Thread de alinhamento sobre o release"
+  kind="Conversa de squad"
+  caption="Leia a conversa como se você fosse responder na sequência. A melhor opção será a que protege o risco sem personalizar a discussão."
+  assetHref="/case-studies/06-soft-skills/alinhamento-thread.txt"
+>
+
+```text
+PO: o checkout precisa entrar hoje porque a campanha começa amanhã cedo.
+Dev: corrigi o bug do botão, mas não consegui reproduzir o problema de CEP inválido.
+QA: vi o cenário em Safari mobile. O frete segue com CEP inconsistente e a API aceita payload errado.
+PO: isso bloqueia o release todo?
+Dev: se for só visual, acho que dá para subir.
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/06-soft-skills/missao-alinhamento-squad" totalSteps={4} />
+
+## O primeiro reflexo que vale desenvolver
+
+Quando a conversa esquenta, o primeiro reflexo útil é tirar a discussão do campo da opinião e levar para o campo da evidência. Isso não significa falar duro. Significa ser específico. Em vez de “acho arriscado”, você diz “o dado inválido não para na interface; ele segue para shipping”. Essa frase muda o nível da conversa porque deixa de ser interpretação genérica e passa a ser observação concreta. O time pode discordar da decisão final, mas já não está discutindo no vazio.
+
+Esse hábito é especialmente importante para quem está começando, porque reduz insegurança. Muitas vezes a pessoa sabe que o risco existe, mas trava por medo de soar arrogante. Responder com evidência observável ajuda a escapar desse dilema. Você não precisa falar como dono da verdade. Precisa falar como alguém que está organizando o problema para o time. Esse é o papel mais forte do QA em discussões assim.
+
+<DecisionStep
+  missionId="/docs/06-soft-skills/missao-alinhamento-squad"
+  missionTitle="Missão guiada — alinhamento no squad"
+  chapterUrl="/docs/06-soft-skills/missao-alinhamento-squad"
+  stepId="resposta-inicial"
+  title="Etapa 1"
+  prompt="Qual resposta inicial tende a manter a conversa mais produtiva?"
+  totalSteps={4}
+  options={[
+    {
+      label: '“Já falei que está errado. Se subir assim, a responsabilidade não é minha.”',
+      rationale: 'Protege você momentaneamente, mas quebra a colaboração e personaliza o conflito.',
+    },
+    {
+      label: '“Ainda não parece só visual. O dado inválido segue para shipping; proponho olhar impacto e confirmar se há workaround real antes de liberar.”',
+      rationale: 'Essa é a resposta mais madura: objetiva, baseada em evidência e aberta a validação conjunta.',
+      correct: true,
+    },
+    {
+      label: '“Se a campanha é importante, acho melhor subir e ver o que acontece.”',
+      rationale: 'Minimiza risco antes de entender o impacto real.',
+    },
+  ]}
+/>
+
+## Pergunta boa também é comunicação
+
+Comunicar bem não é só afirmar; é perguntar de forma útil. Em uma conversa como essa, perguntas certas ajudam a destravar. Existe workaround validado? O problema afeta todos os navegadores ou um segmento específico? O payload inconsistente chega a impactar cálculo, persistência ou logística? Essas perguntas puxam a discussão para terreno acionável. Ao mesmo tempo, mostram postura colaborativa. Você não está travando o time por ego; está tentando reduzir incerteza antes de uma decisão sensível.
+
+No estudo pessoal, vale observar como pergunta boa reduz ruído. Em vez de jogar opinião contra opinião, ela organiza a investigação. Esse é um excelente antídoto para o medo de confronto. Muitas vezes a pessoa acha que soft skill significa ser sempre leve e concordar com tudo. Não significa. Significa saber discordar com método. Quando você discorda fazendo a pergunta certa, a conversa cresce em qualidade e o time tende a ouvir melhor.
+
+<DecisionStep
+  missionId="/docs/06-soft-skills/missao-alinhamento-squad"
+  missionTitle="Missão guiada — alinhamento no squad"
+  chapterUrl="/docs/06-soft-skills/missao-alinhamento-squad"
+  stepId="pergunta-mais-util"
+  title="Etapa 2"
+  prompt="Qual pergunta empurra a conversa para decisão mais madura?"
+  totalSteps={4}
+  options={[
+    {
+      label: '“Quem foi o responsável por deixar isso passar?”',
+      rationale: 'Pergunta centrada em culpa empobrece a conversa e raramente ajuda o release.',
+    },
+    {
+      label: '“Já confirmamos se o dado inválido afeta só a UI ou também cálculo, persistência e integração?”',
+      rationale: 'Boa pergunta. Ela amplia a análise do impacto sem transformar a conversa em disputa pessoal.',
+      correct: true,
+    },
+    {
+      label: '“Vocês querem que eu decida sozinho?”',
+      rationale: 'Essa reação devolve tensão e não ajuda o grupo a enxergar o risco.',
+    },
+  ]}
+/>
+
+## Como evitar linguagem de culpa
+
+Em equipes saudáveis, o foco da comunicação é o sistema, não a pessoa. Isso parece óbvio, mas na pressão do release é muito fácil escorregar para frases que culpam. Quando isso acontece, a chance de colaboração cai. O dev fica defensivo, o PO tenta acelerar a conversa e o problema real perde espaço. Por isso, uma boa prática é sempre voltar para linguagem de comportamento observado: “o payload aceita dado inconsistente”, “o fluxo de frete segue mesmo com entrada inválida”, “o workaround ainda não foi validado”. Essas frases protegem a discussão de virar ataque.
+
+Treinar isso em missão curta é ótimo porque cria memória muscular. Aos poucos, você deixa de precisar “lembrar” que não deve culpar. Sua resposta já nasce em formato mais limpo. Esse ganho é muito útil para quem está entrando em QA vindo de outra área, porque diminui a ansiedade de parecer técnico demais ou suave demais. Você encontra um tom que é firme no risco e respeitoso com o time.
+
+<DecisionStep
+  missionId="/docs/06-soft-skills/missao-alinhamento-squad"
+  missionTitle="Missão guiada — alinhamento no squad"
+  chapterUrl="/docs/06-soft-skills/missao-alinhamento-squad"
+  stepId="tom-da-mensagem"
+  title="Etapa 3"
+  prompt="Qual formulação evita culpa e mantém o problema no centro?"
+  totalSteps={4}
+  options={[
+    {
+      label: '“O dev não reproduziu, então a correção ainda não pode ser confiável.”',
+      rationale: 'Foca na pessoa, não no estado do sistema.',
+    },
+    {
+      label: '“Ainda temos evidência de dado inválido seguindo para shipping; precisamos alinhar impacto antes de decidir o release.”',
+      rationale: 'Essa formulação mantém o sistema e a decisão no centro, sem personalizar a dificuldade.',
+      correct: true,
+    },
+    {
+      label: '“Se quiserem subir assim, depois eu registro que avisei.”',
+      rationale: 'Protege politicamente, mas piora o clima e não ajuda a conversa técnica.',
+    },
+  ]}
+/>
+
+## Fechamento com próximo passo
+
+Boa comunicação também fecha com ação clara. Depois de expor risco e organizar pergunta, vale propor próximo passo simples: revalidar o cenário em conjunto, checar um navegador adicional, confirmar efeito na API ou alinhar owner para hotfix. Isso evita que a conversa fique só na abstração. Muita discussão trava porque ninguém transforma entendimento em próximo movimento. O QA que ajuda a aterrissar a sequência costuma ser percebido como alguém confiável, mesmo quando traz notícia ruim.
+
+Esse detalhe é muito valioso para entrevista. Quando perguntarem como você lida com conflito técnico, uma resposta forte não fala apenas de empatia. Ela mostra estrutura: ouvir, voltar para evidência, formular pergunta útil e propor próximo passo. Esta missão foi desenhada exatamente para reforçar essa estrutura de forma leve e repetível.
+
+<DecisionStep
+  missionId="/docs/06-soft-skills/missao-alinhamento-squad"
+  missionTitle="Missão guiada — alinhamento no squad"
+  chapterUrl="/docs/06-soft-skills/missao-alinhamento-squad"
+  stepId="proximo-passo"
+  title="Etapa 4"
+  prompt="Qual fechamento ajuda mais o squad a sair da tensão com direção prática?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Propor uma validação rápida conjunta do impacto e combinar owner para decisão ou correção imediata.',
+      rationale: 'Esse fechamento traduz risco em ação concreta e preserva a colaboração do grupo.',
+      correct: true,
+    },
+    {
+      label: 'Encerrar a conversa até alguém provar que você está certo.',
+      rationale: 'Isso congela a decisão e aumenta atrito sem melhorar o entendimento.',
+    },
+    {
+      label: 'Pedir para o PO decidir sozinho porque a campanha é prioridade dele.',
+      rationale: 'Delegar sem contexto empobrece a decisão compartilhada do squad.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+O grande aprendizado aqui é que soft skill forte não suaviza demais nem endurece demais. Ela organiza a conversa. Você traz evidência, faz pergunta útil, evita culpa e fecha com próximo passo. Esse padrão serve para release, bug triage, daily, retro e entrevista. E quanto mais você repete em contexto pequeno como este, mais natural ele fica no uso real. Isso combina muito com a proposta desta v2 do handbook: estudo individual, leve e prático, sem depender de ferramenta ou cenário complexo.
+
+Da próxima vez que encontrar uma conversa tensa, tente se lembrar de quatro verbos: observar, explicar, perguntar, propor. Eles resumem bem o papel do QA colaborativo. Se esse padrão entrar no seu repertório, você já vai estar muito à frente de quem acha que soft skill é só “ser legal com o time”.
+
+<MissionSummary
+  missionId="/docs/06-soft-skills/missao-alinhamento-squad"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo a estrutura da conversa. Termine a missão e observe como evidência e pergunta útil reduzem a tensão."
+  partialText="A base já apareceu. Vale refazer as etapas pensando principalmente em linguagem sem culpa e fechamento com próximo passo."
+  completeText="Você comunicou como QA colaborativo: firme no risco, leve no tom e claro na ação seguinte."
+/>
+
+<Quiz
+  id="missao-alinhamento-squad-q1"
+  question="Qual frase melhor resume a missão de soft skills?"
+  options={[
+    "Comunicação boa evita qualquer discordância.",
+    "Soft skill em QA é transformar risco em conversa objetiva, sem culpa e com próximo passo claro.",
+    "Quando há pressão, o melhor é escolher um lado e insistir.",
+    "PO deve decidir sozinho quando há conflito técnico.",
+  ]}
+  correctIndex={1}
+  explanation="A missão reforçou que comunicação madura em QA organiza risco com evidência, pergunta útil e ação seguinte."
+/>
+
+<KeyTakeaways
+  items={[
+    "Soft skill em QA significa organizar conversa de risco, não apenas soar amigável.",
+    "Evidência observável reduz disputa de opinião.",
+    "Pergunta boa ajuda a destravar decisão sem personalizar conflito.",
+    "Fechamento com próximo passo transforma alinhamento em ação prática.",
+  ]}
+/>
+
+<ChecklistItem id="06-soft-skills-missao-alinhamento-squad">
+  Concluí a missão de alinhamento no squad
+</ChecklistItem>

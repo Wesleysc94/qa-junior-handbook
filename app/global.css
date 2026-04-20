@@ -18,6 +18,15 @@ body {
   line-height: 1.7;
 }
 
+html[data-handbook-focus='true'] [data-handbook-focus='hide'] {
+  display: none !important;
+}
+
+html[data-handbook-focus='true'] [data-handbook-focus='content'] {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;

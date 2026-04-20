@@ -1,4 +1,4 @@
-import { QUIZ_COUNT_PLACEHOLDER, TOTAL_CHAPTERS } from '@/lib/checklist-registry';
+import { TOTAL_CHAPTERS, TOTAL_MISSIONS, TOTAL_QUIZZES } from '@/lib/checklist-registry';
 
 export function Stats() {
   return (
@@ -9,12 +9,12 @@ export function Stats() {
           <p className="text-sm text-fd-muted-foreground">Capítulos rastreados</p>
         </div>
         <div className="rounded-xl border border-fd-border bg-fd-background/60 p-5 text-center">
-          <p className="text-3xl font-bold tabular-nums text-fd-foreground">{QUIZ_COUNT_PLACEHOLDER}+</p>
-          <p className="text-sm text-fd-muted-foreground">Quizzes planejados</p>
+          <p className="text-3xl font-bold tabular-nums text-fd-foreground">{TOTAL_QUIZZES}</p>
+          <p className="text-sm text-fd-muted-foreground">Quizzes finais</p>
         </div>
         <div className="rounded-xl border border-fd-border bg-fd-background/60 p-5 text-center">
-          <p className="text-3xl font-bold tabular-nums text-fd-foreground">9</p>
-          <p className="text-sm text-fd-muted-foreground">Módulos temáticos</p>
+          <p className="text-3xl font-bold tabular-nums text-fd-foreground">{TOTAL_MISSIONS}</p>
+          <p className="text-sm text-fd-muted-foreground">Missões guiadas</p>
         </div>
       </div>
     </section>

@@ -1,18 +1,6 @@
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
-
-const projects = [
-  {
-    name: 'toolshop-quality-portfolio',
-    desc: 'QA manual + API + E2E sobre Practice Software Testing (portfólio em camadas).',
-    href: 'https://github.com/search?q=toolshop-quality-portfolio&type=repositories',
-  },
-  {
-    name: 'swaglab-quality-suite',
-    desc: 'E2E com POM + API + CI/CD (SauceDemo + Reqres.in).',
-    href: 'https://github.com/search?q=swaglab-quality-suite&type=repositories',
-  },
-];
+import { featuredProjects } from '@/lib/shared';
 
 export function FeaturedProjects() {
   return (
@@ -22,11 +10,11 @@ export function FeaturedProjects() {
           Projetos em destaque
         </h2>
         <p className="mb-8 max-w-2xl text-fd-muted-foreground">
-          O handbook documenta decisões e código desses trabalhos — substitua os links pelos seus
-          repositórios públicos quando publicar.
+          O handbook documenta decisões, arquitetura e entregáveis desses repositórios públicos do
+          portfólio.
         </p>
         <ul className="grid gap-4 md:grid-cols-2">
-          {projects.map((p) => (
+          {featuredProjects.map((p) => (
             <li key={p.name}>
               <Link
                 href={p.href}

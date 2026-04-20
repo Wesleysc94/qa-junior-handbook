@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
+import { siteConfig } from '@/lib/shared';
 
 export function Hero() {
   return (
@@ -13,9 +14,9 @@ export function Hero() {
           QA Junior Handbook
         </h1>
         <p className="max-w-2xl text-lg text-fd-muted-foreground md:text-xl">
-          Manual interativo com trilha gamificada: fundamentos, QA manual, API, E2E, CI/CD, soft skills,
-          entrevistas e documentação dos projetos reais — para você explicar com profundidade na próxima
-          conversa.
+          Manual interativo com estudo guiado no celular: fundamentos, QA manual, API, E2E, CI/CD, soft
+          skills, entrevistas e missões em cima dos seus projetos reais, sem backend e sem complicar a
+          rotina.
         </p>
         <div className="flex flex-col items-center gap-3 sm:flex-row md:justify-start">
           <Link
@@ -26,10 +27,16 @@ export function Hero() {
             <ArrowRight className="size-4" aria-hidden />
           </Link>
           <Link
-            href="https://github.com/Wesleysc94/qa-junior-handbook"
+            href="/docs/como-usar"
             className="text-sm font-medium text-fd-muted-foreground underline-offset-4 hover:text-[hsl(188_95%_53%)] hover:underline"
           >
-            Ver no GitHub
+            Como usar no celular
+          </Link>
+          <Link
+            href={siteConfig.githubRepoUrl}
+            className="text-sm font-medium text-fd-muted-foreground underline-offset-4 hover:text-[hsl(188_95%_53%)] hover:underline"
+          >
+            GitHub opcional
           </Link>
         </div>
       </div>

@@ -1,0 +1,21 @@
+{
+  "orderId": "ORD-9021",
+  "status": "confirmed",
+  "currency": "BRL",
+  "total": 149.9,
+  "items": [
+    {
+      "sku": "KIT-001",
+      "quantity": 2,
+      "unitPrice": 74.95
+    }
+  ],
+  "customer": {
+    "id": "CUS-44",
+    "email": "cliente@email.com"
+  },
+  "shipping": {
+    "zipCode": "12AB5-000",
+    "quoteId": "SHIP-31"
+  }
+}

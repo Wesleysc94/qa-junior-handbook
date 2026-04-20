@@ -1,6 +1,6 @@
 ---
-title: "Swag Lab — Page Object na prática"
-description: "Como organizar Login, Inventory, Cart, Checkout e Complete em Page Objects e consumir nos testes sem virar espaguete."
+title: "Swag Lab — POM"
+description: "Páginas e locators reais."
 ---
 
 import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
@@ -11,71 +11,107 @@ import { Quiz } from '@/components/learning/Quiz';
 
 <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
   <DifficultyBadge level="intermediario" />
-  <EstimatedTime minutes={19} />
+  <EstimatedTime minutes={18} />
 </div>
 
-## O problema que o POM resolve
+## Como o teste consome a Page
 
-Sem Page Object, o teste vira isso: `page.locator('.inventory_item').nth(3)` espalhado em cinco arquivos. Quando a UI muda uma classe, você gasta o dia inteiro caçando cópia. Com **Page Object Model**, você centraliza **locators** e **ações** (ex.: `addToCartByName`) numa classe ou módulo — o spec só descreve **comportamento**.
+No Swag Lab, o Page Object Model deixa de ser conceito abstrato e aparece como convenção concreta de manutenção. O ganho visível está em como o spec continua legível enquanto locators e interações ficam concentrados em objetos de página. Em QA júnior, o ganho real aparece quando você consegue reconhecer esse assunto no backlog, na conversa de refinement, na escolha do cenário de teste e no momento de comunicar risco para o time. Em vez de decorar uma definição isolada, a meta é entender o efeito prático que ela tem sobre cobertura, prioridade, confiança do release e qualidade da comunicação.
 
-No SauceDemo, os fluxos são curtos, mas a repetição aparece rápido: todo teste que compra algo passa por **login** e **inventário**. Sem POM você duplica; com POM você reutiliza e reduz custo de manutenção — métrica que entrevistador técnico entende na hora.
+Os sinais bons aparecem quando o teste lê quase como narrativa de negócio e quando a mudança em um locator não exige edição espalhada. Sinais ruins seriam page class inflada, método que faz coisa demais ou assertion misturada com toda a regra de negócio. Esse é o tipo de leitura que diferencia uma pessoa que só executa passo a passo de alguém que começa a pensar como profissional de qualidade. Quando o conceito fica claro, você passa a observar o produto de forma mais estruturada e deixa de depender apenas de feeling.
 
-## LoginPage — porta de entrada
+## Por que isso importa no mercado brasileiro
 
-Responsabilidades típicas: preencher usuário e senha, clicar em login, **opcionalmente** expor asserção de erro de credencial. Locators preferíveis: `getByRole('textbox', { name: ... })` ou label, não XPath frágil.
+Isso pesa bastante em entrevista porque muitas vagas pedem POM, mas o candidato às vezes só sabe definir. Quando você mostra o padrão aplicado em um repositório real, com locators coerentes e testes consumindo métodos claros, a conversa muda de nível. Em muitas empresas brasileiras, o time de QA ainda é enxuto e precisa trabalhar com tempo curto, pressão de entrega e processos em amadurecimento. Nessa realidade, dominar swag lab — pom não é luxo acadêmico; é uma forma concreta de reduzir retrabalho, dar feedback mais rápido e escolher melhor onde vale investir energia.
 
-**Erro comum:** colocar **assertion pesada** dentro da Page (“esperar que URL seja X e que fulano apareça”). O ideal é a Page expor **estado acionável** (`isErrorVisible()`), e o **teste** decidir o `expect`. Misturar demais deixa Page difícil de reutilizar em fluxos negativos.
+Outro ponto importante é a comunicação. Em squads pequenos, QA conversa o tempo todo com dev, PO, suporte, liderança e, às vezes, até com cliente interno. Quem domina este assunto consegue explicar impacto de negócio sem dramatizar, justificar prioridade sem achismo e negociar escopo com base em evidência. Isso pesa muito em avaliação de maturidade, inclusive para vagas júnior.
+
+Também por isso vale revisar o tema pensando em linguagem. Conceito técnico bem entendido melhora ticket, comentário em PR, relatório de execução, conversa de triagem e até a forma como você pede ajuda quando ainda não tem certeza sobre uma hipótese. Em QA, clareza operacional quase sempre anda junto com clareza de comunicação.
+
+## Exemplo concreto de fluxo
+
+Fluxos como login, adição ao carrinho e checkout parcial podem consumir páginas específicas em vez de repetir seletor em cada arquivo. Isso permite que o recrutador enxergue o padrão no código, não só na resposta oral. Repare que o valor do exemplo não está só no defeito encontrado ou no teste que passou. O valor está no encadeamento: hipótese, execução, evidência, decisão e acompanhamento. Esse encadeamento é o que transforma uma atividade pontual em prática profissional de QA.
+
+Quando você recria um cenário assim no portfólio, o recrutador enxerga duas coisas. Primeiro, que você sabe usar o conceito fora do slide. Segundo, que você entende como documentar raciocínio para que outra pessoa consiga continuar o trabalho sem depender da sua memória. Em ambiente real, isso poupa tempo, reduz mal-entendido e dá mais previsibilidade ao ciclo de qualidade.
+
+Esse cuidado com narrativa de evidência é especialmente útil para quem está em transição de carreira. Ele transforma projeto de estudo em demonstração concreta de repertório profissional, porque mostra não só o que você testou, mas como pensou, priorizou, registrou e aprendeu com o resultado.
+
+## Sinais que você deve observar no dia a dia
+
+Os sinais bons aparecem quando o teste lê quase como narrativa de negócio e quando a mudança em um locator não exige edição espalhada. Sinais ruins seriam page class inflada, método que faz coisa demais ou assertion misturada com toda a regra de negócio. Bons QAs aprendem a perceber esses sinais cedo, antes que o problema vire retrabalho caro ou defeito em produção. Isso vale tanto para fluxo manual quanto para API, automação, CI/CD e comportamento do time.
+
+Na prática, observar sinais significa olhar para o que mudou no requisito, onde a evidência ainda está fraca, que parte do fluxo concentra mais risco, que automação está frágil ou que conversa ainda ficou ambígua. Quanto mais cedo você conecta esses indícios ao conceito estudado, mais natural fica aplicar o assunto fora do handbook.
+
+## Exemplo prático de artefato ou código
+
+O ponto forte desse exemplo é como o spec fica centrado em intenção de negócio e não em detalhe repetido de interação. Um ponto importante aqui é perceber que o valor do snippet não está em copiar linha por linha, e sim em enxergar a intenção por trás da estrutura: evidência objetiva, leitura rápida e manutenção possível no dia seguinte.
 
 ```ts
-// Ilustração — adapte aos seus seletores reais
-// loginPage.login('standard_user', 'secret_sauce');
+test('usuário adiciona produto ao carrinho', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const inventoryPage = new InventoryPage(page);
+
+  await loginPage.login('standard_user', 'secret_sauce');
+  await inventoryPage.addProductToCart('Sauce Labs Backpack');
+  await expect(inventoryPage.cartBadge).toHaveText('1');
+});
 ```
 
-## InventoryPage — catálogo e seleção
+Em portfólio, esse tipo de legibilidade comunica muito bem o valor prático do POM para manutenção da suíte. Em um contexto profissional, você quase sempre vai adaptar o exemplo ao naming do time, ao CI existente e ao nível de risco do fluxo. Ainda assim, ter um modelo concreto encurta a curva de aprendizado e evita que o capítulo fique preso só na teoria.
 
-Aqui mora a maior parte dos locators de produto: cards, botões “Add to cart”, ordenação, menu. Métodos como `addFirstAvailableToCart()` ou `addByProductName('Sauce Labs Backpack')` encapsulam política de seleção.
+## Erros comuns de iniciante
 
-**Por que nomear por produto quando possível?** Porque falha de teste com “nth(2)” não diz nada no relatório; “não achei Sauce Labs Bike Light” diz.
+Erro comum: vender POM como solução mágica e não mostrar o cuidado com limite da abstração. O valor está na manutenção e legibilidade, não no padrão por si só. O primeiro erro clássico é tratar o assunto como receita pronta e tentar aplicar a mesma solução em qualquer sistema. Produto, time, risco e maturidade de processo mudam; por isso, a mesma prática precisa ser adaptada ao contexto.
 
-## CartPage — estado intermediário
+Outro erro frequente é confundir atividade com resultado. Escrever caso de teste, montar collection, abrir bug ou subir pipeline não garante qualidade por si só. O que garante valor é saber por que aquilo existe, que risco cobre, que decisão habilita e como será mantido depois. Quando você liga ação a propósito, a qualidade do trabalho sobe muito.
 
-Carrinho é **estado**: você valida quantidade, remoção, continuar comprando. Page Object deve expor ações curtas: `open()`, `removeItem()`, `checkout()`. Se o carrinho usa badge numérico no header, decida se o locator fica na `InventoryPage` ou numa `HeaderComponent` compartilhada — **composição** vence herança gigante.
+## Como praticar no portfólio
 
-## CheckoutPage — formulário e validação
+Abra um fluxo seu com repetição de seletor e tente reescrever usando page object pequeno. Depois compare o quanto o teste ficou mais narrativo. O segredo é não tentar parecer “sênior de mentirinha”. Em vez de inventar um processo perfeito, documente o que você faria, por que escolheu esse recorte e quais limitações ainda existem. Honestidade bem escrita transmite mais maturidade do que prometer cobertura total sem evidência.
 
-Checkout em SauceDemo costuma ser um ou dois passos (informações + overview). Separe **preencher campos** de **submeter**, para reutilizar em teste negativo (“deixar ZIP vazio”). Assertions de erro de campo são ótimos candidatos a **soft assert** se você quiser listar tudo de uma vez — mas não abuse: para fluxo crítico, falha rápida pode ser melhor.
+Uma boa rotina é fechar cada estudo com três entregáveis: um artefato reutilizável, uma decisão justificada e uma reflexão sobre erro comum. Esse trio fortalece memória técnica, melhora sua fala em entrevista e cria um histórico público de evolução. Com o tempo, os capítulos do handbook deixam de ser só revisão e viram matéria-prima do seu portfólio.
 
-## CompletePage — ponto de confirmação
+## Como explicar isso em entrevista
 
-A página de “Thank you” é âncora de sucesso: `expect(page.getByText('Thank you'))` ou equivalente. Centralizar `orderCompleteMessage()` evita duplicar texto mágico em dez arquivos.
+Na entrevista, cite o repositório e explique qual parte do custo de manutenção caiu quando locators foram centralizados. Isso mostra aprendizagem aplicada. Em entrevista, a melhor resposta quase nunca é a mais longa; é a mais conectada com cenário real. Explique em voz alta como você perceberia o problema, que decisão tomaria primeiro e que evidência mostraria para sustentar a sua recomendação.
 
-## Como os testes consomem as Pages
+Se quiser parecer mais seguro sem soar decorado, use uma estrutura simples: contexto, risco, ação, evidência e próximo passo. Essa organização funciona para pergunta técnica e comportamental, porque mostra pensamento crítico. Recrutador percebe quando você entende o assunto no nível da operação e não apenas no nível da definição.
 
-Padrão legível: `test('compra feliz', async ({ page }) => { const login = new LoginPage(page); ... })` ou fixtures customizadas que já entregam `loggedInPage`. O segundo reduz ruído quando metade da suíte começa logada — mas esconder demais o login pode confundir leitor do teste; equilíbrio é documentar no README.
+## Como isso conversa com o restante do handbook
 
-## Como evoluiria se o produto crescesse
+Este tema não vive isolado. Em projeto real, ele conversa com o restante do handbook o tempo todo: com análise de risco quando você precisa decidir profundidade de cobertura, com bug report quando a evidência precisa ser bem comunicada, com automação quando o mesmo raciocínio precisa virar regressão sustentável e com entrevista quando você transforma prática em narrativa técnica clara.
 
-Com mais telas: extrair **componentes** (Header, Footer), introduzir **facades** para fluxos (“comprar produto X com frete Y”), e avaliar **API mocking** para isolar E2E de indisponibilidade externa. Para SauceDemo isso é overkill — mas na entrevista mostra visão de **escala**.
+Vale a pena revisar o capítulo pensando justamente nessas conexões. Pergunte a si mesmo: em qual projeto do meu portfólio este conceito já apareceu? Em que tipo de bug, decisão de pipeline, escolha de locator, discussão de critério de aceite ou recomendação de release ele ficou mais visível? Essa ponte entre assunto e experiência é o que realmente consolida aprendizado duradouro e evita que o conteúdo fique preso só na memória de curto prazo.
+
+## Checklist mental para levar para o trabalho
+
+Antes de fechar este capítulo, vale revisar um checklist mental rápido. Você sabe definir o conceito com suas palavras? Consegue citar um caso real ou plausível de mercado brasileiro? Sabe apontar um erro comum de iniciante e explicar por que ele custa caro para o time? Se a resposta ainda estiver vacilando, releia as seções pensando no seu projeto atual ou no seu portfólio.
+
+O objetivo final não é decorar o texto deste material. O objetivo é ganhar um raciocínio portátil: algo que você consiga reaplicar em backlog novo, stack diferente e contexto de negócio diferente. Quando isso acontece, o estudo deixa de ser passivo e passa a produzir confiança de execução.
+
+Se você quiser extrair ainda mais valor deste capítulo, feche a leitura anotando uma frase com o conceito principal, um exemplo do seu portfólio e uma dúvida que ainda precisa investigar. Essa rotina simples acelera revisão espaçada e transforma estudo em plano de ação.
+
+Uma forma especialmente útil de consolidar o conteúdo é explicá-lo para outra pessoa como se você estivesse em pairing, onboarding ou revisão de bug. Quando você verbaliza a definição, o contexto brasileiro, o exemplo prático e o erro comum, fica muito mais fácil perceber onde ainda existe lacuna de entendimento. Esse tipo de prática também melhora a sua comunicação profissional, porque aproxima estudo técnico da forma como o assunto aparece em daily, triagem, retrospectiva e entrevista.
 
 <Quiz
-  id="swaglab-pom-assertions-q1"
-  question="Onde devem ficar, em geral, as asserções pesadas de um fluxo E2E quando você usa Page Object Model?"
+  id="swaglab-pom-pratica-q1"
+  question="O que melhor demonstra POM aplicado de forma útil no Swag Lab?"
   options={[
-    "Todas dentro das classes de Page, para o spec ficar minúsculo",
-    "No arquivo de teste (ou camada de spec), usando métodos da Page só para estado e ações",
-    "Apenas no playwright.config.ts",
-    "Somente em comentários"
+    "Classe gigante com todos os locators do sistema",
+    "Spec legível consumindo métodos de intenção e locators concentrados na page",
+    "Remover qualquer locator do projeto",
+    "Escrever tudo em um único arquivo para facilitar leitura",
   ]}
   correctIndex={1}
-  explanation="Page Objects encapsulam locators e ações; o teste combina essas peças e faz asserts de negócio. Misturar tudo na Page deixa reuso difícil e confunde responsabilidade."
+  explanation="POM útil aparece quando o spec fica mais narrativo e a manutenção de locators fica centralizada e proporcional."
 />
 
 <KeyTakeaways
   items={[
-    "POM existe para reduzir duplicação de locator e ação — não para esconder lógica de negócio sem critério.",
-    "Prefira métodos nomeados por intenção (addByProductName) a índices mágicos (nth(3)).",
-    "Separe preencher de submeter em formulários para reaproveitar em cenários negativos.",
-    "Planeje composição (Header/Cart) antes de criar uma Page de 800 linhas — Single Responsibility continua valendo.",
+    "O valor do POM no Swag Lab aparece no código, não só na definição.",
+    "Spec narrativo e locators centralizados melhoram manutenção.",
+    "Abstração proporcional é mais importante do que seguir padrão por vaidade.",
+    "Mostrar before/after é excelente para entrevista.",
   ]}
 />
 

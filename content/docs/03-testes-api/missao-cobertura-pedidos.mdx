@@ -1,0 +1,231 @@
+---
+title: "Missão guiada — cobertura de pedidos"
+description: "Analise uma resposta de API e decida quais testes faltam antes de confiar no fluxo."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={18} />
+</div>
+
+<CaseStudyHero
+  title="Pedido confirmado com dado suspeito no shipping"
+  scenario="Você recebeu uma resposta de API aparentemente saudável, mas com um campo de CEP estranho no objeto de shipping. A missão é decidir quais riscos isso revela e que cobertura faz falta."
+  goal="Treinar leitura de contrato, teste negativo e priorização de cenários sem precisar abrir Postman ou escrever código."
+  touchHint="Observe que a resposta parece boa em um primeiro olhar. O treino aqui é descobrir o que ainda está perigoso apesar do status confirmado."
+/>
+
+## O valor deste tipo de leitura
+
+Em testes de API, uma das armadilhas mais comuns é confiar demais no status code e pouco no conteúdo. Se a rota responde `200` ou `201`, muita gente relaxa rápido demais. Só que API saudável não é só API que responde. É API que responde com dados coerentes, contrato estável e regras respeitadas. Esta missão foi criada para treinar esse segundo olhar. Em vez de abrir uma coleção completa, você vai observar uma única resposta e responder perguntas curtas sobre o que ainda parece errado, o que deveria ser validado e qual cenário tem mais retorno.
+
+Esse formato funciona muito bem para estudo individual porque transforma leitura técnica em decisão prática. Você não precisa de ambiente pronto nem de massa externa. Basta ler o payload, notar os sinais esquisitos e escolher o próximo melhor teste. Esse é justamente o tipo de raciocínio que faz diferença em projeto real. A pessoa que testa API com maturidade não se contenta com “veio JSON bonito”. Ela pergunta se o dado faz sentido, se o contrato protege regressão e se os cenários negativos estão cobrindo as bordas que realmente quebram confiança.
+
+## O cenário da rota
+
+A rota retorna um pedido confirmado com total, itens, cliente e shipping. À primeira vista, a estrutura parece organizada. Há `orderId`, `status`, moeda e um array de itens coerente. O problema está no detalhe: o `zipCode` do shipping veio como `12AB5-000`, ou seja, mistura letras e números em um campo que deveria carregar um CEP válido. Essa situação é ótima para treino porque junta duas coisas. A primeira é regra de validação. A segunda é confiança em integração: se um pedido confirmado retorna um CEP inválido, talvez o dado tenha sido aceito cedo demais ou normalizado de forma incompleta.
+
+O ponto importante aqui é perceber que a resposta não está “quebrada” no sentido de erro 500 ou schema destruído. Justamente por isso ela é pedagógica. O risco aparece em um lugar mais sutil: dado semanticamente errado dentro de uma estrutura que parece normal. Em produto real, esse tipo de falha costuma escapar quando o time se apoia demais em happy path. A missão, portanto, é aprender a suspeitar de inconsistência mesmo quando a superfície do payload parece organizada e limpa.
+
+<EvidenceCard
+  title="Resposta simplificada da rota de pedidos"
+  kind="Payload JSON"
+  caption="Leia o retorno como se estivesse em uma revisão rápida de suíte ou em uma investigação de bug de integração."
+  assetHref="/case-studies/03-testes-api/pedidos-response.json"
+>
+
+```json
+{
+  "orderId": "ORD-9021",
+  "status": "confirmed",
+  "currency": "BRL",
+  "total": 149.9,
+  "customer": {
+    "id": "CUS-44",
+    "email": "cliente@email.com"
+  },
+  "shipping": {
+    "zipCode": "12AB5-000",
+    "quoteId": "SHIP-31"
+  }
+}
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/03-testes-api/missao-cobertura-pedidos" totalSteps={4} />
+
+## Como ler o payload sem cair no óbvio
+
+Quando você lê um retorno desses, vale dividir o pensamento em camadas. Primeiro: o schema está minimamente completo? Segundo: os tipos batem com o esperado? Terceiro: os valores fazem sentido dentro da regra de negócio? É na terceira camada que muito erro escapa. O valor `149.9` pode ser aceitável dependendo do contrato numérico. O `status: confirmed` também parece plausível. Já o CEP com letras chama atenção porque colide com uma regra de domínio bem conhecida. Essa diferença entre tipo válido e valor coerente é central em testes de API.
+
+Outro hábito útil é perguntar de onde esse dado veio. Se o CEP inválido entrou pelo frontend, a API deveria rejeitar? Se veio de uma integração, deveria sanitizar? Se é resposta de leitura, deveria ter sido persistido dessa forma? Você não precisa resolver a arquitetura inteira para estudar bem. Basta usar a dúvida certa para escolher o teste seguinte. Em vez de abrir dezenas de cenários aleatórios, você foca na hipótese com mais poder de explicar o risco. Isso é exatamente o que queremos fortalecer.
+
+<DecisionStep
+  missionId="/docs/03-testes-api/missao-cobertura-pedidos"
+  missionTitle="Missão guiada — cobertura de pedidos"
+  chapterUrl="/docs/03-testes-api/missao-cobertura-pedidos"
+  stepId="maior-sinal"
+  title="Etapa 1"
+  prompt="Qual é o sinal de risco mais importante desse payload?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'O total veio com casa decimal, então o payload provavelmente está inválido.',
+      rationale: 'Valor decimal não é, por si só, um problema. O que importa é o contrato esperado para o campo.',
+    },
+    {
+      label: 'O status confirmed indica que tudo está correto e não há mais o que olhar.',
+      rationale: 'Status de negócio não substitui validação de consistência interna do dado.',
+    },
+    {
+      label: 'O CEP com letras em shipping sugere aceitação de dado inconsistente mesmo com pedido confirmado.',
+      rationale: 'Correto. O maior risco aqui é semântico: a estrutura parece boa, mas carrega um valor incompatível com a regra esperada.',
+      correct: true,
+    },
+  ]}
+/>
+
+## O teste que costuma faltar
+
+Quando uma resposta assim aparece, o cenário negativo mais óbvio é tentar criar ou atualizar pedido com CEP inválido e verificar se a API rejeita. É impressionante como esse tipo de caso fica de fora em suítes iniciais. O time cobre autenticação, status code, payload completo, mas esquece de pressionar validação de domínio. Estudo individual com missão curta ajuda justamente a criar esse reflexo: sempre que um dado de domínio parece estranho, pergunte se existe teste que prova que a API bloqueia a entrada errada, e não apenas que devolve a saída bonita.
+
+Isso também conversa com a realidade do mercado. Muitas empresas têm integrações em camadas e acabam aceitando dados “quase certos” demais. O problema só aparece depois, em logística, faturamento ou atendimento. Um QA que consegue antecipar isso por meio de teste negativo bem escolhido traz valor real. E não precisa começar escrevendo vinte casos. Basta escolher o teste que mais pressiona a regra sensível. Aqui, a regra sensível é a coerência do CEP dentro do fluxo de pedido e shipping.
+
+<DecisionStep
+  missionId="/docs/03-testes-api/missao-cobertura-pedidos"
+  missionTitle="Missão guiada — cobertura de pedidos"
+  chapterUrl="/docs/03-testes-api/missao-cobertura-pedidos"
+  stepId="teste-faltante"
+  title="Etapa 2"
+  prompt="Qual teste faltante tem mais valor imediato depois de ler esse retorno?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Repetir o mesmo GET várias vezes para confirmar que a rota continua estável.',
+      rationale: 'Estabilidade é útil, mas não ataca a incoerência de domínio já visível na evidência.',
+    },
+    {
+      label: 'Criar um POST ou PUT com CEP inválido e validar se a API rejeita com erro claro.',
+      rationale: 'Essa é a melhor próxima aposta. Você pressiona a origem do dado inconsistente e verifica se a regra de validação existe de fato.',
+      correct: true,
+    },
+    {
+      label: 'Trocar apenas o email do cliente e observar se o schema continua igual.',
+      rationale: 'Não é a variável mais sensível para o risco principal encontrado.',
+    },
+  ]}
+/>
+
+## Contrato versus regra de negócio
+
+Outro aprendizado central desta missão é separar contrato de negócio. O contrato diz que existe um campo `zipCode` dentro de `shipping`. A regra de negócio diz que esse campo deve obedecer um formato e uma coerência mínima. Muita suíte de API protege o primeiro e deixa o segundo frouxo. Por isso, quando alguém diz “a API está coberta”, vale perguntar: coberta em quê? Em presença de campos? Em status codes? Em autenticação? Ou também em integridade de dados que realmente sustentam o produto?
+
+Essa distinção é poderosa em entrevista e em projeto. Ela mostra que você sabe ir além do checklist superficial. Não basta conferir se a chave existe. É preciso questionar se o valor carrega significado válido. Em estudo pessoal, esse é um dos melhores upgrades de mentalidade que você pode fazer. Porque muda a forma como você lê payload, escreve cenário, prioriza automação e conversa com dev. Você passa a testar contrato sem abandonar negócio. Esse equilíbrio é o que torna QA de API realmente útil.
+
+<DecisionStep
+  missionId="/docs/03-testes-api/missao-cobertura-pedidos"
+  missionTitle="Missão guiada — cobertura de pedidos"
+  chapterUrl="/docs/03-testes-api/missao-cobertura-pedidos"
+  stepId="camada-mais-fraca"
+  title="Etapa 3"
+  prompt="Se o bug for confirmado, qual camada parece mais fraca neste momento?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'A camada de autenticação, porque o payload tem um campo estranho.',
+      rationale: 'Não há evidência de problema de auth aqui. O sinal está ligado à validação do conteúdo.',
+    },
+    {
+      label: 'A camada de validação de domínio ou sanitização de dados no fluxo de shipping.',
+      rationale: 'Correto. O sintoma aponta para aceitação ou persistência inadequada de dado que deveria ser rejeitado ou normalizado.',
+      correct: true,
+    },
+    {
+      label: 'A infraestrutura de rede, porque a resposta veio rápida demais.',
+      rationale: 'Velocidade não tem relação direta com a inconsistência observada.',
+    },
+  ]}
+/>
+
+## O que automatizar primeiro
+
+Em rotina real, nem tudo vira automação na mesma hora. Por isso, uma pergunta útil é: qual verificação deveria ser automatizada primeiro para reduzir risco recorrente? Nesse caso, o melhor caminho costuma ser cobrir a validação do CEP inválido na camada de API e depois, se fizer sentido, amarrar isso com frontend ou fluxo E2E. Começar pela API é eficiente porque o problema já apareceu no payload e porque essa camada tende a dar feedback mais rápido e menos frágil do que testar o mesmo cenário exclusivamente pela interface.
+
+Esse raciocínio ajuda a amadurecer a pirâmide de testes na prática. Você não escolhe a automação pelo glamour da ferramenta; escolhe pelo lugar em que o risco se revela com mais clareza. Em estudo pessoal, essa noção vale ouro. Ela impede que você automatize cedo demais no lugar errado e mostra que cobertura inteligente nasce de observação de evidência. A missão, no fundo, quer que você saia com essa pergunta tatuada na cabeça: “onde este risco deveria ser protegido primeiro para dar retorno rápido e confiável?”.
+
+<DecisionStep
+  missionId="/docs/03-testes-api/missao-cobertura-pedidos"
+  missionTitle="Missão guiada — cobertura de pedidos"
+  chapterUrl="/docs/03-testes-api/missao-cobertura-pedidos"
+  stepId="automacao-prioritaria"
+  title="Etapa 4"
+  prompt="Se você pudesse automatizar só um ponto primeiro, qual seria?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Um teste E2E completo do checkout antes de validar a regra na API.',
+      rationale: 'Pode ser útil depois, mas não é o ponto mais barato nem mais direto para proteger a inconsistência encontrada.',
+    },
+    {
+      label: 'Um teste de API que tente enviar CEP inválido e valide resposta de erro ou rejeição consistente.',
+      rationale: 'Essa opção protege o risco na camada em que ele apareceu e tende a ser mais estável e rápida para execução contínua.',
+      correct: true,
+    },
+    {
+      label: 'Um teste visual do campo de CEP na interface mobile.',
+      rationale: 'Visual não é o problema principal aqui.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+Se você sair desta missão lembrando apenas de uma coisa, que seja esta: status code bom não absolve payload incoerente. Em API, muita regressão importante mora em valores semanticamente errados dentro de uma estrutura tecnicamente válida. Aprender a suspeitar desses detalhes é um salto enorme para QA júnior. E é um salto que dá para treinar bem no celular, com payload curto, sem ambiente montado e sem ferramenta pesada. O que importa é o tipo de pergunta que você aprende a fazer.
+
+Da próxima vez que abrir uma resposta de API, tente repetir este ritual: estrutura, tipos, coerência de domínio, teste negativo faltante e melhor camada para automatizar. Essa sequência simples ajuda a transformar leitura passiva em análise objetiva. Com o tempo, ela melhora sua conversa com dev, fortalece sua suíte e deixa muito mais fácil explicar em entrevista por que determinado cenário merece cobertura prioritária.
+
+<MissionSummary
+  missionId="/docs/03-testes-api/missao-cobertura-pedidos"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo a leitura além do status code. Termine as etapas e observe como contrato e regra de negócio precisam caminhar juntos."
+  partialText="O olhar para inconsistência já apareceu. Vale revisitar a missão pensando em teste negativo faltante e melhor camada para automação."
+  completeText="Você tratou a API com maturidade: encontrou risco semântico, priorizou validação negativa e escolheu a automação mais eficiente para reduzir recorrência."
+/>
+
+<Quiz
+  id="missao-cobertura-pedidos-q1"
+  question="Qual ideia melhor resume a missão de API?"
+  options={[
+    "Se o status code é 200, o payload pode ser considerado confiável.",
+    "Contrato e coerência de domínio precisam ser validados juntos para haver confiança real.",
+    "Testes negativos importam menos do que repetir o happy path muitas vezes.",
+    "Sempre vale começar pela automação E2E, mesmo quando o risco apareceu na API.",
+  ]}
+  correctIndex={1}
+  explanation="A missão mostrou que estrutura correta não basta. QA de API precisa verificar domínio, valores e cenários negativos relevantes."
+/>
+
+<KeyTakeaways
+  items={[
+    "Status code saudável não garante dado coerente.",
+    "Contrato e regra de negócio são camadas diferentes de validação.",
+    "Teste negativo bem escolhido costuma revelar mais valor do que repetir happy path.",
+    "Automatizar primeiro na camada onde o risco apareceu tende a dar retorno mais rápido.",
+  ]}
+/>
+
+<ChecklistItem id="03-testes-api-missao-cobertura-pedidos">
+  Concluí a missão de cobertura de pedidos em API
+</ChecklistItem>

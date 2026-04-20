@@ -1,0 +1,246 @@
+---
+title: "Missão guiada — tour do portfólio"
+description: "Navegue pelos projetos reais como casos comentados e decida como apresentá-los em contexto."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+import { PortfolioTourCard } from '@/components/learning/PortfolioTourCard';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={18} />
+</div>
+
+<CaseStudyHero
+  title="Seus projetos como estudos de caso"
+  scenario="Nesta versão do handbook, o módulo 7 deixa de ser capstone pesado e vira tour guiado pelos repositórios reais. A missão é decidir como usar cada projeto como prova de raciocínio, não como lista fria de links."
+  goal="Treinar leitura estratégica do portfólio: qual repositório mostrar, como explicar a separação por camada e que evidência citar dependendo da conversa."
+  touchHint="Você não precisa abrir os repositórios para concluir a missão, mas pode usá-los como referência opcional."
+/>
+
+## Como pensar nos projetos nesta fase
+
+O objetivo deste módulo não é transformar você em uma fábrica de entregáveis. Nesta fase, os projetos existem como estudos de caso guiados. Isso é importante porque respeita a proposta do handbook: estudo pessoal, sem sobrecarregar a experiência com tarefas pesadas. Em vez de pedir novas implementações, a missão ensina a ler o que já existe nos repositórios e a escolher o melhor recorte para cada tipo de conversa. Esse tipo de treino é muito valioso porque aproxima portfólio de narrativa profissional.
+
+Muita gente tem projeto público e mesmo assim não sabe apresentá-lo. O problema normalmente não é falta de trabalho; é excesso de material sem leitura estratégica. Quando você aprende a responder “qual repo mostra melhor meu raciocínio manual?”, “qual evidencia melhor automação sustentável?” e “como explico a arquitetura do Toolshop sem soar espalhado?”, o portfólio muda de papel. Ele deixa de ser coleção de links e vira prova comentada do seu processo de pensamento.
+
+## Mapa rápido dos repositórios
+
+O ecossistema já está organizado em camadas. O `toolshop-quality-portfolio` funciona como hub estratégico. O `toolshop-manual-quality` concentra lógica manual e documentação. O `toolshop-api-quality-suite` evidencia testes de API. O `toolshop-web-e2e-playwright` cobre automação web. O `swaglab-quality-suite` aparece como suíte integrada. Essa divisão é muito boa para estudo porque mostra que QA não é uma coisa única. Cada repositório ilumina uma faceta diferente do trabalho. A missão, portanto, é usar essa organização a seu favor.
+
+Outro ponto importante é que você não precisa mostrar todos os repositórios em toda conversa. Isso seria cansativo. A escolha madura depende da vaga, da pergunta e do tempo disponível. Quando você domina esse filtro, o portfólio fica mais leve de apresentar e mais forte como evidência. É exatamente isso que vamos treinar.
+
+<EvidenceCard
+  title="Resumo dos focos do portfólio"
+  kind="Mapa de repositórios"
+  caption="Use esta visão como se estivesse decidindo qual link abrir primeiro para um recrutador ou líder técnico."
+  assetHref="/case-studies/07-meus-projetos/portfolio-tour.json"
+>
+
+```json
+{
+  "toolshop-quality-portfolio": "hub estratégico e narrativa de QA",
+  "toolshop-manual-quality": "casos, bug reports e cobertura manual",
+  "toolshop-api-quality-suite": "pytest, contrato e cenários negativos",
+  "toolshop-web-e2e-playwright": "POM, locators e regressão web",
+  "swaglab-quality-suite": "suite integrada com E2E, API e CI/CD"
+}
+```
+
+</EvidenceCard>
+
+<PortfolioTourCard
+  title="toolshop-quality-portfolio"
+  href="https://github.com/Wesleysc94/toolshop-quality-portfolio"
+  summary="Hub central para explicar estratégia, links entre camadas e recomendação final de qualidade."
+  focus="melhor para visão geral"
+/>
+
+<PortfolioTourCard
+  title="toolshop-manual-quality"
+  href="https://github.com/Wesleysc94/toolshop-manual-quality"
+  summary="Bom recorte para falar de casos de teste, checklist, bug reports e análise de risco."
+  focus="melhor para QA manual"
+/>
+
+<PortfolioTourCard
+  title="swaglab-quality-suite"
+  href="https://github.com/Wesleysc94/swaglab-quality-suite"
+  summary="Projeto integrado que ajuda a mostrar conexão entre automação, API e pipeline."
+  focus="melhor para visão combinada"
+/>
+
+<MissionProgress missionId="/docs/07-meus-projetos/missao-portfolio-tour" totalSteps={4} />
+
+## Escolher o primeiro link já comunica maturidade
+
+Quando alguém pergunta sobre seus projetos, a primeira escolha de link já comunica intenção. Se a vaga tem foco manual, faz mais sentido abrir o repositório que mostra casos, cobertura e documentação manual do que começar por uma suíte integrada complexa. Se a conversa está mais estratégica, o hub do Toolshop pode ser melhor porta de entrada. Essa leitura é uma forma de empatia profissional: você organiza a apresentação a partir da necessidade do outro, não do desejo de mostrar tudo de uma vez.
+
+Esse é um ponto muito valioso para estudo individual. Ele reduz a ansiedade de “preciso provar tudo em cada resposta”. Não precisa. O que você precisa é abrir a peça certa primeiro e usar as demais como apoio. Esse hábito melhora bastante a forma como você fala do portfólio porque deixa a narrativa mais limpa. Em vez de despejar nomes de stack, você passa a montar um caminho.
+
+<DecisionStep
+  missionId="/docs/07-meus-projetos/missao-portfolio-tour"
+  missionTitle="Missão guiada — tour do portfólio"
+  chapterUrl="/docs/07-meus-projetos/missao-portfolio-tour"
+  stepId="repo-manual"
+  title="Etapa 1"
+  prompt="Se a vaga enfatiza QA manual e documentação, qual repositório vale mostrar primeiro?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'toolshop-manual-quality, porque ele evidencia casos, checklist e bug report de forma mais direta.',
+      rationale: 'Correto. É o recorte que conversa melhor com a pergunta e evita desviar cedo demais para automação.',
+      correct: true,
+    },
+    {
+      label: 'toolshop-web-e2e-playwright, porque automação sempre impressiona mais.',
+      rationale: 'Automação pode impressionar, mas não responde melhor ao foco declarado da vaga.',
+    },
+    {
+      label: 'Abrir todos os links de uma vez para mostrar amplitude total.',
+      rationale: 'Amplitude sem curadoria costuma cansar e enfraquecer a narrativa.',
+    },
+  ]}
+/>
+
+## Como explicar a separação por camadas
+
+Uma pergunta recorrente sobre o Toolshop é por que separar manual, API e E2E em repositórios diferentes. A melhor resposta não é “porque ficou organizado”. A melhor resposta é que essa divisão deixa mais clara a intenção de cada camada, facilita navegação por recorte técnico e melhora a comunicação do portfólio. Esse é o ponto que diferencia organização estética de arquitetura de apresentação. A separação existe para tornar a leitura rápida e significativa, não só bonita.
+
+Essa explicação vale muito em entrevista porque mostra intencionalidade. Você não está empilhando projetos por impulso. Está desenhando uma narrativa de qualidade em camadas. E isso combina muito com a realidade do QA: diferentes técnicas, diferentes evidências, diferentes níveis de custo. Quando você verbaliza a separação dessa forma, o portfólio deixa de ser apenas “meus exercícios” e vira raciocínio aplicado sobre como comunicar trabalho de QA.
+
+<DecisionStep
+  missionId="/docs/07-meus-projetos/missao-portfolio-tour"
+  missionTitle="Missão guiada — tour do portfólio"
+  chapterUrl="/docs/07-meus-projetos/missao-portfolio-tour"
+  stepId="explicacao-toolshop"
+  title="Etapa 2"
+  prompt="Qual explicação melhor justifica a arquitetura em vários repositórios no Toolshop?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Eu separei porque gosto de ter muitos repositórios no perfil.',
+      rationale: 'Organização sem intenção estratégica parece superficial.',
+    },
+    {
+      label: 'Separei por camada para facilitar leitura por recorte técnico e manter uma narrativa central no hub.',
+      rationale: 'Essa explicação mostra estratégia de comunicação e maturidade na organização do portfólio.',
+      correct: true,
+    },
+    {
+      label: 'Foi a única forma de o GitHub aceitar meus arquivos.',
+      rationale: 'Não comunica valor nem decisão consciente.',
+    },
+  ]}
+/>
+
+## Evidência certa para a conversa certa
+
+Outro treino importante é escolher a evidência que melhor sustenta a fala. Se a conversa está em automação sustentável, talvez o melhor seja citar POM, locators ou estabilidade da suíte web. Se está em visão integrada, o `swaglab-quality-suite` pode ser mais útil porque mostra união entre E2E, API e CI/CD. Se está em capacidade de decisão, o hub do Toolshop com recomendação final de qualidade talvez brilhe mais. Não existe uma prova universal. Existe evidência mais adequada ao contexto.
+
+Esse raciocínio é ótimo porque transforma portfólio em repertório modular. Você não precisa decorar um pitch único. Pode montar combinações. Isso deixa sua apresentação mais viva e menos roteirizada, o que ajuda bastante em entrevistas reais. A missão quer justamente fortalecer essa habilidade de montar o recorte certo sem perder coerência.
+
+<DecisionStep
+  missionId="/docs/07-meus-projetos/missao-portfolio-tour"
+  missionTitle="Missão guiada — tour do portfólio"
+  chapterUrl="/docs/07-meus-projetos/missao-portfolio-tour"
+  stepId="evidencia-integrada"
+  title="Etapa 3"
+  prompt="Se a pergunta for sobre visão combinada de qualidade, qual projeto ganha mais força?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'swaglab-quality-suite, porque conecta automação, API e pipeline em um único recorte.',
+      rationale: 'Boa escolha. Ele funciona bem quando a conversa pede integração entre camadas.',
+      correct: true,
+    },
+    {
+      label: 'toolshop-manual-quality, porque manual sempre resume tudo.',
+      rationale: 'Manual é forte, mas aqui a pergunta pede explicitamente visão combinada.',
+    },
+    {
+      label: 'Qualquer repositório serve igual, porque todos mostram QA.',
+      rationale: 'Essa leitura perde a chance de usar o portfólio com intencionalidade.',
+    },
+  ]}
+/>
+
+## Próximo passo de evolução sem pesar o estudo
+
+Nesta fase, o handbook continua pessoal e leve. Portanto, o próximo passo natural do portfólio não precisa ser criar mais projeto enorme. Pode ser melhorar narrativa, README, contexto de evidência e consistência entre os repositórios já existentes. Essa é uma mensagem importante porque protege você da armadilha de sempre produzir mais e nunca consolidar. Portfólio maduro não é o mais volumoso; é o mais inteligível. Saber dizer isso em voz alta já é uma vantagem enorme.
+
+Ao estudar por missões, você também aprende a olhar para os próprios projetos com mais calma. Em vez de pensar “o que falta construir?”, passa a pensar “o que já construí e como isso comunica maturidade de QA?”. Essa mudança é especialmente saudável para estudo individual porque reduz pressão e aumenta aproveitamento do material que já existe.
+
+<DecisionStep
+  missionId="/docs/07-meus-projetos/missao-portfolio-tour"
+  missionTitle="Missão guiada — tour do portfólio"
+  chapterUrl="/docs/07-meus-projetos/missao-portfolio-tour"
+  stepId="evolucao-natural"
+  title="Etapa 4"
+  prompt="Qual próximo passo combina melhor com a fase atual do handbook e do seu estudo?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Abrir vários projetos novos antes de consolidar narrativa e leitura dos atuais.',
+      rationale: 'Mais volume agora pode aumentar dispersão sem melhorar a comunicação do que já existe.',
+    },
+    {
+      label: 'Fortalecer a narrativa dos projetos atuais, explicando melhor foco, evidência e conexão entre eles.',
+      rationale: 'Essa opção está mais alinhada com o momento atual: estudo pessoal, aproveitamento do que já foi construído e comunicação mais forte.',
+      correct: true,
+    },
+    {
+      label: 'Esconder os projetos mais específicos para deixar o perfil “mais limpo”.',
+      rationale: 'Remover recortes úteis reduz profundidade do portfólio em vez de organizá-lo melhor.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+O principal aprendizado deste tour é que projeto não serve só para existir. Serve para contar uma história técnica com começo, meio e fim. Quando você escolhe o repositório certo para a pergunta certa, explica a separação por camada com clareza e decide qual evidência mostrar primeiro, o portfólio deixa de ser estático. Ele vira ferramenta de conversa. Esse é exatamente o objetivo desta versão do módulo 7: transformar os repositórios reais em estudos de caso guiados, leves e úteis para seu momento atual.
+
+Se quiser revisar depois, volte a esta missão e pergunte a si mesmo: se eu tivesse dois minutos para explicar meu portfólio, que ordem eu escolheria? E se a vaga fosse mais manual? E se fosse mais API? Esse exercício simples consolida bastante a sua segurança para falar dos projetos sem precisar improvisar tudo na hora.
+
+<MissionSummary
+  missionId="/docs/07-meus-projetos/missao-portfolio-tour"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo a leitura estratégica do portfólio. Termine as etapas e observe como o contexto muda a escolha do repositório e da evidência."
+  partialText="A lógica de curadoria já apareceu. Vale refazer a missão pensando em como explicar o Toolshop e como usar o Swaglab como visão integrada."
+  completeText="Você tratou os projetos como estudos de caso: escolheu melhor o recorte, explicou a arquitetura com intenção e alinhou o próximo passo ao momento atual do estudo."
+/>
+
+<Quiz
+  id="missao-portfolio-tour-q1"
+  question="Qual frase melhor resume o objetivo desta missão de projetos?"
+  options={[
+    "Portfólio bom é o que tem mais links possíveis em uma única resposta.",
+    "Projetos devem ser usados como estudos de caso, com recorte e narrativa adequados ao contexto da conversa.",
+    "Automação sempre deve ser o primeiro assunto, independentemente da vaga.",
+    "A melhor estratégia é esconder a arquitetura para não complicar a explicação.",
+  ]}
+  correctIndex={1}
+  explanation="A missão mostrou que o valor do portfólio está na curadoria do recorte, na explicação da arquitetura e na escolha da evidência certa para cada conversa."
+/>
+
+<KeyTakeaways
+  items={[
+    "Projeto forte vira estudo de caso quando você escolhe o recorte certo para a pergunta certa.",
+    "A separação por camadas do Toolshop comunica intenção, não apenas organização.",
+    "Swaglab ajuda muito quando a conversa pede visão integrada de qualidade.",
+    "Nesta fase, consolidar narrativa dos projetos atuais vale mais do que abrir volume novo.",
+  ]}
+/>
+
+<ChecklistItem id="07-meus-projetos-missao-portfolio-tour">
+  Concluí a missão de tour guiado do portfólio
+</ChecklistItem>

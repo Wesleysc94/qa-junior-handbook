@@ -7,20 +7,100 @@ import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
 import { EstimatedTime } from '@/components/learning/EstimatedTime';
 import { ChecklistItem } from '@/components/learning/ChecklistItem';
 import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
 
 <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
   <DifficultyBadge level="iniciante" />
-  <EstimatedTime minutes={14} />
+  <EstimatedTime minutes={20} />
 </div>
 
 ## Base sólida de automação
 
-[Conteúdo a desenvolver]
+A pirâmide de testes é um modelo mental para distribuir cobertura entre camadas com custos diferentes. A base tende a ter testes mais rápidos, baratos e numerosos; o topo concentra testes mais lentos, caros e amplos, como E2E. Em QA júnior, o ganho real aparece quando você consegue reconhecer esse assunto no backlog, na conversa de refinement, na escolha do cenário de teste e no momento de comunicar risco para o time. Em vez de decorar uma definição isolada, a meta é entender o efeito prático que ela tem sobre cobertura, prioridade, confiança do release e qualidade da comunicação.
+
+Sinais de desequilíbrio aparecem quando a pipeline demora demais, quando um seletor quebrado derruba a confiança do time inteiro ou quando a investigação de falha sempre começa no browser mesmo para problemas claramente de contrato ou regra de negócio. Esse é o tipo de leitura que diferencia uma pessoa que só executa passo a passo de alguém que começa a pensar como profissional de qualidade. Quando o conceito fica claro, você passa a observar o produto de forma mais estruturada e deixa de depender apenas de feeling.
+
+## Por que isso importa no mercado brasileiro
+
+Em times brasileiros com budget apertado, a pirâmide evita o erro clássico de querer provar maturidade só aumentando E2E. Suite desequilibrada custa caro em manutenção, torna pipeline lenta e dá falsa sensação de cobertura porque o topo não substitui contrato, regra e unidade. Em muitas empresas brasileiras, o time de QA ainda é enxuto e precisa trabalhar com tempo curto, pressão de entrega e processos em amadurecimento. Nessa realidade, dominar pirâmide de testes não é luxo acadêmico; é uma forma concreta de reduzir retrabalho, dar feedback mais rápido e escolher melhor onde vale investir energia.
+
+Outro ponto importante é a comunicação. Em squads pequenos, QA conversa o tempo todo com dev, PO, suporte, liderança e, às vezes, até com cliente interno. Quem domina este assunto consegue explicar impacto de negócio sem dramatizar, justificar prioridade sem achismo e negociar escopo com base em evidência. Isso pesa muito em avaliação de maturidade, inclusive para vagas júnior.
+
+Também por isso vale revisar o tema pensando em linguagem. Conceito técnico bem entendido melhora ticket, comentário em PR, relatório de execução, conversa de triagem e até a forma como você pede ajuda quando ainda não tem certeza sobre uma hipótese. Em QA, clareza operacional quase sempre anda junto com clareza de comunicação.
+
+## Exemplo concreto de fluxo
+
+Pense em um produto com checkout, autenticação e integração com estoque. Se tudo for validado apenas por fluxo web completo, qualquer mudança de UI pode quebrar vários testes ao mesmo tempo. Ao distribuir cobertura entre API, integração e E2E, o time localiza defeito mais rápido e com menos ruído. Repare que o valor do exemplo não está só no defeito encontrado ou no teste que passou. O valor está no encadeamento: hipótese, execução, evidência, decisão e acompanhamento. Esse encadeamento é o que transforma uma atividade pontual em prática profissional de QA.
+
+Quando você recria um cenário assim no portfólio, o recrutador enxerga duas coisas. Primeiro, que você sabe usar o conceito fora do slide. Segundo, que você entende como documentar raciocínio para que outra pessoa consiga continuar o trabalho sem depender da sua memória. Em ambiente real, isso poupa tempo, reduz mal-entendido e dá mais previsibilidade ao ciclo de qualidade.
+
+Esse cuidado com narrativa de evidência é especialmente útil para quem está em transição de carreira. Ele transforma projeto de estudo em demonstração concreta de repertório profissional, porque mostra não só o que você testou, mas como pensou, priorizou, registrou e aprendeu com o resultado.
+
+## Sinais que você deve observar no dia a dia
+
+Sinais de desequilíbrio aparecem quando a pipeline demora demais, quando um seletor quebrado derruba a confiança do time inteiro ou quando a investigação de falha sempre começa no browser mesmo para problemas claramente de contrato ou regra de negócio. Bons QAs aprendem a perceber esses sinais cedo, antes que o problema vire retrabalho caro ou defeito em produção. Isso vale tanto para fluxo manual quanto para API, automação, CI/CD e comportamento do time.
+
+Na prática, observar sinais significa olhar para o que mudou no requisito, onde a evidência ainda está fraca, que parte do fluxo concentra mais risco, que automação está frágil ou que conversa ainda ficou ambígua. Quanto mais cedo você conecta esses indícios ao conceito estudado, mais natural fica aplicar o assunto fora do handbook.
+
+## Artefato que vale construir no portfólio
+
+Um ótimo artefato para este tema é um diagrama simples mostrando a cobertura desejada para um sistema do seu portfólio. Você pode desenhar quantos cenários ficariam em API, quantos em E2E e quais seriam apenas manuais ou exploratórios. O objetivo é sair do capítulo com um entregável tangível: algo que você possa anexar em issue, colocar no README do projeto ou usar como referência quando precisar repetir o raciocínio em outro contexto.
+
+Esse tipo de mapa comunica estratégia, não só ferramenta. Ele mostra que você pensa em custo de manutenção, velocidade de feedback e risco de negócio ao distribuir os testes. Quando você transforma conhecimento em artefato, fica mais fácil revisar, explicar em entrevista e provar que domina o tema com evidência em vez de discurso genérico.
+
+## Erros comuns de iniciante
+
+Muita gente aprende a pirâmide como regra rígida e passa a repetir proporções mágicas sem olhar o contexto do produto. O modelo é guia de decisão, não receita fixa para todos os sistemas. O primeiro erro clássico é tratar o assunto como receita pronta e tentar aplicar a mesma solução em qualquer sistema. Produto, time, risco e maturidade de processo mudam; por isso, a mesma prática precisa ser adaptada ao contexto.
+
+Outro erro frequente é confundir atividade com resultado. Escrever caso de teste, montar collection, abrir bug ou subir pipeline não garante qualidade por si só. O que garante valor é saber por que aquilo existe, que risco cobre, que decisão habilita e como será mantido depois. Quando você liga ação a propósito, a qualidade do trabalho sobe muito.
+
+## Como praticar no portfólio
+
+Escolha um fluxo do seu portfólio e classifique cada verificação importante por camada: o que cabe em API, o que precisa de UI, o que fica melhor como exploração manual e o que talvez nem valha automatizar agora. O segredo é não tentar parecer “sênior de mentirinha”. Em vez de inventar um processo perfeito, documente o que você faria, por que escolheu esse recorte e quais limitações ainda existem. Honestidade bem escrita transmite mais maturidade do que prometer cobertura total sem evidência.
+
+Uma boa rotina é fechar cada estudo com três entregáveis: um artefato reutilizável, uma decisão justificada e uma reflexão sobre erro comum. Esse trio fortalece memória técnica, melhora sua fala em entrevista e cria um histórico público de evolução. Com o tempo, os capítulos do handbook deixam de ser só revisão e viram matéria-prima do seu portfólio.
+
+## Como explicar isso em entrevista
+
+Em entrevista, explique a pirâmide relacionando custo, velocidade e estabilidade. Vale dizer que você não vê E2E como vilão, mas como camada mais cara que deve ser usada para jornadas críticas e não para tudo. Em entrevista, a melhor resposta quase nunca é a mais longa; é a mais conectada com cenário real. Explique em voz alta como você perceberia o problema, que decisão tomaria primeiro e que evidência mostraria para sustentar a sua recomendação.
+
+Se quiser parecer mais seguro sem soar decorado, use uma estrutura simples: contexto, risco, ação, evidência e próximo passo. Essa organização funciona para pergunta técnica e comportamental, porque mostra pensamento crítico. Recrutador percebe quando você entende o assunto no nível da operação e não apenas no nível da definição.
+
+## Como isso conversa com o restante do handbook
+
+Este tema não vive isolado. Em projeto real, ele conversa com o restante do handbook o tempo todo: com análise de risco quando você precisa decidir profundidade de cobertura, com bug report quando a evidência precisa ser bem comunicada, com automação quando o mesmo raciocínio precisa virar regressão sustentável e com entrevista quando você transforma prática em narrativa técnica clara.
+
+Vale a pena revisar o capítulo pensando justamente nessas conexões. Pergunte a si mesmo: em qual projeto do meu portfólio este conceito já apareceu? Em que tipo de bug, decisão de pipeline, escolha de locator, discussão de critério de aceite ou recomendação de release ele ficou mais visível? Essa ponte entre assunto e experiência é o que realmente consolida aprendizado duradouro e evita que o conteúdo fique preso só na memória de curto prazo.
+
+## Checklist mental para levar para o trabalho
+
+Antes de fechar este capítulo, vale revisar um checklist mental rápido. Você sabe definir o conceito com suas palavras? Consegue citar um caso real ou plausível de mercado brasileiro? Sabe apontar um erro comum de iniciante e explicar por que ele custa caro para o time? Se a resposta ainda estiver vacilando, releia as seções pensando no seu projeto atual ou no seu portfólio.
+
+O objetivo final não é decorar o texto deste material. O objetivo é ganhar um raciocínio portátil: algo que você consiga reaplicar em backlog novo, stack diferente e contexto de negócio diferente. Quando isso acontece, o estudo deixa de ser passivo e passa a produzir confiança de execução.
+
+Se você quiser extrair ainda mais valor deste capítulo, feche a leitura anotando uma frase com o conceito principal, um exemplo do seu portfólio e uma dúvida que ainda precisa investigar. Essa rotina simples acelera revisão espaçada e transforma estudo em plano de ação.
+
+Uma forma especialmente útil de consolidar o conteúdo é explicá-lo para outra pessoa como se você estivesse em pairing, onboarding ou revisão de bug. Quando você verbaliza a definição, o contexto brasileiro, o exemplo prático e o erro comum, fica muito mais fácil perceber onde ainda existe lacuna de entendimento. Esse tipo de prática também melhora a sua comunicação profissional, porque aproxima estudo técnico da forma como o assunto aparece em daily, triagem, retrospectiva e entrevista.
+
+<Quiz
+  id="piramide-de-testes-q1"
+  question="Qual problema a pirâmide de testes ajuda a evitar?"
+  options={[
+    "Que o time escreva qualquer teste automatizado",
+    "Que toda a cobertura fique concentrada em testes caros e lentos no topo",
+    "Que QA faça teste manual exploratório",
+    "Que API tenha autenticação",
+  ]}
+  correctIndex={1}
+  explanation="A pirâmide organiza cobertura para evitar dependência excessiva de testes amplos, lentos e frágeis, como E2E usados de forma indiscriminada."
+/>
 
 <KeyTakeaways
   items={[
-    '[Conteúdo a desenvolver] — adicionar aprendizados reais ao final da redação.',
-    'Incluir exemplo prático e menção a erro comum conforme checklist de qualidade do handbook.',
+    "A pirâmide de testes é um modelo de distribuição de cobertura baseado em custo, velocidade e estabilidade.",
+    "Suite madura não é a que tem mais E2E, e sim a que localiza defeito com feedback rápido e manutenção viável.",
+    "Sinais de desequilíbrio aparecem em pipeline lenta, investigação demorada e automação frágil.",
+    "Use a pirâmide como guia de decisão, não como proporção mágica.",
   ]}
 />
 

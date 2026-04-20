@@ -1,0 +1,226 @@
+---
+title: "Missão guiada — gate de release"
+description: "Decida o que realmente deve bloquear pipeline e deploy em um workflow enxuto."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={16} />
+</div>
+
+<CaseStudyHero
+  title="Pipeline de QA enxuta antes do preview"
+  scenario="Você está olhando um workflow simples com lint, E2E e deploy preview. A missão é decidir o que deve bloquear de verdade, o que precisa de evidência e como ler essa pipeline com mentalidade de QA."
+  goal="Treinar gate de qualidade sem romantizar CI/CD. O foco é entender o que protege o release e o que só gera ruído."
+  touchHint="Use a missão como leitura operacional: cada resposta representa uma decisão de pipeline que afeta confiança, velocidade e custo de retrabalho."
+/>
+
+## O que torna esta missão valiosa
+
+Quando o assunto é CI/CD, muita gente em início de carreira sente que precisa entender toda a infraestrutura antes de opinar. Não precisa. O primeiro passo é bem mais simples: aprender a enxergar o que realmente protege release. Uma pipeline curta já ensina muito. Se há lint, E2E e deploy preview, a pergunta deixa de ser “o que cada palavra significa?” e passa a ser “qual etapa precisa bloquear, qual evidência vale guardar e como evitar uma pipeline que falha sem ensinar nada?”. Essa mudança de pergunta é o que transforma CI/CD em assunto praticável.
+
+O formato de missão ajuda porque tira o peso da implementação. Você não precisa escrever workflow nem configurar segredo agora. Basta olhar para a estrutura e tomar decisões. Esse é um treino excelente para estudo pessoal no celular, porque aproxima o tema do mundo real sem afogar você em sintaxe. Em vez de decorar YAML, você começa a entender intenção de pipeline. E intenção é justamente o que mais importa quando um QA participa da conversa sobre confiança de entrega.
+
+## O recorte da pipeline
+
+O workflow tem três jobs principais: `lint`, `e2e` e `deploy-preview`. O `e2e` depende do `lint`, e o preview depende do `e2e`. Em termos de fluxo, isso já mostra um gate em cascata. O ponto da missão é avaliar se essa cascata faz sentido e o que ainda poderia ser melhorado. Lint costuma proteger qualidade estática e consistência básica. E2E protege comportamento integrado mais visível. Preview oferece ambiente para inspeção posterior. Cada um tem papel diferente, e o QA cresce muito quando aprende a enxergar essa diferença em vez de tratar tudo como “mais uma etapa automática”.
+
+Outro detalhe importante é que CI/CD não serve só para reprovar. Serve para gerar confiança. Uma pipeline boa não é aquela que bloqueia tudo; é a que bloqueia quando precisa e explica por quê. Em contexto de estudo e de times reais, isso importa bastante. Pipeline barulhenta desgasta o time. Pipeline frouxa deixa bug escapar. A maturidade está em achar o meio-termo: o que deve ser obrigatório para avançar, o que é observabilidade útil e o que está faltando para que o resultado da execução ajude o squad a tomar decisão.
+
+<EvidenceCard
+  title="Workflow simplificado de QA"
+  kind="YAML"
+  caption="Olhe para esta pipeline como se você precisasse explicar, em uma daily, por que o preview não deveria sair se um dos jobs falhar."
+  assetHref="/case-studies/05-cicd/qa-workflow.yml"
+>
+
+```yaml
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+  e2e:
+    runs-on: ubuntu-latest
+    needs: lint
+  deploy-preview:
+    runs-on: ubuntu-latest
+    needs: e2e
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/05-cicd/missao-gate-release" totalSteps={4} />
+
+## Como ler gate sem exagero
+
+A pergunta mais útil aqui é: o preview deve acontecer se o E2E falhou? Em quase todo cenário de estudo sério, a resposta tende a ser não. O preview até pode ser útil para investigação, mas liberar caminho automático após falha de comportamento integrado enfraquece o sentido do gate. Por outro lado, vale pensar se lint e E2E precisam ter o mesmo peso simbólico. Ambos podem bloquear, mas cada um comunica tipo de risco diferente. Lint fala de saúde estática e padrão mínimo. E2E fala de comportamento percebido no fluxo. Esse tipo de distinção deixa sua leitura de pipeline muito mais madura.
+
+Também vale lembrar que CI/CD não existe para punir desenvolvedor. Existe para criar feedback cedo e reproduzível. Quando você olha a pipeline com esse espírito, começa a pensar em evidência útil, visibilidade de falha e custo de rerun. É isso que faz a conversa sair do “vamos botar mais checks” e ir para “quais checks realmente aumentam confiança sem virar teatro?”. Essa missão inteira gira em torno dessa diferença.
+
+<DecisionStep
+  missionId="/docs/05-cicd/missao-gate-release"
+  missionTitle="Missão guiada — gate de release"
+  chapterUrl="/docs/05-cicd/missao-gate-release"
+  stepId="job-que-bloqueia"
+  title="Etapa 1"
+  prompt="Se o objetivo é proteger o preview como ambiente confiável, qual decisão é mais coerente?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Permitir deploy-preview mesmo com E2E vermelho, porque preview sempre ajuda.',
+      rationale: 'Preview ajuda investigação, mas como fluxo padrão isso enfraquece o gate de qualidade.',
+    },
+    {
+      label: 'Manter deploy-preview dependente do E2E para que comportamento integrado mínimo esteja verde antes de avançar.',
+      rationale: 'Essa é a leitura mais alinhada ao objetivo da pipeline. O preview continua útil, mas só após o fluxo essencial provar confiança básica.',
+      correct: true,
+    },
+    {
+      label: 'Ignorar lint e usar apenas deploy-preview como prova final.',
+      rationale: 'Isso joga fora feedback barato e precoce sem ganhar confiança real.',
+    },
+  ]}
+/>
+
+## Evidência que não deve sumir
+
+Quando E2E falha, o time precisa de artefato útil. Sem isso, a pipeline vira um semáforo irritante. Screenshot, trace, vídeo ou log estruturado encurtam muito a investigação. Em QA, pensar em artefato de pipeline é quase tão importante quanto pensar em bloqueio. Afinal, não basta saber que falhou; é preciso entender como falhou. Esse raciocínio também ajuda no seu estudo pessoal, porque mostra que CI/CD não é só ordem de jobs. É também desenho de feedback.
+
+Muitos projetos pequenos negligenciam isso e perdem horas reproduzindo manualmente o que a automação já viu. Quando você começa a valorizar artefato cedo, sua visão de pipeline sobe de nível. Você para de enxergar o job E2E apenas como “teste remoto” e passa a tratá-lo como fonte de diagnóstico. Esse olhar é bem-vindo em qualquer vaga, inclusive júnior, porque demonstra preocupação com manutenção do fluxo e não apenas com o verde pelo verde.
+
+<DecisionStep
+  missionId="/docs/05-cicd/missao-gate-release"
+  missionTitle="Missão guiada — gate de release"
+  chapterUrl="/docs/05-cicd/missao-gate-release"
+  stepId="artefato-mais-util"
+  title="Etapa 2"
+  prompt="Qual complemento faria mais falta se o job E2E começasse a falhar?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Guardar trace, screenshot ou vídeo curto do E2E para apoiar o diagnóstico.',
+      rationale: 'Correto. Artefato útil transforma falha em informação acionável para o time.',
+      correct: true,
+    },
+    {
+      label: 'Adicionar mais emojis no log para mostrar urgência.',
+      rationale: 'Não melhora investigação nem tomada de decisão.',
+    },
+    {
+      label: 'Remover dependências entre jobs para ganhar velocidade.',
+      rationale: 'Pode até acelerar algo, mas não responde à necessidade de diagnóstico quando o E2E falha.',
+    },
+  ]}
+/>
+
+## O que realmente deveria bloquear
+
+Outra nuance importante é reconhecer que nem toda falha merece o mesmo peso. Em alguns contextos, lint pode impedir merge porque protege padrão e evita erro bobo crescer. Em outros, warnings de formatação não precisam segurar preview. O raciocínio mais útil é perguntar: qual falha muda minha confiança no comportamento que estou prestes a publicar? Para este recorte, E2E e qualquer verificação diretamente ligada a fluxo crítico têm peso maior. Esse tipo de priorização mostra que você entende pipeline como instrumento de risco, não como ritual.
+
+Isso não significa desprezar lint. Significa colocá-lo no lugar certo. Lint barato e rápido é ótimo feedback inicial. Mas, se você precisasse explicar para alguém por que o preview foi segurado, provavelmente a narrativa mais forte estaria em falha de comportamento integrado ou em artefato de teste que mostra quebra real do fluxo. Aprender a fazer essa distinção melhora muito a qualidade das conversas sobre CI/CD dentro do time.
+
+<DecisionStep
+  missionId="/docs/05-cicd/missao-gate-release"
+  missionTitle="Missão guiada — gate de release"
+  chapterUrl="/docs/05-cicd/missao-gate-release"
+  stepId="falha-mais-sensivel"
+  title="Etapa 3"
+  prompt="Qual tipo de falha tende a justificar um bloqueio com narrativa mais forte para o time de produto?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Falha em teste integrado que mostra quebra do fluxo crítico do usuário.',
+      rationale: 'Essa costuma ser a narrativa mais contundente porque encosta no comportamento que o usuário realmente percebe.',
+      correct: true,
+    },
+    {
+      label: 'Qualquer warning estético no log, independentemente do contexto.',
+      rationale: 'Warning pode ser útil, mas nem sempre justifica bloqueio do mesmo peso.',
+    },
+    {
+      label: 'Ausência de comentário no PR descrevendo a mudança.',
+      rationale: 'Documentação importa, mas não é o sinal mais forte de risco funcional nesta pipeline.',
+    },
+  ]}
+/>
+
+## Quando acelerar sem enfraquecer
+
+CI/CD bom também pensa em eficiência. O fato de o preview depender do E2E não significa que tudo precise ser lento. Você ainda pode paralelizar etapas independentes, melhorar cache, dividir suíte e manter artefato de falha acessível. A missão aqui não pede que você redesenhe a pipeline inteira. Só quer que você perceba que velocidade e qualidade não precisam ser inimigas. O problema não é ter gate; é ter gate mal pensado, opaco ou desnecessariamente caro.
+
+Esse tipo de equilíbrio é um ótimo assunto de entrevista porque mostra visão prática. Em vez de falar “eu bloquearia tudo”, você consegue dizer “eu bloquearia o que compromete confiança do fluxo e investiria em feedback claro para corrigir rápido”. Essa frase já soa muito mais madura do que repetir jargão de DevOps sem conexão com o risco. E como foi treinada em missão curta, ela tende a ficar mais natural na sua memória.
+
+<DecisionStep
+  missionId="/docs/05-cicd/missao-gate-release"
+  missionTitle="Missão guiada — gate de release"
+  chapterUrl="/docs/05-cicd/missao-gate-release"
+  stepId="leitura-final"
+  title="Etapa 4"
+  prompt="Qual leitura final melhor representa uma pipeline útil para QA?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Pipeline boa é a que tem o maior número possível de jobs, mesmo sem clareza de função.',
+      rationale: 'Quantidade de jobs não garante confiança nem feedback útil.',
+    },
+    {
+      label: 'Pipeline boa bloqueia o que ameaça confiança real do release e produz evidência suficiente para investigação rápida.',
+      rationale: 'Essa é a síntese mais madura do objetivo de QA dentro de CI/CD.',
+      correct: true,
+    },
+    {
+      label: 'Pipeline boa nunca deve bloquear, para não atrasar o time.',
+      rationale: 'Sem bloqueio algum, o gate deixa de proteger a entrega.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+O principal ganho deste capítulo é tirar CI/CD do campo do mistério. Você não precisa dominar toda a infraestrutura para fazer leitura útil de pipeline. Basta aprender a perguntar o que protege o release, que evidência ajuda na falha e qual bloqueio é coerente com o risco do fluxo. Isso já coloca você em um patamar muito melhor de conversa técnica. E faz isso sem sobrecarregar o estudo com complexidade desnecessária, o que era exatamente a intenção desta versão pessoal do handbook.
+
+Se quiser revisar depois, tente olhar outro workflow do seu portfólio e responder mentalmente as mesmas perguntas: o que bloqueia, por que bloqueia, o que produz diagnóstico e onde existe ruído demais. Repetir essa lógica em pipelines diferentes vai solidificar a percepção de que CI/CD, para QA, é menos sobre YAML bonito e mais sobre feedback confiável para decisão de release.
+
+<MissionSummary
+  missionId="/docs/05-cicd/missao-gate-release"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo a leitura de pipeline como instrumento de risco. Termine as etapas e observe a relação entre gate, confiança e evidência."
+  partialText="A lógica de bloqueio já apareceu. Vale rever a missão pensando em artefato de falha e peso diferente entre tipos de check."
+  completeText="Você leu a pipeline com mentalidade de QA: bloqueou o que muda confiança do release e valorizou evidência que acelera investigação."
+/>
+
+<Quiz
+  id="missao-gate-release-q1"
+  question="Qual frase resume melhor o papel do QA em CI/CD nesta missão?"
+  options={[
+    "Aumentar o número de jobs sempre melhora a qualidade.",
+    "O objetivo principal é colorir a pipeline de verde o mais rápido possível.",
+    "QA usa a pipeline para bloquear riscos relevantes e produzir feedback útil para investigar falhas.",
+    "Preview deve acontecer independentemente do resultado dos testes.",
+  ]}
+  correctIndex={2}
+  explanation="A missão reforçou que o valor da pipeline está em proteger confiança do release e gerar informação acionável, não só em executar passos automáticos."
+/>
+
+<KeyTakeaways
+  items={[
+    "Gate bom bloqueia o que compromete confiança real do release.",
+    "Artefato de falha é parte essencial da qualidade da pipeline.",
+    "Lint, E2E e preview têm papéis diferentes e não precisam ter o mesmo peso narrativo.",
+    "CI/CD útil combina velocidade, clareza e bloqueio coerente com o risco.",
+  ]}
+/>
+
+<ChecklistItem id="05-cicd-missao-gate-release">
+  Concluí a missão de gate de release em CI/CD
+</ChecklistItem>

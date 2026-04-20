@@ -7,9 +7,15 @@
 # test & build
 /coverage
 /.next/
+/.next-buildcheck/
 /out/
 /build
+/playwright-report/
+/test-results/
+.playwright-cli/
 *.tsbuildinfo
+*.log
+*.pid
 
 # misc
 .DS_Store
@@ -24,3 +30,4 @@ yarn-error.log*
 .env*.local
 .vercel
 next-env.d.ts
+.vercel

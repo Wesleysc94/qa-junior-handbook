@@ -6,7 +6,7 @@ description: Como usar o QA Junior Handbook, roadmap em 8 semanas e métricas do
 import { ChecklistItem } from '@/components/learning/ChecklistItem';
 import { ProgressBar } from '@/components/learning/ProgressBar';
 import { Mermaid } from '@/components/mdx/Mermaid';
-import { QUIZ_COUNT_PLACEHOLDER, TOTAL_CHAPTERS } from '@/lib/checklist-registry';
+import { TOTAL_CHAPTERS, TOTAL_MISSIONS, TOTAL_QUIZZES } from '@/lib/checklist-registry';
 
 ## Carta de boas-vindas
 
@@ -14,7 +14,7 @@ Sou o Wesley Carvalho, em transição para QA de formação (TripleTen 2025), co
 
 ## Como usar este manual
 
-Você pode seguir a trilha linear (recomendado no começo) ou pular direto para o módulo que precisa no dia — API antes de E2E, por exemplo. Marque os checkpoints, faça os quizzes e use os flashcards do glossário para revisão espaçada. O progresso fica só no seu navegador (localStorage), sem backend.
+Você pode seguir a trilha linear (recomendado no começo) ou pular direto para o módulo que precisa no dia — API antes de E2E, por exemplo. Marque os checkpoints, faça os quizzes e use os flashcards do glossário para revisão espaçada. Agora cada módulo de 1 a 8 também fecha com uma missão guiada curta, pensada para decisão por toque e revisão no celular. O progresso, favoritos, fila de revisão e última leitura ficam só no seu navegador (localStorage), sem backend.
 
 ## Roadmap sugerido — 8 semanas
 
@@ -39,7 +39,7 @@ Você pode seguir a trilha linear (recomendado no começo) ou pular direto para 
 
 - Vocabulário sólido de QA, testes e automação, com exemplos reais (não slide genérico).
 - Capacidade de explicar seus projetos (Toolshop, Swag Lab) com profundidade técnica.
-- Checklists e modelos que você pode copiar no trabalho.
+- Uma rotina de estudo pessoal com missões guiadas, foco e revisão inteligente no navegador.
 
 ## Pré-requisitos
 
@@ -49,7 +49,7 @@ Assumimos que você já viu HTML na prática e entende o básico de lógica (con
 
 <div className="not-prose my-6 space-y-3 rounded-xl border border-fd-border bg-fd-card p-4">
   <p className="text-sm text-fd-muted-foreground">
-    Capítulos rastreados: {TOTAL_CHAPTERS} · Quizzes planejados: {QUIZ_COUNT_PLACEHOLDER}+ (preenchidos conforme a redação avança).
+    Capítulos rastreados: {TOTAL_CHAPTERS} · Quizzes finais: {TOTAL_QUIZZES} · Missões guiadas: {TOTAL_MISSIONS}.
   </p>
   <div className="max-w-md">
     <p className="mb-1 text-xs font-medium text-fd-muted-foreground">Progresso geral</p>

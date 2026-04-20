@@ -1,111 +1,106 @@
 ---
-title: "Perguntas que o recrutador faz sobre seus projetos"
-description: "30 perguntas com respostas modelo — Toolshop, Swag Lab, Playwright, API e CI — para treinar pitch e profundidade."
+title: "Perguntas de recrutador"
+description: "30 respostas modelo."
 ---
 
 import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
 import { EstimatedTime } from '@/components/learning/EstimatedTime';
 import { ChecklistItem } from '@/components/learning/ChecklistItem';
 import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
-import { InterviewQuestion } from '@/components/learning/InterviewQuestion';
+import { Quiz } from '@/components/learning/Quiz';
 
 <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
   <DifficultyBadge level="intermediario" />
-  <EstimatedTime minutes={35} />
+  <EstimatedTime minutes={24} />
 </div>
 
-Use este capítulo como **roteiro de estudo**, não como texto para decorar palavra por palavra. Treine em voz alta; ajuste números e nomes de branch ao seu repositório real.
+## Pitch dos seus projetos
 
-## Escolha de ferramentas e arquitetura
+Este capítulo amarra os projetos do portfólio em fala de entrevista. O grande objetivo é transformar código, bugs, pipeline e README em narrativa curta, segura e coerente sobre o que você sabe fazer e por que tomou certas decisões. Em QA júnior, o ganho real aparece quando você consegue reconhecer esse assunto no backlog, na conversa de refinement, na escolha do cenário de teste e no momento de comunicar risco para o time. Em vez de decorar uma definição isolada, a meta é entender o efeito prático que ela tem sobre cobertura, prioridade, confiança do release e qualidade da comunicação.
 
-<InterviewQuestion question="Por que Playwright e não Cypress?" difficulty="media" category="Prática">
-  Escolhi Playwright pela **integração multi-browser** nativa (Chromium, Firefox, WebKit), **trace viewer** forte para CI e adoção crescente em vagas 2026. Cypress é excelente em DX, mas eu queria stack alinhada a pipelines com **sharding** e runners Linux — e evitar limitações que já conheço de domínio único em alguns cenários. Em empresa, a escolha seria conjunta com o time; aqui foi decisão de portfólio com foco em mercado e manutenção.
-</InterviewQuestion>
+Boa narrativa tem começo, meio e fim. Sinais ruins aparecem quando a explicação pula de ferramenta em ferramenta sem dizer por que aquilo importou para qualidade do produto. Esse é o tipo de leitura que diferencia uma pessoa que só executa passo a passo de alguém que começa a pensar como profissional de qualidade. Quando o conceito fica claro, você passa a observar o produto de forma mais estruturada e deixa de depender apenas de feeling.
 
-**Por que o mesmo produto em três camadas no Toolshop?** Para mostrar que entendo **feedback em profundidade**: manual para exploração e narrativa de bug; API para contrato e negativo rápido; E2E para jornada. Não é repetir trabalho — é pegar classes diferentes de defeito.
+## Por que isso importa no mercado brasileiro
 
-**Por que repositórios separados em vez de monorepo?** Comunicação clara por entregável (cada link do GitHub é um capítulo). Trade-off: mais overhead. Em produção eu avaliaria monorepo se o time precisar de release unificado.
+No mercado brasileiro, muita pessoa boa tecnicamente perde força na conversa porque descreve projeto como lista de ferramenta. Recrutador quer entender objetivo, estratégia, decisão, bug encontrado, aprendizado e impacto percebido. Em muitas empresas brasileiras, o time de QA ainda é enxuto e precisa trabalhar com tempo curto, pressão de entrega e processos em amadurecimento. Nessa realidade, dominar perguntas de recrutador não é luxo acadêmico; é uma forma concreta de reduzir retrabalho, dar feedback mais rápido e escolher melhor onde vale investir energia.
 
-**Python na API e TypeScript no E2E não é excesso?** Reflete **mercado**: pytest para API é língua comum; TS com Playwright é padrão de front. Mostro que aprendo **duas stacks** com propósito, não por acumular buzzword.
+Outro ponto importante é a comunicação. Em squads pequenos, QA conversa o tempo todo com dev, PO, suporte, liderança e, às vezes, até com cliente interno. Quem domina este assunto consegue explicar impacto de negócio sem dramatizar, justificar prioridade sem achismo e negociar escopo com base em evidência. Isso pesa muito em avaliação de maturidade, inclusive para vagas júnior.
 
-## Qualidade, severidade e decisão
+Também por isso vale revisar o tema pensando em linguagem. Conceito técnico bem entendido melhora ticket, comentário em PR, relatório de execução, conversa de triagem e até a forma como você pede ajuda quando ainda não tem certeza sobre uma hipótese. Em QA, clareza operacional quase sempre anda junto com clareza de comunicação.
 
-**Como você decide severidade de um bug?** Pelo **impacto no usuário e no negócio**, não pela sua frustração. Bloqueio de compra em checkout é crítico para receita; typo no rodapé é baixa. Eu cruzo com **prioridade** (urgência) porque times discutem prioridade com PO — severidade informa técnico.
+## Exemplo concreto de fluxo
 
-**O que significa o No Go no Toolshop?** Significa: **com o conjunto de evidências atual**, eu não recomendaria liberar como produção sem mitigar riscos X e Y. Não é “projeto ruim” — é **postura de QA** com documentação.
+Quando Wesley fala do Toolshop e do Swag Lab, o ideal é ligar produto-alvo, camada de cobertura, decisão de stack, pipeline, bug conhecido e recomendação de release em respostas de 30 segundos, 60 segundos e 2 minutos. Repare que o valor do exemplo não está só no defeito encontrado ou no teste que passou. O valor está no encadeamento: hipótese, execução, evidência, decisão e acompanhamento. Esse encadeamento é o que transforma uma atividade pontual em prática profissional de QA.
 
-**Por que testes que passam sabendo que há bug (problem_user)?** É **política de CI**: defeito conhecido e aceito pelo negócio não pode pintar o pipeline de vermelho o tempo todo (alarm fatigue), mas precisa estar em **issue/known issues**. Se o risco aumenta, mudo a política e falho o job de novo.
+Quando você recria um cenário assim no portfólio, o recrutador enxerga duas coisas. Primeiro, que você sabe usar o conceito fora do slide. Segundo, que você entende como documentar raciocínio para que outra pessoa consiga continuar o trabalho sem depender da sua memória. Em ambiente real, isso poupa tempo, reduz mal-entendido e dá mais previsibilidade ao ciclo de qualidade.
 
-## Automação e manutenção
+Esse cuidado com narrativa de evidência é especialmente útil para quem está em transição de carreira. Ele transforma projeto de estudo em demonstração concreta de repertório profissional, porque mostra não só o que você testou, mas como pensou, priorizou, registrou e aprendeu com o resultado.
 
-**O que é flaky test e como você trata?** É teste que falha sem mudança de código — geralmente espera ruim, dado compartilhado ou ambiente. Tratamento: **trace**, reprodução local, isolamento de estado, `expect` com auto-wait, evitar `sleep`. Se continua instável, marco como quarentena e abro bug de estabilidade.
+## Sinais que você deve observar no dia a dia
 
-**Por que Page Object?** Para **centralizar locators e ações** e reduzir custo quando a UI muda. O spec fala de comportamento; a Page encapsula como alcançar esse comportamento.
+Boa narrativa tem começo, meio e fim. Sinais ruins aparecem quando a explicação pula de ferramenta em ferramenta sem dizer por que aquilo importou para qualidade do produto. Bons QAs aprendem a perceber esses sinais cedo, antes que o problema vire retrabalho caro ou defeito em produção. Isso vale tanto para fluxo manual quanto para API, automação, CI/CD e comportamento do time.
 
-**Por que não usar sleep?** Porque mascara problema real de sincronismo e deixa CI lento. Playwright tem **auto-wait**; quando não basta, `waitForResponse` ou condições explícitas do fluxo.
+Na prática, observar sinais significa olhar para o que mudou no requisito, onde a evidência ainda está fraca, que parte do fluxo concentra mais risco, que automação está frágil ou que conversa ainda ficou ambígua. Quanto mais cedo você conecta esses indícios ao conceito estudado, mais natural fica aplicar o assunto fora do handbook.
 
-## API e dados
+## Artefato que vale construir no portfólio
 
-**O que você valida num teste de API?** Status, **corpo** (campos críticos ou schema), headers quando importam (auth, rate limit), e tempo só se houver SLO. Negativo: payload inválido, auth ausente, recurso inexistente.
+Mesmo um outline em markdown já ajuda a treinar o pitch até ele ficar natural. O objetivo é sair do capítulo com um entregável tangível: algo que você possa anexar em issue, colocar no README do projeto ou usar como referência quando precisar repetir o raciocínio em outro contexto.
 
-**401 vs 403?** **401** — não autenticou. **403** — autenticou mas **não pode** (permissão). Erro comum: dizer “não autorizado” para os dois.
+O foco não é decorar; é ganhar segurança para contar uma história técnica com começo e fim. Quando você transforma conhecimento em artefato, fica mais fácil revisar, explicar em entrevista e provar que domina o tema com evidência em vez de discurso genérico.
 
-## CI/CD
+## Erros comuns de iniciante
 
-**Como funciona seu pipeline?** Gatilho em `push`/PR, jobs separados ou por path para API e E2E, instalação de deps com cache, execução de testes, **upload de artefato** em falha. Secrets vêm do GitHub, nunca commitados.
+Erro comum: responder “usei Playwright, pytest e GitHub Actions” sem conectar ferramenta a risco e decisão. Outro erro é falar só do caminho feliz e esconder o que deu errado. O primeiro erro clássico é tratar o assunto como receita pronta e tentar aplicar a mesma solução em qualquer sistema. Produto, time, risco e maturidade de processo mudam; por isso, a mesma prática precisa ser adaptada ao contexto.
 
-**O que você melhoraria?** Matriz de browsers, paralelização com shards, e talvez unificar jobs com `workflow_call` se o YAML duplicar demais.
+Outro erro frequente é confundir atividade com resultado. Escrever caso de teste, montar collection, abrir bug ou subir pipeline não garante qualidade por si só. O que garante valor é saber por que aquilo existe, que risco cobre, que decisão habilita e como será mantido depois. Quando você liga ação a propósito, a qualidade do trabalho sobe muito.
 
-## Comportamento e postura
+## Como praticar no portfólio
 
-**Conte uma vez que você discordou de um dev.** Use **STAR**: situação (bug com impacto mal entendido), tarefa (precisava de consenso em release), ação (mostrei evidência + usuário afetado + proposta de reteste), resultado (decisão documentada). Sem acusação — **fatos primeiro**.
+Grave três versões do seu pitch: 30 segundos, 60 segundos e 2 minutos. Depois escute procurando repetições, buzzwords vazias e pontos em que faltou evidência. O segredo é não tentar parecer “sênior de mentirinha”. Em vez de inventar um processo perfeito, documente o que você faria, por que escolheu esse recorte e quais limitações ainda existem. Honestidade bem escrita transmite mais maturidade do que prometer cobertura total sem evidência.
 
----
+Uma boa rotina é fechar cada estudo com três entregáveis: um artefato reutilizável, uma decisão justificada e uma reflexão sobre erro comum. Esse trio fortalece memória técnica, melhora sua fala em entrevista e cria um histórico público de evolução. Com o tempo, os capítulos do handbook deixam de ser só revisão e viram matéria-prima do seu portfólio.
 
-### Perguntas rápidas (respostas em formato telefone)
+## Como explicar isso em entrevista
 
-1. **Qual o objetivo do portfólio?** Demonstrar raciocínio de QA ponta a ponta, não só ferramenta.  
-2. **O que você faria com mais uma semana?** Acessibilidade sistemática ou teste de carga mínimo — dependendo do risco do produto-alvo.  
-3. **Como prioriza testes com prazo curto?** **Risk-based**: o que mais dói se falhar? Smoke do crítico primeiro.  
-4. **Como documenta bug?** Título claro, passos, esperado vs atual, evidência, ambiente.  
-5. **O que é smoke?** Checagem rápida de que **o sistema sobrevive** e o caminho principal não está quebrado.  
-6. **O que é regressão?** Garantir que **o que já funcionava** continua após mudança.  
-7. **Por que httpx com pytest?** Cliente moderno, assertions legíveis, ótima história em API.  
-8. **Como lida com dados sensíveis?** Secrets no CI, nunca log; `.env` fora do git.  
-9. **O que aprendeu com falha de pipeline?** Importância de artefato (trace/screenshot) e de não ignorar vermelho crônico.  
-10. **Diferença QA e QC?** QA olha **processo** para prevenir; QC olha **produto** para detectar — no dia a dia os papéis se misturam, mas a distinção importa em entrevista.  
-11. **Onde entra o QA no refinement?** Cenários, riscos, critérios de aceite testáveis.  
-12. **O que é DoD?** Lista objetiva de “pronto”; deve incluir testes acordados.  
-13. **Por que não só automação?** Automatizar sem entender vira **dívida**; manual e exploração ainda acham classes de bug.  
-14. **Como prova impacto do seu trabalho?** Bugs priorizados, incidentes evitados, tempo de feedback de CI — o que tiver dado.  
-15. **O que é idempotência?** Repetir a mesma operação não amplifica efeito indesejado — GET idempotente, POST em geral não.
+A melhor resposta é a que liga ferramenta, risco, evidência e decisão. Isso mostra maturidade muito maior do que tentar soar “super técnico” sem narrativa. Em entrevista, a melhor resposta quase nunca é a mais longa; é a mais conectada com cenário real. Explique em voz alta como você perceberia o problema, que decisão tomaria primeiro e que evidência mostraria para sustentar a sua recomendação.
 
----
+Se quiser parecer mais seguro sem soar decorado, use uma estrutura simples: contexto, risco, ação, evidência e próximo passo. Essa organização funciona para pergunta técnica e comportamental, porque mostra pensamento crítico. Recrutador percebe quando você entende o assunto no nível da operação e não apenas no nível da definição.
 
-### Mais 15 (treine respostas de 30–60 segundos)
+## Como isso conversa com o restante do handbook
 
-16. **Como escolhe seletores?** Hierarquia Playwright: role, label, texto, test id — CSS/XPath por último.  
-17. **O que é contract testing?** Validar que consumidor e provedor concordam no contrato — aqui você pode citar “schema + testes de API” como aproximação.  
-18. **Como lida com ambiente instável?** Isolar dependência, dados de teste, retries com política clara — não esconder flakiness.  
-19. **O que traz de diferente em relação a outros juniores?** Narrativa com **três camadas** + **CI** + **decisões documentadas**.  
-20. **Por que SauceDemo?** Fluxo completo curto e conhecido — foco em **engenharia de teste**, não em aprender produto obscuro.  
-21. **O que você mediria em produto real?** Defect escape rate, MTTR, tempo de pipeline, cobertura de risco — nem sempre métricas vanity de “número de casos”.  
-22. **Como se atualiza?** Documentação oficial (Playwright), newsletters, comunidade BR, prática em projetos.  
-23. **O que é shift-left?** Antecipar qualidade — QA envolvido cedo, testes antes do fim do sprint.  
-24. **Como diz não a um release?** Com **dados**: risco, severidade, impacto, alternativas (rollback, feature flag).  
-25. **O que é teste exploratório?** Simultâneo aprendizado + teste, sem script rígido — útil achar **novos** bugs.  
-26. **Como evita duplicar bugs?** Busca no Jira, palavras-chave, conversa rápida com dev antes de abrir.  
-27. **O que pede ao dev para melhorar testabilidade?** `data-testid` estável, logs claros, feature flag, ambiente de staging confiável.  
-28. **Diferença entre erro e falha?** Erro pode ser estado interno; falha é desvio **observável** do esperado.  
-29. **O que leva em entrevista comportamental?** 3 histórias STAR (conflito, prazo, aprendizado) baseadas nos **projetos reais**.  
-30. **Por que devemos te contratar?** Porque eu já mostro **como penso** (arquitetura, risco, pipeline) — e consigo aprender o produto de vocês com a mesma disciplina.
+Este tema não vive isolado. Em projeto real, ele conversa com o restante do handbook o tempo todo: com análise de risco quando você precisa decidir profundidade de cobertura, com bug report quando a evidência precisa ser bem comunicada, com automação quando o mesmo raciocínio precisa virar regressão sustentável e com entrevista quando você transforma prática em narrativa técnica clara.
+
+Vale a pena revisar o capítulo pensando justamente nessas conexões. Pergunte a si mesmo: em qual projeto do meu portfólio este conceito já apareceu? Em que tipo de bug, decisão de pipeline, escolha de locator, discussão de critério de aceite ou recomendação de release ele ficou mais visível? Essa ponte entre assunto e experiência é o que realmente consolida aprendizado duradouro e evita que o conteúdo fique preso só na memória de curto prazo.
+
+## Checklist mental para levar para o trabalho
+
+Antes de fechar este capítulo, vale revisar um checklist mental rápido. Você sabe definir o conceito com suas palavras? Consegue citar um caso real ou plausível de mercado brasileiro? Sabe apontar um erro comum de iniciante e explicar por que ele custa caro para o time? Se a resposta ainda estiver vacilando, releia as seções pensando no seu projeto atual ou no seu portfólio.
+
+O objetivo final não é decorar o texto deste material. O objetivo é ganhar um raciocínio portátil: algo que você consiga reaplicar em backlog novo, stack diferente e contexto de negócio diferente. Quando isso acontece, o estudo deixa de ser passivo e passa a produzir confiança de execução.
+
+Se você quiser extrair ainda mais valor deste capítulo, feche a leitura anotando uma frase com o conceito principal, um exemplo do seu portfólio e uma dúvida que ainda precisa investigar. Essa rotina simples acelera revisão espaçada e transforma estudo em plano de ação.
+
+Uma forma especialmente útil de consolidar o conteúdo é explicá-lo para outra pessoa como se você estivesse em pairing, onboarding ou revisão de bug. Quando você verbaliza a definição, o contexto brasileiro, o exemplo prático e o erro comum, fica muito mais fácil perceber onde ainda existe lacuna de entendimento. Esse tipo de prática também melhora a sua comunicação profissional, porque aproxima estudo técnico da forma como o assunto aparece em daily, triagem, retrospectiva e entrevista.
+
+<Quiz
+  id="perguntas-recrutador-q1"
+  question="O que mais fortalece a resposta sobre projeto em entrevista?"
+  options={[
+    "Listar o maior número possível de ferramentas",
+    "Conectar contexto, estratégia, achados, decisões e aprendizado",
+    "Evitar falar de bug para não parecer negativo",
+    "Descrever somente a UI do projeto",
+  ]}
+  correctIndex={1}
+  explanation="Projeto forte em entrevista é explicado como narrativa técnica: contexto, estratégia, evidência, decisão e aprendizado."
+/>
 
 <KeyTakeaways
   items={[
-    "Não decore: treine histórias curtas (30s, 60s, 2 min) com números reais do seu repo.",
-    "Toda resposta técnica pode terminar com trade-off — mostra maturidade.",
-    "Política de bug conhecido + CI verde exige narrativa ética — ensaie sem parecer maquiador.",
-    "Ligue sempre ferramenta → risco → feedback → decisão — é o fio condutor do portfólio.",
+    "Pitch bom transforma projeto em narrativa, não em lista de ferramentas.",
+    "Contexto, estratégia, achado e aprendizado precisam aparecer juntos.",
+    "Treinar versões curtas e longas do pitch aumenta muita confiança.",
+    "Bugs e trade-offs bem explicados fortalecem, e não enfraquecem, o portfólio.",
   ]}
 />
 

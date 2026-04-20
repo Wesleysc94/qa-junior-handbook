@@ -1,26 +1,499 @@
 ---
 title: "Termos técnicos"
-description: "Flashcards por categoria (expandir para 50+)."
+description: "Glossário com flashcards e revisão espaçada por categoria."
 ---
 
 import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
 import { EstimatedTime } from '@/components/learning/EstimatedTime';
 import { ChecklistItem } from '@/components/learning/ChecklistItem';
 import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { Flashcard } from '@/components/learning/Flashcard';
 
 <div className="not-prose mb-6 flex flex-wrap items-center gap-3">
   <DifficultyBadge level="iniciante" />
-  <EstimatedTime minutes={20} />
+  <EstimatedTime minutes={24} />
 </div>
 
-## Revisão rápida
+## Revisão rápida com repetição inteligente
 
-[Conteúdo a desenvolver]
+Este glossário foi pensado para consolidar linguagem técnica de QA e apoiar revisão espaçada entre os módulos. Glossário não serve para decorar buzzword solta. Ele serve para acelerar leitura de requisito, melhorar a conversa com o time e evitar travar em entrevista quando aparece um termo técnico que você até já viu, mas ainda não transformou em vocabulário próprio. Por isso, este capítulo foi organizado em blocos de revisão curta, pensados para leitura recorrente.
+
+No mercado brasileiro, esse tipo de revisão faz diferença porque o QA júnior costuma circular entre contextos muito diferentes: startup sem processo maduro, software house com cliente variado, squad interna em empresa tradicional ou vaga com foco mais manual no começo. Quando o vocabulário está afiado, você gasta menos energia tentando lembrar conceito básico e pode investir o raciocínio no problema real.
+
+## Como usar os flashcards de forma inteligente
+
+Use os cards como ferramenta de repetição espaçada, não como leitura linear única. Clique, tente definir com suas palavras, avalie se você realmente sabe aplicar o termo e só depois veja a definição. Se um termo parecer “óbvio”, force um segundo passo: em que cenário de projeto esse conceito apareceu ou deveria aparecer? Essa ponte com prática é o que fixa conhecimento.
+
+Outro detalhe importante: termo técnico sem contexto vira enfeite. Por isso, ao revisar um card, tente associar o conceito a um bug, um teste, uma discussão de backlog, uma pipeline ou uma pergunta de entrevista. Quanto mais exemplos concretos você tiver na cabeça, menos chance de soar decorado quando precisar explicar o assunto ao vivo.
+
+## Fundamentos
+
+Antes de abrir os flashcards de fundamentos, vale perceber o fio condutor entre termos como QA, QC, Smoke test, Regressão, Severidade. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="QA"
+  definition="Disciplina de prevenção, detecção e comunicação de risco de qualidade ao longo do ciclo de desenvolvimento."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="QC"
+  definition="Foco maior na inspeção do produto entregue para detectar desvios e falhas observáveis."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Smoke test"
+  definition="Conjunto enxuto de verificações para confirmar que o sistema continua vivo nos fluxos mais críticos."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Regressão"
+  definition="Validação para garantir que comportamentos que já funcionavam continuem íntegros após uma mudança."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Severidade"
+  definition="Medida do impacto técnico ou funcional de um defeito sobre produto e usuário."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Prioridade"
+  definition="Urgência de tratar um problema no contexto do negócio e do momento do release."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Idempotência"
+  definition="Propriedade de uma operação que pode ser repetida sem amplificar efeito colateral inesperado."
+  category="Fundamentos"
+/>
+
+<Flashcard
+  term="Risco"
+  definition="Combinação entre impacto potencial e probabilidade de um problema ocorrer ou escapar."
+  category="Fundamentos"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## Processo ágil
+
+Antes de abrir os flashcards de processo ágil, vale perceber o fio condutor entre termos como Backlog, Refinement, DoR, DoD, Retrospectiva. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Backlog"
+  definition="Fila priorizada de trabalho que representa demandas, melhorias, bugs e iniciativas do produto."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="Refinement"
+  definition="Momento em que o time esclarece requisitos, dependências, critérios e riscos antes da implementação."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="DoR"
+  definition="Definition of Ready; conjunto mínimo de condições para um item entrar em desenvolvimento com clareza suficiente."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="DoD"
+  definition="Definition of Done; critérios objetivos que indicam quando um item pode ser considerado realmente pronto."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="Retrospectiva"
+  definition="Cerimônia de inspeção do processo em que o time decide o que manter, corrigir ou experimentar."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="Kanban"
+  definition="Método de fluxo contínuo orientado por visualização do trabalho, limites de WIP e redução de gargalos."
+  category="Processo ágil"
+/>
+
+<Flashcard
+  term="Scrum"
+  definition="Framework ágil com papéis, cadência e cerimônias definidos para organizar entrega incremental."
+  category="Processo ágil"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## QA manual
+
+Antes de abrir os flashcards de qa manual, vale perceber o fio condutor entre termos como Caso de teste, Checklist, Bug report, Cenário de teste, Massa de teste. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Caso de teste"
+  definition="Descrição executável de pré-condição, passos, dados e resultado esperado para um cenário específico."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Checklist"
+  definition="Lista de validações críticas, útil para smoke e execução recorrente em fluxos já conhecidos."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Bug report"
+  definition="Registro estruturado de defeito com contexto reproduzível, evidência, impacto e resultado observado."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Cenário de teste"
+  definition="Situação de negócio ou comportamento do sistema que o QA decide explorar ou validar."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Massa de teste"
+  definition="Conjunto de dados usado para executar cenários e reproduzir regras do sistema."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Exploratório"
+  definition="Abordagem em que aprendizado, execução e investigação acontecem de forma adaptativa."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Workaround"
+  definition="Alternativa temporária que permite continuar usando o sistema apesar de um defeito existir."
+  category="QA manual"
+/>
+
+<Flashcard
+  term="Rastreabilidade"
+  definition="Capacidade de ligar requisito, caso, bug, execução e evidência ao longo do fluxo."
+  category="QA manual"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## API
+
+Antes de abrir os flashcards de api, vale perceber o fio condutor entre termos como Endpoint, Payload, Header, 401, 403. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Endpoint"
+  definition="Ponto de acesso de uma API, representado por uma rota que expõe determinado recurso ou operação."
+  category="API"
+/>
+
+<Flashcard
+  term="Payload"
+  definition="Conteúdo enviado ou recebido na requisição, normalmente em JSON, XML ou outro formato serializado."
+  category="API"
+/>
+
+<Flashcard
+  term="Header"
+  definition="Metadado HTTP usado para autenticação, serialização, cache, segurança e comportamento de integração."
+  category="API"
+/>
+
+<Flashcard
+  term="401"
+  definition="Status que indica falha ou ausência de autenticação para acessar o recurso."
+  category="API"
+/>
+
+<Flashcard
+  term="403"
+  definition="Status que indica identidade reconhecida, porém sem permissão para o recurso solicitado."
+  category="API"
+/>
+
+<Flashcard
+  term="404"
+  definition="Status que indica recurso inexistente ou indisponível naquele endereço solicitado."
+  category="API"
+/>
+
+<Flashcard
+  term="422"
+  definition="Status comum para indicar que a estrutura da requisição é válida, mas os dados violam regra de validação."
+  category="API"
+/>
+
+<Flashcard
+  term="Schema"
+  definition="Estrutura esperada do corpo de resposta ou request, incluindo campos, tipos e, às vezes, restrições."
+  category="API"
+/>
+
+<Flashcard
+  term="JWT"
+  definition="Token assinado usado para representar identidade e claims de autorização em muitos sistemas."
+  category="API"
+/>
+
+<Flashcard
+  term="Bearer token"
+  definition="Forma de envio de token no header Authorization, normalmente como prova de autenticação."
+  category="API"
+/>
+
+<Flashcard
+  term="Rate limit"
+  definition="Limite de consumo de requisições em um intervalo, usado para proteger estabilidade e abuso."
+  category="API"
+/>
+
+<Flashcard
+  term="CORS"
+  definition="Mecanismo de política entre origens que controla como browsers podem acessar recursos externos."
+  category="API"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## Automação E2E
+
+Antes de abrir os flashcards de automação e2e, vale perceber o fio condutor entre termos como Playwright, Locator, POM, Flaky test, Trace. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Playwright"
+  definition="Framework moderno de automação web com foco em multi-browser, auto-wait e boa observabilidade."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Locator"
+  definition="Estratégia usada pelo teste para encontrar um elemento na interface de forma estável e legível."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="POM"
+  definition="Page Object Model; padrão que centraliza locators e ações de uma tela em abstrações reutilizáveis."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Flaky test"
+  definition="Teste instável que falha sem mudança real no sistema, geralmente por sincronização ou estado ruim."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Trace"
+  definition="Artefato rico de execução que ajuda a revisar passos, rede, snapshots e falhas em automação."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Fixture"
+  definition="Recurso de framework para preparar e fornecer contexto reutilizável aos testes."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Auto-wait"
+  definition="Capacidade do framework de aguardar automaticamente certas condições antes de agir ou afirmar."
+  category="Automação E2E"
+/>
+
+<Flashcard
+  term="Assertion"
+  definition="Verificação que confirma se o comportamento observado corresponde ao esperado pelo teste."
+  category="Automação E2E"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## CI/CD
+
+Antes de abrir os flashcards de ci/cd, vale perceber o fio condutor entre termos como Workflow, Job, Runner, Artifact, Cache. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Workflow"
+  definition="Arquivo que descreve quando e como um pipeline de automação deve ser executado."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Job"
+  definition="Bloco de execução dentro do workflow com runner, steps e objetivo específico."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Runner"
+  definition="Máquina ou ambiente onde os steps do job são executados."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Artifact"
+  definition="Arquivo publicado pelo pipeline para apoiar debug, auditoria ou consumo posterior."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Cache"
+  definition="Mecanismo de reaproveitamento de dependências ou arquivos para acelerar execuções repetidas."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Secret"
+  definition="Valor sensível consumido pela pipeline sem ficar exposto no código versionado ou nos logs."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Gate de qualidade"
+  definition="Etapa ou critério que precisa passar antes que o fluxo siga para merge, release ou deploy."
+  category="CI/CD"
+/>
+
+<Flashcard
+  term="Nightly"
+  definition="Execução agendada, muitas vezes noturna, usada para regressões mais pesadas ou menos urgentes."
+  category="CI/CD"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## Segurança e qualidade
+
+Antes de abrir os flashcards de segurança e qualidade, vale perceber o fio condutor entre termos como Autenticação, Autorização, Dados sensíveis, PII, Least privilege. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="Autenticação"
+  definition="Processo de provar identidade de uma requisição, usuário ou serviço."
+  category="Segurança e qualidade"
+/>
+
+<Flashcard
+  term="Autorização"
+  definition="Decisão sobre o que uma identidade autenticada pode ou não acessar."
+  category="Segurança e qualidade"
+/>
+
+<Flashcard
+  term="Dados sensíveis"
+  definition="Informações que exigem cuidado especial por risco de privacidade, segurança ou compliance."
+  category="Segurança e qualidade"
+/>
+
+<Flashcard
+  term="PII"
+  definition="Personally Identifiable Information; dado capaz de identificar uma pessoa de forma direta ou indireta."
+  category="Segurança e qualidade"
+/>
+
+<Flashcard
+  term="Least privilege"
+  definition="Princípio de conceder somente o mínimo de acesso necessário para cada usuário ou serviço."
+  category="Segurança e qualidade"
+/>
+
+<Flashcard
+  term="Observabilidade"
+  definition="Capacidade de entender o comportamento do sistema por logs, métricas, traces e evidências relevantes."
+  category="Segurança e qualidade"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## Carreira e entrevista
+
+Antes de abrir os flashcards de carreira e entrevista, vale perceber o fio condutor entre termos como STAR, Pitch, Portfolio review, Go/No Go, Known issue. Eles costumam aparecer juntos em backlog, bug report, pipeline, planejamento de cobertura e entrevista técnica. Quando você entende a relação entre esses conceitos, deixa de tratar vocabulário como lista decorada e começa a enxergar um mapa mental de decisão: o que observar, o que perguntar, que risco existe e como explicar isso para o restante do time.
+
+Um erro comum de iniciante nesta categoria é conhecer a definição isolada, mas não reconhecer o termo no contexto real do projeto. Por isso, use este bloco tentando conectar cada palavra a um caso concreto do seu portfólio, a uma conversa com dev ou a uma evidência que você já produziu. Essa prática acelera a revisão, melhora a sua fluência em português técnico e ajuda muito quando você precisa responder rápido em entrevista sem soar engessado.
+
+<Flashcard
+  term="STAR"
+  definition="Estrutura de resposta comportamental: situação, tarefa, ação e resultado."
+  category="Carreira e entrevista"
+/>
+
+<Flashcard
+  term="Pitch"
+  definition="Apresentação curta e clara de um projeto, experiência ou proposta de valor profissional."
+  category="Carreira e entrevista"
+/>
+
+<Flashcard
+  term="Portfolio review"
+  definition="Leitura crítica do seu material público para avaliar clareza, profundidade e evidência de competência."
+  category="Carreira e entrevista"
+/>
+
+<Flashcard
+  term="Go/No Go"
+  definition="Recomendação consciente de liberar ou não um produto com base em evidência e risco."
+  category="Carreira e entrevista"
+/>
+
+<Flashcard
+  term="Known issue"
+  definition="Defeito conhecido e registrado, cujo impacto e tratamento já foram explicitamente documentados."
+  category="Carreira e entrevista"
+/>
+
+<Flashcard
+  term="Mentoria"
+  definition="Acompanhamento estruturado que acelera aprendizado técnico e adaptação ao contexto do time."
+  category="Carreira e entrevista"
+/>
+
+Fechando esta categoria, faça uma revisão ativa: escolha três termos, explique com suas palavras e diga em que situação de QA você esperaria encontrá-los. Esse hábito simples transforma memória curta em repertório prático e deixa mais fácil perceber lacunas antes de uma entrevista, de uma daily ou de uma execução importante no portfólio.
+
+## Fechamento de revisão
+
+Depois de revisar os cards, separe alguns minutos para identificar padrões. Quais conceitos se conectam com risco? Quais aparecem mais em API e E2E? Quais entram em bug report, priorização ou CI/CD? Esse agrupamento mental acelera muito sua curva de aprendizado porque transforma palavras soltas em mapa de decisão.
+
+Também vale registrar termos que ainda soam nebulosos. O glossário não substitui os outros módulos; ele aponta onde você precisa aprofundar. Se “idempotência” ficou fraca, volte ao módulo de API. Se “flaky test” ainda está confuso, revise E2E e pipeline. O uso ideal do glossário é exatamente esse: diagnosticar lacuna e guiar a próxima revisão.
+
+<Quiz
+  id="termos-tecnicos-q1"
+  question="Qual é o melhor uso do glossário do handbook?"
+  options={[
+    "Ler uma vez e nunca mais voltar",
+    "Usar os cards para revisar termos e identificar lacunas antes da entrevista",
+    "Substituir totalmente os outros módulos",
+    "Decorar siglas sem contexto",
+  ]}
+  correctIndex={1}
+  explanation="O glossário funciona melhor como ferramenta de revisão recorrente, ajudando a identificar o que ainda precisa de aprofundamento nos outros módulos."
+/>
 
 <KeyTakeaways
   items={[
-    '[Conteúdo a desenvolver] — adicionar aprendizados reais ao final da redação.',
-    'Incluir exemplo prático e menção a erro comum conforme checklist de qualidade do handbook.',
+    "Glossário bom acelera leitura de requisito, bug, pipeline e entrevista.",
+    "Flashcards funcionam melhor com repetição espaçada e associação a casos reais.",
+    "Termo técnico sem contexto vira decoração, não repertório.",
+    "Use o glossário para diagnosticar lacunas e voltar ao módulo certo.",
   ]}
 />
 

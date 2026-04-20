@@ -1,0 +1,238 @@
+---
+title: "Missão guiada — triagem de checkout"
+description: "Escolha a melhor leitura de bug report, evidência e checklist para um defeito em checkout."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="iniciante" />
+  <EstimatedTime minutes={17} />
+</div>
+
+<CaseStudyHero
+  title="Bug report de checkout com CEP inválido"
+  scenario="Você recebeu um registro curto sobre o campo de CEP no checkout. A missão é decidir o que está bom, o que falta e qual seria a próxima ação manual mais inteligente."
+  goal="Treinar leitura de bug report, qualidade de evidência e escolha de checklist sem precisar escrever ou editar nada."
+  touchHint="As respostas foram desenhadas para estudo por toque. Observe o impacto do bug, a clareza do relato e o que ainda precisa de contexto."
+/>
+
+## Por que esta missão existe
+
+Estudo pessoal de QA manual costuma ficar preso em definição de caso de teste, checklist e bug report. Isso ajuda no começo, mas não resolve um problema comum: na hora de ler um bug de verdade, a pessoa ainda não sabe identificar o que está faltando. Esta missão foi criada para atacar exatamente esse ponto. Em vez de pedir que você escreva um report do zero, ela coloca um report já pronto na sua frente e pede decisões curtas. Esse formato é ótimo para celular, porque você pratica julgamento técnico sem depender de editor, template ou ferramenta externa.
+
+Outro ganho importante é treinar a diferença entre “o bug existe” e “o bug está bem documentado”. Às vezes o defeito é real, mas o registro está fraco. Em outras situações, o defeito pode até parecer pequeno, porém a documentação é tão boa que acelera correção e reduz ruído com dev. Um QA júnior que aprende a ler bug report com esse olhar sobe muito de nível, porque passa a enxergar não só o problema do sistema, mas também a qualidade da comunicação que acompanha o problema.
+
+## O cenário do defeito
+
+O fluxo é simples: no checkout, o usuário consegue digitar letras no campo de CEP e ainda assim calcular frete normalmente. O impacto não está apenas no formato errado. O valor real está em perceber que o sistema aceita dado inconsistente e segue para uma etapa seguinte que depende desse dado. Em produto real, isso costuma contaminar logística, cálculo, comunicação com o usuário e investigação posterior. Por isso, este tipo de bug é bom para treino: ele não parece “explosivo” à primeira vista, mas toca validação, regra de negócio e experiência.
+
+Também vale notar que estamos olhando um registro que já traz ambiente, passos e impacto. Isso é melhor do que um relato vago como “CEP quebrou”. Ainda assim, existe espaço para melhorar. E é exatamente nesse espaço que o seu olhar de QA cresce. Em vez de perguntar só “o bug está certo ou errado?”, vamos perguntar “este report já ajuda o time a agir rápido?” e “que próxima verificação manual faz mais sentido depois de ler essa evidência?”.
+
+<EvidenceCard
+  title="Bug report recebido pelo time"
+  kind="Bug report"
+  caption="Leia o texto como se tivesse acabado de chegar na triagem e decidisse se ele está pronto para investigação ou se ainda precisa de reforço."
+  assetHref="/case-studies/02-qa-manual/checkout-bug-report.txt"
+>
+
+```text
+BUG-127 - Campo de CEP aceita letras e libera cálculo de frete
+
+Ambiente:
+- Staging 2026.04.17
+- iPhone 13 / Safari
+- Usuário logado com endereço salvo
+
+Passos:
+1. Abrir checkout
+2. Apagar CEP preenchido
+3. Digitar "12AB5-00"
+4. Tocar em "Calcular frete"
+
+Resultado atual:
+- Frete calculado normalmente
+- API recebe payload com CEP inválido
+
+Evidências:
+- Screenshot do estado da tela
+- Log da requisição /shipping/quote
+- Vídeo curto reproduzindo o fluxo
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/02-qa-manual/missao-triagem-checkout" totalSteps={4} />
+
+## O olhar que queremos praticar
+
+Ler um report com maturidade significa separar três perguntas. A primeira é: o defeito está reproduzível? A segunda é: o impacto ficou claro? A terceira é: o time consegue agir sem precisar correr atrás de metade do contexto? Quando você exercita isso de forma recorrente, passa a produzir e revisar bug report com menos esforço. O mais interessante é que esse treino não depende de ferramenta específica. Ele cabe tanto em Jira quanto em planilha, markdown ou issue do GitHub. O princípio é o mesmo: clareza operacional.
+
+No mercado brasileiro, isso faz muita diferença porque times menores sofrem quando o contexto vai e volta várias vezes. Um report fraco gera pergunta extra, dúvida sobre ambiente, interpretação ambígua e atraso de correção. Já um report forte diminui ruído, facilita validação de fix e melhora a imagem do QA dentro do squad. Por isso, mesmo quando o defeito não é catastrófico, a qualidade da descrição continua sendo valiosa. Ela é parte do trabalho, não um extra opcional.
+
+<DecisionStep
+  missionId="/docs/02-qa-manual/missao-triagem-checkout"
+  missionTitle="Missão guiada — triagem de checkout"
+  chapterUrl="/docs/02-qa-manual/missao-triagem-checkout"
+  stepId="qualidade-geral"
+  title="Etapa 1"
+  prompt="Qual leitura melhor descreve a qualidade atual desse bug report?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Está perfeito e já não precisa de mais nada, porque o bug foi reproduzido.',
+      rationale: 'Reprodução importa, mas ainda vale olhar se há contexto suficiente para triagem e validação futura.',
+    },
+    {
+      label: 'Está bom o bastante para investigação inicial, mas ainda pode ganhar contexto de impacto esperado e regra de validação.',
+      rationale: 'Essa é a melhor leitura. O report está acima da média porque já traz ambiente, passos e evidências, mas ainda pode ficar mais forte.',
+      correct: true,
+    },
+    {
+      label: 'Está fraco demais e deveria ser descartado até existir template completo.',
+      rationale: 'Descartar seria exagero. Há material útil aqui, e o papel do QA também é melhorar report sem burocratizar demais.',
+    },
+  ]}
+/>
+
+## O que ainda pode ser fortalecido
+
+Um detalhe que faria diferença neste report é deixar mais explícito o comportamento esperado. O leitor infere que letras não deveriam passar, mas registrar isso reduz ambiguidade. Outra melhoria seria amarrar melhor o impacto: se a API recebe CEP inválido e ainda calcula frete, o problema não é só visual ou de máscara; existe violação de regra e risco de dado incoerente seguir adiante. Esse tipo de explicação ajuda muito o dev a entrar no defeito já entendendo por que ele importa.
+
+Também vale pensar em validação futura. Quando a correção chegar, o time vai precisar saber exatamente o que conferir. Um report com expectativa clara acelera reteste e evita interpretação torta do tipo “agora o campo bloqueia letra, então está tudo certo”. Talvez ainda seja necessário validar colagem de texto, máscara, mensagem de erro e comportamento da API. Quanto mais o QA aprende a deixar esses pontos visíveis, menos o defeito fica preso em uma reprodução única e mais ele vira um caso útil para o ciclo inteiro.
+
+<DecisionStep
+  missionId="/docs/02-qa-manual/missao-triagem-checkout"
+  missionTitle="Missão guiada — triagem de checkout"
+  chapterUrl="/docs/02-qa-manual/missao-triagem-checkout"
+  stepId="evidencia-mais-valiosa"
+  title="Etapa 2"
+  prompt="Qual evidência tende a ser mais valiosa para encurtar a análise técnica desse caso?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'A screenshot sozinha, porque ela mostra que existe um CEP estranho na tela.',
+      rationale: 'A imagem ajuda, mas sozinha não explica o que foi enviado para a API nem como a regra falhou.',
+    },
+    {
+      label: 'O log da requisição /shipping/quote, porque mostra que dado inválido saiu da interface e entrou na camada de integração.',
+      rationale: 'Correto. Esse tipo de evidência aproxima UI e backend, deixando a falha mais objetiva para investigação.',
+      correct: true,
+    },
+    {
+      label: 'Somente o vídeo curto, porque gravação sempre substitui os outros anexos.',
+      rationale: 'Vídeo é útil, mas não substitui evidência textual ou técnica quando o time precisa analisar payload e regra.',
+    },
+  ]}
+/>
+
+## Como escolher a próxima verificação manual
+
+Depois que o bug está entendido, o próximo passo não é sair testando tudo de forma aleatória. É escolher a verificação manual que melhor amplia o entendimento do risco. Nesse cenário, você poderia perguntar: o campo aceita letras digitadas e também coladas? A mensagem de erro aparece? A API rejeita o payload se a UI falhar? O usuário consegue prosseguir até pagamento? Essas perguntas mostram que QA manual não é apenas executar passo a passo. É investigar comportamento e decidir onde vale aprofundar.
+
+Esse tipo de pensamento é ótimo para estudo individual porque cria um hábito de priorização. Em vez de abrir vinte possibilidades ao mesmo tempo, você aprende a escolher a próxima checagem com mais retorno. Em times reais, isso economiza energia e acelera descoberta de causa. Em entrevista, também vira argumento forte: você consegue explicar não só o bug encontrado, mas por que decidiu validar determinados cenários antes de outros. Isso sinaliza raciocínio, não só obediência a script.
+
+<DecisionStep
+  missionId="/docs/02-qa-manual/missao-triagem-checkout"
+  missionTitle="Missão guiada — triagem de checkout"
+  chapterUrl="/docs/02-qa-manual/missao-triagem-checkout"
+  stepId="proxima-acao-manual"
+  title="Etapa 3"
+  prompt="Qual seria a próxima ação manual mais inteligente logo após confirmar a reprodução inicial?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Abrir casos de busca genérica para qualquer outro campo do checkout, sem relação com o defeito.',
+      rationale: 'Isso espalha foco cedo demais e não aprofunda o risco principal já detectado.',
+    },
+    {
+      label: 'Validar outras entradas inválidas do CEP e conferir se a API continua aceitando payload inconsistente.',
+      rationale: 'Boa escolha. Você amplia a leitura do problema mantendo o foco na regra quebrada e em sua propagação.',
+      correct: true,
+    },
+    {
+      label: 'Encerrar a investigação assim que a primeira reprodução for registrada.',
+      rationale: 'Reprodução inicial é só começo. Ainda faltam contorno do impacto e variações úteis para correção e reteste.',
+    },
+  ]}
+/>
+
+## Onde checklist entra nesta história
+
+Checklist não substitui caso de teste detalhado, mas ajuda muito em regressão curta e validação recorrente. Quando você encontra um bug como este, uma boa pergunta é: “o que deste cenário deveria entrar no meu checklist de checkout para não escapar fácil de novo?”. Talvez não seja o passo inteiro com todos os detalhes, mas ao menos uma linha lembrando validação de CEP inválido, máscara, mensagem de erro e coerência entre interface e API. Esse tipo de inserção torna a revisão futura mais inteligente.
+
+O erro comum é transformar checklist em documento gigante ou genérico demais. Para estudo pessoal e uso no trabalho, a melhor versão costuma ser curta e orientada por risco. Em vez de listar vinte frases vagas, você registra poucos pontos que já provaram valor. Esta missão ajuda justamente a enxergar como um bug documentado pode alimentar uma verificação recorrente. Esse ciclo fecha bem o aprendizado: detectar, registrar, entender e reaproveitar o conhecimento na próxima execução.
+
+<DecisionStep
+  missionId="/docs/02-qa-manual/missao-triagem-checkout"
+  missionTitle="Missão guiada — triagem de checkout"
+  chapterUrl="/docs/02-qa-manual/missao-triagem-checkout"
+  stepId="item-de-checklist"
+  title="Etapa 4"
+  prompt="Qual item faz mais sentido adicionar a um checklist curto de checkout depois deste bug?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Verificar todos os textos da home antes de qualquer release.',
+      rationale: 'Pode ser útil em outro contexto, mas não reaproveita o aprendizado mais direto deste defeito.',
+    },
+    {
+      label: 'Validar que CEP inválido não calcula frete e que a integração não recebe payload inconsistente.',
+      rationale: 'Esse item transforma a lição do bug em checagem recorrente de alto valor para o mesmo fluxo.',
+      correct: true,
+    },
+    {
+      label: 'Anotar apenas “testar checkout” sem detalhar o risco encontrado.',
+      rationale: 'Muito genérico. Checklist bom precisa lembrar o que realmente merece atenção.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+O melhor resultado desta missão é sair dela com um novo reflexo: ler bug report como ferramenta de ação. Você não precisa virar especialista em template para isso. Basta treinar as perguntas certas. O defeito está reproduzível? O impacto está claro? A evidência encurta a vida do dev? Já sei qual variação manual testar em seguida? Existe um aprendizado que vale entrar no checklist? Quando essas perguntas ficam naturais, QA manual deixa de parecer um conjunto de documentos soltos e passa a funcionar como investigação organizada.
+
+Se quiser revisar este capítulo depois, tente reler o bug report e responder mentalmente o que você adicionaria em uma única linha para deixá-lo ainda mais forte. Pode ser a expectativa, pode ser uma nota de impacto, pode ser uma variação relevante. O importante é perceber que melhoria de documentação quase sempre nasce de leitura crítica, não de burocracia. E essa leitura crítica é exatamente o que você está fortalecendo aqui.
+
+<MissionSummary
+  missionId="/docs/02-qa-manual/missao-triagem-checkout"
+  totalSteps={4}
+  incompleteText="Você ainda está aquecendo o olhar para ler bug report além da reprodução. Termine as etapas e observe a relação entre evidência, impacto e próxima ação manual."
+  partialText="O bug já está sendo lido com mais maturidade. Refaça as respostas pensando em como o report ajuda correção, reteste e checklist futuro."
+  completeText="Você tratou o report como um QA manual sólido: leu impacto, escolheu a evidência mais útil, expandiu a investigação e reaproveitou o aprendizado em checklist."
+/>
+
+<Quiz
+  id="missao-triagem-checkout-q1"
+  question="Qual ideia melhor resume esta missão?"
+  options={[
+    "Bug report serve só para provar que o defeito existe.",
+    "Quanto mais template, melhor, mesmo sem contexto.",
+    "Um bug report forte combina reprodução, impacto, evidência útil e pistas para próxima ação.",
+    "Checklist substitui qualquer investigação manual adicional.",
+  ]}
+  correctIndex={2}
+  explanation="A missão mostrou que documentação boa não é excesso de texto; é contexto suficiente para investigação, correção e reteste."
+/>
+
+<KeyTakeaways
+  items={[
+    "Bug report bom reduz ida e volta porque combina reprodução, impacto e evidência acionável.",
+    "Log ou payload costuma ser muito valioso quando a falha atravessa interface e integração.",
+    "A próxima ação manual deve aprofundar o risco principal, não espalhar foco cedo demais.",
+    "Checklist funciona melhor quando nasce de bugs reais e fica orientado por risco recorrente.",
+  ]}
+/>
+
+<ChecklistItem id="02-qa-manual-missao-triagem-checkout">
+  Concluí a missão de triagem manual de checkout
+</ChecklistItem>

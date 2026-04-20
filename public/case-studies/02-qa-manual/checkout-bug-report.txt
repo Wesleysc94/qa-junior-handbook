@@ -1,0 +1,25 @@
+BUG-127 - Campo de CEP aceita letras e libera cálculo de frete
+
+Ambiente:
+- Staging 2026.04.17
+- iPhone 13 / Safari
+- Usuário logado com endereço salvo
+
+Passos:
+1. Abrir checkout
+2. Apagar CEP preenchido
+3. Digitar "12AB5-00"
+4. Tocar em "Calcular frete"
+
+Resultado atual:
+- Frete calculado normalmente
+- API recebe payload com CEP inválido
+
+Evidências:
+- Screenshot do estado da tela
+- Log da requisição /shipping/quote
+- Vídeo curto reproduzindo o fluxo
+
+Impacto:
+- Usuário segue para pagamento com endereço inconsistente
+- Time de logística pode receber dados incorretos

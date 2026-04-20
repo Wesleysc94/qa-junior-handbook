@@ -1,0 +1,4 @@
+Pergunta 1: Como você explicaria um bug importante para dev e PO ao mesmo tempo?
+Pergunta 2: Conte um caso em que você precisou priorizar risco sem travar o time.
+Pergunta 3: Como você decidiria o primeiro teste a automatizar em um projeto novo?
+Pergunta 4: Como você responderia sobre faixa salarial sem parecer inseguro?

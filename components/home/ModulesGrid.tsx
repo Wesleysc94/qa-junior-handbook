@@ -22,6 +22,7 @@ export function ModulesGrid() {
               estimatedHours={m.estimatedHours}
               difficulty={m.difficulty}
               entrySlug={m.entrySlug}
+              missionSlug={m.missionSlug}
             />
           ))}
         </div>

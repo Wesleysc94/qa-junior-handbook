@@ -1,0 +1,240 @@
+---
+title: "Missão guiada — priorização de release"
+description: "Classifique severidade, prioridade e impacto de negócio em um cenário curto de checkout."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="iniciante" />
+  <EstimatedTime minutes={16} />
+</div>
+
+<CaseStudyHero
+  title="Release de checkout na sexta-feira"
+  scenario="Você é o QA mais próximo do release e recebeu três defeitos já triados pelo time. O objetivo não é escrever nada: é decidir, por toque, o que realmente muda a recomendação final."
+  goal="Treinar a diferença entre severidade, prioridade, impacto real no usuário e decisão de liberar ou segurar uma entrega."
+  touchHint="Leia a evidência, responda cada etapa curta e use o feedback imediato para consolidar o raciocínio."
+/>
+
+## Como pensar nesta missão
+
+Em começo de carreira, muita gente aprende severidade e prioridade como duas colunas abstratas. Na prática, elas só fazem sentido quando entram em conflito. É exatamente por isso que este tipo de missão ajuda tanto no estudo individual. Você não precisa abrir planilha, ferramenta de bug ou backlog real. Basta olhar para a situação, imaginar o efeito no usuário e decidir qual problema muda a recomendação de release. Esse exercício cabe muito bem no celular porque é rápido, concreto e obriga você a enxergar consequência, não só definição decorada.
+
+Outra vantagem é que esse cenário junta duas camadas ao mesmo tempo: leitura técnica e leitura de negócio. O defeito visual do Safari iOS chama atenção porque aparece fácil, mas não necessariamente bloqueia release. Já uma falha em Pix com centavos pode passar batida se você olhar só para uma reprodução superficial, porém mexe com receita, confiança do fluxo e risco de suporte. Quando você se acostuma a comparar esses sinais, fica mais fácil conversar com PO, dev e liderança sem parecer que está só repetindo rótulo.
+
+## Cenário resumido do release
+
+O time quer publicar uma versão nova do checkout antes do fim do expediente. Existe pressão porque a sprint já está no fim e há expectativa de liberar uma melhoria de cupom e ajuste visual de formulário. Ao mesmo tempo, três defeitos conhecidos apareceram no aquecimento do release: um ligado a desconto duplicado, um puramente visual no campo de CEP e outro ligado a falha de Pix quando o valor tem centavos. O contexto é importante porque o mesmo bug pode ter leitura diferente dependendo da janela, do canal mais usado e do custo de liberar algo imperfeito.
+
+Se você estivesse estudando isso só por teoria, talvez concluísse rápido demais que “bug crítico sempre bloqueia” e “bug visual sempre pode esperar”. No mundo real, ainda existe nuance. Às vezes um visual quebra acessibilidade, afeta conversão ou impede leitura de um botão. Em outras ocasiões, um bug funcional relevante afeta apenas um fluxo secundário com workaround claro. O que queremos treinar aqui é justamente a capacidade de fazer essa leitura com calma, usando a evidência disponível e pensando primeiro em risco concreto.
+
+<EvidenceCard
+  title="Resumo de triagem do release"
+  kind="Evidência pronta"
+  caption="Use esta lista curta para decidir o que bloqueia, o que entra como débito conhecido e o que precisa de comunicação imediata."
+  assetHref="/case-studies/01-fundamentos/release-triage.json"
+>
+
+```json
+{
+  "release": "2026.04.19-checkout",
+  "issues": [
+    {
+      "id": "BUG-481",
+      "title": "Cupom aplica desconto duplicado em compras acima de R$ 500",
+      "severity": "alta",
+      "priority": "alta"
+    },
+    {
+      "id": "BUG-482",
+      "title": "Placeholder do CEP desalinha no Safari iOS",
+      "severity": "baixa",
+      "priority": "media"
+    },
+    {
+      "id": "BUG-483",
+      "title": "Pagamento por Pix falha quando o total tem centavos",
+      "severity": "critica",
+      "priority": "alta"
+    }
+  ]
+}
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/01-fundamentos/missao-priorizacao-release" totalSteps={4} />
+
+## O que observar antes de tocar nas respostas
+
+Antes de responder, vale fazer uma leitura mental simples: qual bug ameaça receita diretamente, qual ameaça percepção de qualidade e qual ameaça conforto visual? Em estudo pessoal, esse micro-ritual evita resposta automática. Você começa a classificar efeito em camadas: o que impede pagamento, o que desorganiza experiência e o que gera ruído mas não quebra fluxo. Essa ordem ajuda muito quando você estiver lendo backlog de verdade, porque reduz a chance de tratar tudo como emergência.
+
+Também é bom lembrar que severidade não é sinônimo de “quem grita mais na sala”. Severidade fala de impacto técnico e funcional. Prioridade fala de urgência para o negócio naquele momento. Em um release apertado, você precisa juntar os dois. Um QA júnior que consegue explicar isso com clareza passa mais segurança do que alguém que só diz “é crítico porque sim”. Segurança aqui não significa parecer inflexível. Significa mostrar por que determinado defeito muda a recomendação final e por que outro pode ser documentado como risco conhecido.
+
+<DecisionStep
+  missionId="/docs/01-fundamentos/missao-priorizacao-release"
+  missionTitle="Missão guiada — priorização de release"
+  chapterUrl="/docs/01-fundamentos/missao-priorizacao-release"
+  stepId="bug-mais-sensivel"
+  title="Etapa 1"
+  prompt="Qual defeito muda primeiro a sua recomendação de release?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'BUG-482, porque Safari iOS é um canal importante e o desalinhamento fica visível.',
+      rationale: 'Canal importante merece atenção, mas o problema descrito é visual e não indica quebra de fluxo principal.',
+    },
+    {
+      label: 'BUG-483, porque impedir Pix em totais com centavos afeta pagamento real e receita.',
+      rationale: 'Essa é a leitura mais forte. Há falha funcional em um método de pagamento e o impacto aparece direto no fechamento da compra.',
+      correct: true,
+    },
+    {
+      label: 'BUG-481, porque desconto duplicado atinge compras maiores e pode ser tratado depois do deploy.',
+      rationale: 'Desconto duplicado também é grave, mas a justificativa está contraditória: o problema é sério e não deveria ser minimizado sem análise.',
+    },
+  ]}
+/>
+
+## Por que a primeira decisão importa tanto
+
+Quando você escolhe o bug que muda o release, está fazendo muito mais do que apontar o “pior defeito”. Você está definindo onde o time vai gastar energia, quem precisa ser acionado primeiro e que comunicação o produto deve receber. No caso do Pix com centavos, existe uma relação direta entre valor monetário e fechamento do fluxo. O usuário chega ao momento de pagar e falha exatamente ali. Isso costuma gerar abandono, tentativa repetida, desgaste com suporte e ruído desnecessário para um defeito que está no coração da experiência.
+
+Isso não significa que o cupom duplicado seja leve. Ele também machuca negócio. A diferença é que, nessa foto específica, o bug de pagamento costuma ganhar frente porque interrompe a conclusão do pedido para um meio de pagamento já disponível na interface. Em triagem real, você ainda olharia volume de uso, workaround, taxa de erro e capacidade de hotfix. Mesmo assim, como exercício fundamental, priorizar o problema que quebra pagamento ajuda a consolidar o raciocínio mais importante: impacto no fluxo crítico pesa muito.
+
+<DecisionStep
+  missionId="/docs/01-fundamentos/missao-priorizacao-release"
+  missionTitle="Missão guiada — priorização de release"
+  chapterUrl="/docs/01-fundamentos/missao-priorizacao-release"
+  stepId="bug-que-pode-esperar"
+  title="Etapa 2"
+  prompt="Qual defeito tem mais chance de seguir como risco conhecido, desde que seja documentado e acompanhado?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'BUG-482, porque o impacto descrito é visual e não há sinal de bloqueio funcional.',
+      rationale: 'Boa leitura. Não é “ignorar” o defeito; é reconhecer que ele parece menos destrutivo do que os problemas ligados a pagamento e desconto.',
+      correct: true,
+    },
+    {
+      label: 'BUG-483, porque só acontece com centavos e o usuário pode tentar boleto.',
+      rationale: 'Essa resposta subestima um problema de pagamento real e assume workaround sem validar se ele é aceitável para o negócio.',
+    },
+    {
+      label: 'BUG-481, porque cupom é opcional e não deveria pesar em release.',
+      rationale: 'Cupom pode ser opcional, mas desconto duplicado afeta valor cobrado e pode virar prejuízo direto.',
+    },
+  ]}
+/>
+
+## Risco conhecido não é sinônimo de descuido
+
+Uma armadilha comum de iniciante é achar que, se algo não bloqueia release, então deixa de importar. Não é assim. O conceito de risco conhecido existe justamente para proteger o time da falsa sensação de perfeição. Se o bug visual no Safari iOS realmente não quebra funcionalidade, ele pode entrar no release com comunicação adequada, plano de acompanhamento e decisão consciente. O erro estaria em tratar o problema como irrelevante, sem registro, sem owner e sem combinar quando ele volta para a fila.
+
+No mercado brasileiro, essa maturidade pesa muito porque times enxutos vivem de trade-off. O QA que sabe dizer “isto pode entrar, mas entra com risco conhecido, impacto limitado e owner definido” ajuda o time a sair do tudo-ou-nada. Ao mesmo tempo, esse mesmo QA precisa saber proteger a linha quando o defeito encosta em receita, pagamento, segurança ou confiança de uso. A missão aqui é aprender exatamente esse equilíbrio: firmeza onde precisa, flexibilidade onde faz sentido.
+
+<DecisionStep
+  missionId="/docs/01-fundamentos/missao-priorizacao-release"
+  missionTitle="Missão guiada — priorização de release"
+  chapterUrl="/docs/01-fundamentos/missao-priorizacao-release"
+  stepId="comunicacao-mais-importante"
+  title="Etapa 3"
+  prompt="Se o time decidir segurar a publicação por algumas horas, qual comunicação você prioriza primeiro?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Avisar primeiro que há um ajuste visual em Safari e depois detalhar o restante.',
+      rationale: 'Começar pelo problema visual tira foco do risco mais importante do release.',
+    },
+    {
+      label: 'Comunicar que existe falha em método de pagamento e que o release está retido por impacto em conversão e receita.',
+      rationale: 'Essa é a mensagem mais útil para alinhar urgência. Ela explica o motivo do bloqueio com linguagem de negócio e não só técnica.',
+      correct: true,
+    },
+    {
+      label: 'Esperar a correção ficar pronta e só então avisar o restante do time.',
+      rationale: 'Segurar a informação piora alinhamento e pode fazer a liderança continuar esperando um release saudável que já está comprometido.',
+    },
+  ]}
+/>
+
+## Como falar disso sem soar alarmista
+
+Comunicar risco não é dramatizar. É dar contexto suficiente para que as pessoas certas entendam por que a decisão foi tomada. Em vez de dizer apenas “tem bug crítico”, vale dizer algo como: “o release está retido porque o fluxo de Pix falha em valores com centavos, o que afeta fechamento de compra e risco de receita”. Essa forma de falar é mais madura porque conecta evidência técnica, momento do produto e consequência para o negócio. Você sai do adjetivo solto e entra na explicação útil.
+
+Esse hábito também ajuda em entrevista e em rotina real. Muito QA júnior entende o problema, mas não explica com clareza. Quando você treina comunicações curtas e objetivas em cenários como este, fica mais fácil participar de triagem, daily e handoff sem travar. E como o exercício é curto, ele cabe bem em revisão individual: cinco minutos de leitura, quatro decisões e uma síntese já são suficientes para deixar o conceito mais firme do que uma releitura passiva.
+
+<DecisionStep
+  missionId="/docs/01-fundamentos/missao-priorizacao-release"
+  missionTitle="Missão guiada — priorização de release"
+  chapterUrl="/docs/01-fundamentos/missao-priorizacao-release"
+  stepId="smoke-pos-fix"
+  title="Etapa 4"
+  prompt="Depois da correção do bug mais grave, qual smoke deveria vir primeiro?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Validar só o visual do campo de CEP, porque o restante já foi visto antes.',
+      rationale: 'Smoke precisa começar pelo fluxo que acabou de colocar o release em risco, não pelo item menos destrutivo.',
+    },
+    {
+      label: 'Refazer o pagamento Pix com total inteiro apenas, porque já mostra se a tela abre.',
+      rationale: 'Testar só o caso inteiro não cobre a condição que quebrou o fluxo.',
+    },
+    {
+      label: 'Reexecutar Pix com centavos, valores sem centavos e um pagamento alternativo para checar regressão básica.',
+      rationale: 'Essa opção cobre o defeito corrigido, compara com um caso vizinho e ainda verifica se outro meio de pagamento segue íntegro.',
+      correct: true,
+    },
+  ]}
+/>
+
+## Fechamento do raciocínio
+
+O ponto mais importante desta missão não é acertar todas as etapas na primeira tentativa. É perceber a lógica por trás das respostas. Um bom estudo pessoal não tenta imitar a pressão total de um ambiente real; ele treina blocos de decisão que você poderá reaplicar depois. Aqui, o bloco treinado foi: ler evidência curta, separar impacto visual de impacto funcional, comunicar risco com linguagem de negócio e escolher um smoke coerente com a correção feita. Isso já é um ganho enorme para quem quer sair do estudo passivo.
+
+Se você revisar esta missão daqui a alguns dias, tente se perguntar: “eu continuaria escolhendo o Pix como principal bloqueador se o canal representasse pouco uso?” ou “o desconto duplicado poderia subir na fila se estivesse em promoção nacional?”. Essas variações são ótimas porque mostram que severidade e prioridade vivem no contexto. Quanto mais cedo você entende isso, mais natural fica conversar com times reais, interpretar backlog e justificar decisões sem cair em respostas prontas demais.
+
+<MissionSummary
+  missionId="/docs/01-fundamentos/missao-priorizacao-release"
+  totalSteps={4}
+  incompleteText="Você ainda está montando a leitura base de severidade e prioridade. Termine as decisões e observe como o impacto em fluxo crítico pesa mais do que o incômodo visual."
+  partialText="O raciocínio principal já apareceu. Agora vale refazer as etapas pensando em comunicação de risco e ordem de smoke para consolidar a lógica completa."
+  completeText="Você tratou a missão como QA de release: diferenciou impacto funcional, escolheu bem o risco mais sensível e manteve a comunicação centrada em negócio."
+/>
+
+<Quiz
+  id="missao-priorizacao-release-q1"
+  question="Qual frase resume melhor o aprendizado desta missão?"
+  options={[
+    "Severidade e prioridade são sinônimos e podem ser usadas da mesma forma.",
+    "Bug visual sempre é irrelevante em qualquer release.",
+    "Impacto em fluxo crítico, contexto do negócio e comunicação clara definem melhor a decisão de release.",
+    "O smoke deve começar sempre pelo item mais fácil de validar.",
+  ]}
+  correctIndex={2}
+  explanation="A missão mostrou que a decisão madura de release depende do impacto no fluxo, do contexto do negócio e da forma como o risco é comunicado."
+/>
+
+<KeyTakeaways
+  items={[
+    "Severidade fala de impacto; prioridade fala de urgência no contexto do negócio.",
+    "Nem todo bug visível bloqueia release, mas todo risco conhecido precisa de registro e owner.",
+    "Comunicação madura conecta defeito técnico com consequência prática para produto e receita.",
+    "Smoke pós-fix deve cobrir o defeito corrigido e os fluxos vizinhos mais sensíveis.",
+  ]}
+/>
+
+<ChecklistItem id="01-fundamentos-missao-priorizacao-release">
+  Concluí a missão de priorização de release
+</ChecklistItem>

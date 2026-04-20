@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/cn';
 import { useProgressStore } from '@/lib/progress';
+import { useChapterMeta } from '@/components/docs/ChapterMetaContext';
 
 export interface QuizProps {
   id: string;
@@ -12,22 +13,29 @@ export interface QuizProps {
 }
 
 export function Quiz({ id, question, options, correctIndex, explanation }: QuizProps) {
-  const pick = useProgressStore((s) => s.quizPicks[id]);
+  const result = useProgressStore((s) => s.quizResults[id]);
   const setQuizPick = useProgressStore((s) => s.setQuizPick);
   const clearQuiz = useProgressStore((s) => s.clearQuiz);
+  const chapterMeta = useChapterMeta();
+  const pick = result?.pick;
 
   const answered = pick !== undefined;
   const correct = pick === correctIndex;
 
   function choose(i: number) {
     if (answered) return;
-    setQuizPick(id, i);
+    setQuizPick(id, i, {
+      correct: i === correctIndex,
+      chapterUrl: chapterMeta?.chapterPath,
+      chapterTitle: chapterMeta?.chapterTitle,
+    });
   }
 
   return (
     <div
       className="my-6 rounded-xl border border-fd-border bg-fd-card p-4 shadow-sm"
       data-quiz-id={id}
+      data-testid={`quiz-${id}`}
     >
       <p className="mb-3 font-medium text-fd-card-foreground">{question}</p>
       <div className="grid gap-2 sm:grid-cols-2">

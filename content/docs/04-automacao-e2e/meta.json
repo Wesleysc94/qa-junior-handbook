@@ -7,6 +7,7 @@
     "locators",
     "assertions",
     "esperas",
-    "hooks-fixtures"
+    "hooks-fixtures",
+    "missao-fluxo-flaky"
   ]
 }

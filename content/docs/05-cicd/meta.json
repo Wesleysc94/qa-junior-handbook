@@ -5,6 +5,7 @@
     "github-actions-basico",
     "pipeline-qa",
     "secrets",
-    "artefatos"
+    "artefatos",
+    "missao-gate-release"
   ]
 }

@@ -1,0 +1,24 @@
+{
+  "repos": [
+    {
+      "name": "toolshop-quality-portfolio",
+      "focus": "hub estratégico e narrativa de QA"
+    },
+    {
+      "name": "toolshop-manual-quality",
+      "focus": "casos, bug reports e cobertura manual"
+    },
+    {
+      "name": "toolshop-api-quality-suite",
+      "focus": "pytest, contrato e cenários negativos"
+    },
+    {
+      "name": "toolshop-web-e2e-playwright",
+      "focus": "POM, locators e regressão web"
+    },
+    {
+      "name": "swaglab-quality-suite",
+      "focus": "suite integrada com E2E, API e CI/CD"
+    }
+  ]
+}

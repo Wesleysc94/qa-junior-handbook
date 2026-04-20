@@ -3,31 +3,40 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
-import { appName } from '@/lib/shared';
+import { appName, getAbsoluteUrl, siteConfig } from '@/lib/shared';
 import './global.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://qa-junior-handbook.vercel.app'),
+  metadataBase: new URL(siteConfig.siteUrl),
   title: {
     default: `${appName} — estudo de QA em português`,
     template: `%s | ${appName}`,
   },
-  description:
-    'Livro digital interativo para QA júnior: fundamentos, manual, API, E2E, CI/CD, soft skills e entrevistas — em português brasileiro.',
+  description: siteConfig.description,
   openGraph: {
     title: appName,
     description: 'Handbook de QA júnior com trilha gamificada, quizzes e projetos reais.',
-    url: 'https://qa-junior-handbook.vercel.app',
+    url: siteConfig.siteUrl,
     siteName: appName,
     locale: 'pt_BR',
     type: 'website',
+    images: [
+      {
+        url: getAbsoluteUrl('/og-image.png'),
+        width: 1200,
+        height: 630,
+        alt: `${appName} — handbook de QA em português brasileiro`,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: appName,
+    description: siteConfig.description,
+    images: [getAbsoluteUrl('/og-image.png')],
   },
   alternates: {
-    canonical: 'https://qa-junior-handbook.vercel.app',
+    canonical: siteConfig.siteUrl,
   },
 };
 

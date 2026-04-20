@@ -1,0 +1,222 @@
+---
+title: "Missão guiada — fluxo flaky"
+description: "Decida locator, wait e direção de correção a partir de um log curto de Playwright."
+---
+
+import { DifficultyBadge } from '@/components/learning/DifficultyBadge';
+import { EstimatedTime } from '@/components/learning/EstimatedTime';
+import { ChecklistItem } from '@/components/learning/ChecklistItem';
+import { KeyTakeaways } from '@/components/learning/KeyTakeaways';
+import { Quiz } from '@/components/learning/Quiz';
+import { CaseStudyHero } from '@/components/learning/CaseStudyHero';
+import { EvidenceCard } from '@/components/learning/EvidenceCard';
+import { DecisionStep } from '@/components/learning/DecisionStep';
+import { MissionProgress } from '@/components/learning/MissionProgress';
+import { MissionSummary } from '@/components/learning/MissionSummary';
+
+<div className="not-prose mb-6 flex flex-wrap items-center gap-3">
+  <DifficultyBadge level="intermediario" />
+  <EstimatedTime minutes={18} />
+</div>
+
+<CaseStudyHero
+  title="Teste Playwright falhando de forma intermitente"
+  scenario="Você recebeu um log curto de um teste de carrinho que passa às vezes e falha em outras. A missão é decidir onde está a fragilidade principal e qual correção tende a estabilizar o fluxo."
+  goal="Treinar leitura de flakiness, escolha de locator e uso de espera sem cair em waits arbitrários."
+  touchHint="A ideia não é depurar tudo. É aprender a reconhecer o padrão mais provável de fragilidade a partir de uma evidência pequena."
+/>
+
+## Por que flakiness merece treino separado
+
+Falha flaky costuma consumir mais energia emocional do que bug totalmente quebrado. Quando um teste falha sempre, ao menos o time enxerga o problema com clareza. Já o teste intermitente gera desconfiança, atrasa merge, aumenta retrabalho e enfraquece a percepção de valor da automação. Por isso, vale estudar esse tipo de caso de forma específica. A pessoa em início de carreira muitas vezes responde com o impulso mais perigoso possível: aumentar timeout ou colocar `waitForTimeout`. A missão aqui existe justamente para quebrar esse reflexo e fortalecer uma leitura mais técnica.
+
+Outro motivo importante é que flakiness quase sempre mistura mais de uma pista. Pode haver locator frágil, estado de aplicação mal sincronizado, asserção precoce ou dependência de animação. Em vez de jogar tudo em uma cesta só, queremos treinar a capacidade de identificar o sinal mais forte. Isso é essencial para estudo pessoal porque ensina prioridade. Você não precisa resolver o universo inteiro do teste. Precisa reconhecer qual intervenção tem mais chance de estabilizar o caso sem mascarar o problema.
+
+## O log observado
+
+O teste valida se um item permanece no carrinho após refresh. O log mostra clique em um botão localizado por ordem (`nth(4)`), espera por um texto de sucesso que aparece só depois de 6200ms, recarga da página e falha na asserção do badge do carrinho. Há ainda uma nota importante: o badge só existe depois de um segundo frame de animação, e o seletor atual usa ordem de botão, não locator semântico. Essa combinação já dá pistas fortes. O problema provavelmente não está em “o Playwright ser instável”. Está em como o teste se ancora no DOM e em quando ele decide afirmar o estado.
+
+Esse é um ótimo cenário pedagógico porque reúne dois erros clássicos. O primeiro é usar locator dependente de posição. O segundo é confiar que a UI já estabilizou no momento em que a asserção roda. Em sistemas com animação, renderização tardia ou transição de estado, esse tipo de atalho vira fonte recorrente de ruído. O treino, portanto, é escolher a correção com maior poder de estabilização, não o remendo mais rápido.
+
+<EvidenceCard
+  title="Trecho do log do Playwright"
+  kind="Log de execução"
+  caption="Leia as pistas como se estivesse recebendo um teste flaky em revisão de PR ou em triagem da pipeline."
+  assetHref="/case-studies/04-automacao-e2e/flaky-run.log"
+>
+
+```text
+[debug] locator("button").nth(4) clicked
+[warning] text appeared after 6200ms
+[error] expect(locator('[data-testid="cart-badge"]')).toHaveText("1")
+Received: ""
+[note] selector uses button order, not semantic locator
+```
+
+</EvidenceCard>
+
+<MissionProgress missionId="/docs/04-automacao-e2e/missao-fluxo-flaky" totalSteps={4} />
+
+## O primeiro filtro de leitura
+
+Antes de tocar nas respostas, vale separar a evidência em três perguntas. Onde o teste se ancora? Em que momento ele espera o sistema estabilizar? E o que exatamente a asserção está provando? Aqui, a ancoragem já parece frágil porque depende da ordem dos botões. Se a tela ganhar um botão novo ou reordenar elementos, o clique pode ir para o lugar errado sem que o teste perceba. Além disso, o tempo alto até o texto aparecer sugere que existe alguma mudança de estado ou animação sendo tratada no limite.
+
+Esse filtro simples já evita a solução preguiçosa. Em vez de aumentar timeout em tudo, você pergunta: estou clicando no elemento certo? Estou esperando o sinal certo? Estou afirmando o estado final ou só torcendo para que ele esteja pronto? Quanto mais cedo esse raciocínio entra no seu estudo, mais sustentável fica a forma como você lê automação. E isso vale muito no mercado porque time nenhum quer uma suíte que falha por motivos que ninguém consegue explicar direito.
+
+<DecisionStep
+  missionId="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  missionTitle="Missão guiada — fluxo flaky"
+  chapterUrl="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  stepId="origem-mais-provavel"
+  title="Etapa 1"
+  prompt="Qual é a origem mais provável da fragilidade principal neste cenário?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'O Playwright em si é naturalmente instável e exige timeout maior por padrão.',
+      rationale: 'Essa leitura transfere culpa para a ferramenta e ignora as pistas concretas do log.',
+    },
+    {
+      label: 'O teste combina locator por ordem com sincronização fraca do estado visual do carrinho.',
+      rationale: 'Correto. O log aponta tanto para seletor frágil quanto para asserção acontecendo antes do estado estabilizar.',
+      correct: true,
+    },
+    {
+      label: 'O problema principal é a ausência de screenshot no relatório.',
+      rationale: 'Screenshot ajuda diagnóstico, mas não é a causa da flakiness.',
+    },
+  ]}
+/>
+
+## Locator bom reduz metade do ruído
+
+Uma forma prática de estudar automação é pensar que locator comunica intenção. Quando você usa `button.nth(4)`, a intenção some. O teste deixa de dizer “clicar em adicionar ao carrinho do item X” e passa a dizer “clicar no quinto botão que eu encontrei hoje”. Isso até pode funcionar em uma versão estática da página, mas quase nunca envelhece bem. Locator semântico, por outro lado, ancora a ação em papel, texto ou `data-testid`. Ele protege melhor contra pequenas mudanças de layout e deixa o teste mais legível para quem lê depois.
+
+O valor disso vai além da estabilidade. Locator bom também facilita revisão e depuração. Quando alguém abre o teste, entende o que deveria estar acontecendo. Em estudo pessoal, essa clareza é importante porque acelera aprendizado. Você não fica só vendo o teste passar; aprende a escrever automação que outra pessoa consegue manter. E em uma vaga júnior, essa noção de manutenção pesa muito mais do que inventar uma solução “esperta” que ninguém entende no dia seguinte.
+
+<DecisionStep
+  missionId="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  missionTitle="Missão guiada — fluxo flaky"
+  chapterUrl="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  stepId="melhor-ajuste-locator"
+  title="Etapa 2"
+  prompt="Qual ajuste de locator tende a melhorar mais a confiabilidade do clique?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Trocar por outro nth() com índice diferente, até a falha desaparecer.',
+      rationale: 'Isso apenas desloca o problema e mantém a fragilidade estrutural.',
+    },
+    {
+      label: 'Usar um locator semântico, como data-testid ou role+name do botão esperado.',
+      rationale: 'Essa é a melhor direção porque ancora a ação no significado do elemento e não na posição casual do DOM.',
+      correct: true,
+    },
+    {
+      label: 'Clicar pelo centro da tela com coordenada fixa para evitar mudança de ordem.',
+      rationale: 'Coordenada fixa costuma ser ainda mais frágil do que nth().',
+    },
+  ]}
+/>
+
+## Espera boa não é espera longa
+
+Outra confusão comum é tratar espera como sinônimo de tempo parado. Em automação madura, a melhor espera geralmente é baseada em condição observável. No log, o badge só aparece depois de um segundo frame de animação. Isso sugere que o teste precisa esperar um sinal mais confiável do estado pronto, e não simplesmente dormir por alguns segundos. Pode ser uma espera pela visibilidade do badge, por uma mutação de atributo, por um evento da UI ou por uma assertion que reflita o estado final desejado. O ponto é: esperar pelo que importa.
+
+Esse aprendizado é útil até para quem ainda não automatiza no trabalho. Ele ensina a pensar em sincronização. Aplicação moderna nem sempre responde no mesmo ritmo, e a automação precisa conversar com isso de forma explícita. Em entrevista, essa é uma das melhores diferenças entre resposta iniciante e resposta madura. A iniciante fala “aumentaria timeout”. A madura fala “procuraria um sinal de estado estável e trocaria espera arbitrária por condição observável”. É exatamente isso que esta missão quer reforçar.
+
+<DecisionStep
+  missionId="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  missionTitle="Missão guiada — fluxo flaky"
+  chapterUrl="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  stepId="espera-mais-saudavel"
+  title="Etapa 3"
+  prompt="Qual direção de sincronização parece mais saudável para este caso?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Adicionar waitForTimeout(7000) antes de todas as assertions do teste.',
+      rationale: 'Isso mascara o problema e aumenta custo de execução sem garantir estabilidade real.',
+    },
+    {
+      label: 'Esperar uma condição ligada ao estado final do carrinho, como o badge visível com texto esperado.',
+      rationale: 'Correto. A espera precisa conversar com o estado que você realmente quer provar.',
+      correct: true,
+    },
+    {
+      label: 'Remover o refresh da página para evitar a parte mais difícil do fluxo.',
+      rationale: 'Isso mudaria o comportamento testado em vez de estabilizar a automação que cobre o requisito.',
+    },
+  ]}
+/>
+
+## A assertion também precisa carregar intenção
+
+Nem toda assertion ruim está errada; às vezes ela só acontece cedo demais ou valida um sinal fraco. Neste caso, `toHaveText("1")` no badge pode até ser adequada, desde que o badge realmente seja o melhor reflexo do estado final. O importante é casar assertion com requisito. Se o fluxo pede que o item permaneça no carrinho após refresh, talvez também valha validar linha do item, contagem e persistência do estado, não apenas um badge visual. A missão não quer transformar isso em teste enorme, e sim mostrar que assertion boa precisa refletir comportamento significativo.
+
+Esse raciocínio ajuda muito a evitar automação “bonita” e pouco útil. Às vezes o teste passa porque um badge atualizou, mas o item real sumiu da listagem. Em outras, o badge falha por animação, mas o estado do carrinho está correto. QA maduro tenta reduzir esse desencontro entre o que o sistema faz e o que o teste observa. Quanto mais cedo você treinar isso, mais rápido vai escrever testes que falham pelos motivos certos.
+
+<DecisionStep
+  missionId="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  missionTitle="Missão guiada — fluxo flaky"
+  chapterUrl="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  stepId="proximo-passo"
+  title="Etapa 4"
+  prompt="Qual seria o próximo passo mais pragmático para estabilizar esse teste sem maquiar a falha?"
+  totalSteps={4}
+  options={[
+    {
+      label: 'Refatorar primeiro o locator para algo semântico e revisar a espera com base no estado final do carrinho.',
+      rationale: 'Essa combinação ataca a raiz mais provável da fragilidade sem distorcer o objetivo do teste.',
+      correct: true,
+    },
+    {
+      label: 'Aumentar retries indefinidamente até a pipeline parar de falhar.',
+      rationale: 'Retry pode amortecer ruído eventual, mas não substitui correção de base.',
+    },
+    {
+      label: 'Ignorar o teste por alguns sprints para não atrasar deploy.',
+      rationale: 'Se a automação cobre fluxo relevante, ignorá-la só adia o problema e reduz confiança do time.',
+    },
+  ]}
+/>
+
+## Fechamento da missão
+
+O principal ganho deste estudo é aprender a desconfiar de soluções rápidas demais. Teste flaky raramente se resolve só com mais tempo. Em geral, ele pede locator melhor, sinal mais confiável de sincronização e assertion alinhada ao requisito. Ao treinar isso em um log curto, você reforça um tipo de leitura que depois pode aplicar em suíte real, PR review e entrevista técnica. E faz isso sem precisar abrir IDE ou rodar nada, o que é perfeito para revisão pessoal no celular.
+
+Na próxima vez que vir uma falha intermitente, tente repetir esta sequência: onde o teste se ancora, que estado ele espera, qual comportamento ele prova e qual mudança ataca a raiz com menor custo. Se essa sequência ficar natural, você já saiu do nível em que automação é vista como “caixa preta que quebra” e entrou no nível em que ela começa a parecer uma disciplina legível e ajustável.
+
+<MissionSummary
+  missionId="/docs/04-automacao-e2e/missao-fluxo-flaky"
+  totalSteps={4}
+  incompleteText="Você ainda está montando a leitura base de flakiness. Termine as decisões e observe como locator e sincronização aparecem juntos no mesmo log."
+  partialText="O raciocínio principal já surgiu. Vale revisar a missão pensando em como assertion, wait e locator precisam carregar intenção."
+  completeText="Você tratou a flakiness de forma madura: evitou remendo de timeout, priorizou locator semântico e escolheu uma espera baseada em estado observável."
+/>
+
+<Quiz
+  id="missao-fluxo-flaky-q1"
+  question="Qual frase resume melhor a missão sobre E2E flaky?"
+  options={[
+    "Timeout maior resolve a maior parte dos testes instáveis.",
+    "Flakiness costuma pedir locator melhor e sincronização baseada em condição, não só espera longa.",
+    "O mais importante é adicionar screenshot, mesmo sem mexer no teste.",
+    "Locator por ordem é aceitável se o teste passar na sua máquina.",
+  ]}
+  correctIndex={1}
+  explanation="A missão mostrou que estabilidade saudável nasce de intenção: locator confiável, espera por condição real e assertion alinhada ao requisito."
+/>
+
+<KeyTakeaways
+  items={[
+    "Locator semântico envelhece melhor do que seletor baseado em ordem de elementos.",
+    "Espera boa observa estado; espera longa apenas mascara fragilidade.",
+    "Flakiness costuma combinar mais de um sinal, então vale priorizar a causa mais provável.",
+    "Assertion deve provar comportamento relevante, não apenas um efeito visual fácil.",
+  ]}
+/>
+
+<ChecklistItem id="04-automacao-e2e-missao-fluxo-flaky">
+  Concluí a missão de estabilização E2E
+</ChecklistItem>
